@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EchoTrace — ESL Prosody & Shadowing Mirror</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Practice English prosody and shadowing in your browser with live pitch and rhythm feedback.">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#0b0f17">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b0f17'/%3E%3Ccircle cx='32' cy='32' r='18' fill='%2338bdf8'/%3E%3Ccircle cx='40' cy='24' r='8' fill='%23fb7185'/%3E%3C/svg%3E">
+  <title>EchoTrace — ESL Prosody &amp; Shadowing Mirror</title>
   <style>
     :root {
       --bg: #0b0f17;
       --panel: #151c28;
       --border: #263147;
       --text: #e2e8f0;
-      --muted: #64748b;
+      --muted: #94a3b8;
       --native: #38bdf8;
       --native-glow: rgba(56, 189, 248, 0.22);
       --user: #fb7185;
@@ -39,6 +43,12 @@
     .app-shell {
       width: 100%;
       max-width: 960px;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .app-main {
       display: flex;
       flex-direction: column;
       gap: 1.25rem;
@@ -75,6 +85,12 @@
       font-size: 1.15rem;
       font-weight: 700;
       letter-spacing: -0.02em;
+    }
+
+    .brand-subtitle {
+      font-weight: 400;
+      color: var(--muted);
+      font-size: 0.9rem;
     }
 
     .phrase-select-wrap {
@@ -132,13 +148,22 @@
       align-items: center;
       cursor: pointer;
       padding: 0.35rem 0.6rem;
+      border: 0;
       border-radius: 8px;
+      background: transparent;
+      color: inherit;
+      font-family: inherit;
       transition: transform 0.15s ease, background 0.15s ease;
       user-select: none;
     }
 
     .word-token:hover {
       background: rgba(255, 255, 255, 0.05);
+    }
+
+    .word-token:focus-visible {
+      outline: 2px solid var(--native);
+      outline-offset: 2px;
     }
 
     .word-token.active-slice {
@@ -149,7 +174,7 @@
     /* Visual Prosody Typography */
     .word-token[data-stress="0"] .word-text {
       font-size: 1.05rem;
-      opacity: 0.45;
+      opacity: 0.6;
       font-weight: 400;
     }
 
@@ -175,6 +200,12 @@
       font-family: monospace;
     }
 
+    .strip-tip {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 0.4rem;
+    }
+
     /* ZONE 3: Center Stage Prosody Canvas */
     .canvas-card {
       background: var(--panel);
@@ -186,8 +217,10 @@
 
     .canvas-legend {
       display: flex;
+      flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
+      gap: 0.5rem 1rem;
       margin-bottom: 0.75rem;
       font-size: 0.82rem;
       color: var(--muted);
@@ -196,7 +229,8 @@
 
     .legend-items {
       display: flex;
-      gap: 1.25rem;
+      flex-wrap: wrap;
+      gap: 0.5rem 1.25rem;
     }
 
     .legend-badge {
@@ -339,10 +373,26 @@
       50% { box-shadow: 0 0 0 10px rgba(251, 113, 133, 0); }
     }
 
+    .app-footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.78rem;
+      line-height: 1.5;
+      padding: 0 0.5rem 0.5rem;
+    }
+
     @media (max-width: 680px) {
       .metrics-row { grid-template-columns: 1fr; }
       .controls-dock { flex-direction: column; align-items: stretch; }
       .btn-group { justify-content: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
     }
   </style>
 </head>
@@ -353,18 +403,19 @@
   <header>
     <div class="brand">
       <div class="brand-dot"></div>
-      <h1>EchoTrace <span style="font-weight:400; color:var(--muted); font-size:0.9rem;">| Prosody & Shadowing Mirror</span></h1>
+      <h1>EchoTrace <span class="brand-subtitle">| Prosody &amp; Shadowing Mirror</span></h1>
     </div>
     <div class="phrase-select-wrap">
       <select id="phraseSelect" aria-label="Select ESL practice phrase"></select>
     </div>
   </header>
 
+  <main class="app-main">
   <!-- ZONE 2: Stress-Mapped Transcript -->
   <section class="subtitle-card">
-    <div class="phonetic-hint" id="focusHint">Focus: Reduction & Rising Question Intonation</div>
+    <div class="phonetic-hint" id="focusHint">Focus: Reduction &amp; Rising Question Intonation</div>
     <div class="stress-strip" id="stressStrip"></div>
-    <div style="font-size: 0.8rem; color: var(--muted); margin-top: 0.4rem;">
+    <div class="strip-tip">
       Tip: Click any word to hear its pronunciation and inspect its pitch slice on the canvas.
     </div>
   </section>
@@ -376,10 +427,13 @@
         <div class="legend-badge"><span class="swatch native"></span> Native Target (Pitch + Stress Envelope)</div>
         <div class="legend-badge"><span class="swatch user"></span> Your Live Voice ($F_0$ Curve + Volume)</div>
       </div>
-      <div id="statusBadge">Ready — Click "Shadow Record" and speak along</div>
+      <div id="statusBadge" role="status" aria-live="polite">Ready — Click "Shadow Record" and speak along</div>
     </div>
 
-    <canvas id="prosodyCanvas" width="900" height="290"></canvas>
+    <canvas id="prosodyCanvas" width="900" height="290" role="img"
+      aria-label="Chart comparing the native pitch and stress target with your recorded voice">
+      Your browser does not support the canvas element.
+    </canvas>
 
     <div class="metrics-row">
       <div class="metric-box">
@@ -387,7 +441,7 @@
         <span class="metric-val" id="pitchScore">—</span>
       </div>
       <div class="metric-box">
-        <span class="metric-label">Rhythm & Stress Sync</span>
+        <span class="metric-label">Rhythm &amp; Stress Sync</span>
         <span class="metric-val" id="rhythmScore">—</span>
       </div>
       <div class="metric-box">
@@ -400,21 +454,30 @@
   <!-- ZONE 4: Shadowing Deck -->
   <section class="controls-dock">
     <div class="btn-group">
-      <button class="btn-listen" id="btnListen">
+      <button type="button" class="btn-listen" id="btnListen">
         <span>▶</span> 1. Listen Native
       </button>
-      <button class="btn-record" id="btnRecord">
+      <button type="button" class="btn-record" id="btnRecord" aria-pressed="false">
         <span>●</span> 2. Shadow Record
       </button>
-      <button class="btn-pingpong" id="btnPingPong" disabled>
+      <button type="button" class="btn-pingpong" id="btnPingPong" aria-pressed="false" disabled>
         <span>⇄</span> 3. Auto Ping-Pong Loop
       </button>
     </div>
     <div class="btn-group">
-      <button class="speed-toggle" id="btnSpeed">Speed: 1.0x</button>
+      <button type="button" class="speed-toggle" id="btnSpeed">Speed: 1.0x</button>
     </div>
   </section>
+  </main>
+
+  <footer class="app-footer">
+    All audio is processed locally in your browser. Nothing is uploaded or stored.
+  </footer>
 </div>
+
+<noscript>
+  <p class="app-footer">EchoTrace needs JavaScript enabled to analyze your voice.</p>
+</noscript>
 
 <script>
 /**
@@ -511,7 +574,13 @@ let userAudioUrl = null;
 let isRecording = false;
 let isPingPonging = false;
 let pingPongTimeout = null;
-let animFrameId = null;
+let pingPongAudio = null;
+let nativePlayheadFrameId = null;
+let recordFrameId = null;
+let pingPongFrameId = null;
+
+const CANVAS_HEIGHT = 290;
+let currentPlayhead = 0;
 
 // User captured curves (normalized 0..1 across time)
 let userPitchTrace = [];  // { t: 0..1, pitchNorm: 0..1 | null, energy: 0..1 }
@@ -543,13 +612,10 @@ function init() {
 
   phraseSelect.addEventListener("change", (e) => {
     stopPingPong();
+    stopNativePlayback();
+    resetUserRecording();
     currentPhrase = PHRASES[Number(e.target.value)];
-    userPitchTrace = [];
-    userAudioUrl = null;
     activeWordIndex = null;
-    btnPingPong.disabled = true;
-    pitchScoreEl.textContent = "—";
-    rhythmScoreEl.textContent = "—";
     renderPhraseStrip();
     drawCanvas(0);
   });
@@ -583,29 +649,67 @@ function init() {
   });
 
   renderPhraseStrip();
-  drawCanvas(0);
+  resizeCanvas();
+
+  if ("ResizeObserver" in window) {
+    new ResizeObserver(resizeCanvas).observe(canvas);
+  } else {
+    window.addEventListener("resize", resizeCanvas);
+  }
+}
+
+function resetScores() {
+  pitchScoreEl.textContent = "—";
+  rhythmScoreEl.textContent = "—";
+  liveHzEl.textContent = "0 Hz";
+}
+
+function resetUserRecording() {
+  if (userAudioUrl) URL.revokeObjectURL(userAudioUrl);
+  userAudioUrl = null;
+  userAudioBlob = null;
+  userPitchTrace = [];
+  resetScores();
+  btnPingPong.disabled = true;
+  btnPingPong.setAttribute("aria-pressed", "false");
 }
 
 // 2. RENDER STRESS-MAPPED SUBTITLE STRIP
 function renderPhraseStrip() {
   focusHint.textContent = currentPhrase.hint;
-  stressStrip.innerHTML = "";
+  stressStrip.replaceChildren();
 
   currentPhrase.words.forEach((w, idx) => {
-    const token = document.createElement("div");
+    const token = document.createElement("button");
+    token.type = "button";
     token.className = "word-token" + (activeWordIndex === idx ? " active-slice" : "");
     token.dataset.stress = w.stress;
-    token.innerHTML = `
-      <span class="word-text">${w.text}</span>
-      <span class="word-ipa">${w.ipa}</span>
-    `;
+    token.setAttribute("aria-pressed", String(activeWordIndex === idx));
+
+    const wordText = document.createElement("span");
+    wordText.className = "word-text";
+    wordText.textContent = w.text;
+
+    const wordIpa = document.createElement("span");
+    wordIpa.className = "word-ipa";
+    wordIpa.textContent = w.ipa;
+
+    token.append(wordText, wordIpa);
     token.addEventListener("click", () => {
       activeWordIndex = activeWordIndex === idx ? null : idx;
-      renderPhraseStrip();
+      syncWordSelection();
       speakSingleWord(w.text);
       drawCanvas(0);
     });
     stressStrip.appendChild(token);
+  });
+}
+
+function syncWordSelection() {
+  [...stressStrip.children].forEach((token, idx) => {
+    const isActive = activeWordIndex === idx;
+    token.classList.toggle("active-slice", isActive);
+    token.setAttribute("aria-pressed", String(isActive));
   });
 }
 
@@ -618,6 +722,9 @@ function speakNativePhrase(onComplete) {
   }
 
   window.speechSynthesis.cancel();
+  cancelAnimationFrame(nativePlayheadFrameId);
+  nativePlayheadFrameId = null;
+
   const rawText = currentPhrase.words.map(w => w.text).join(" ");
   const utter = new SpeechSynthesisUtterance(rawText);
   utter.lang = "en-US";
@@ -632,8 +739,9 @@ function speakNativePhrase(onComplete) {
     const progress = Math.min(1, (now - startTime) / duration);
     drawCanvas(progress);
     if (progress < 1) {
-      animFrameId = requestAnimationFrame(animatePlayhead);
+      nativePlayheadFrameId = requestAnimationFrame(animatePlayhead);
     } else {
+      nativePlayheadFrameId = null;
       drawCanvas(0);
       statusBadge.textContent = "Native Reference finished.";
       if (onComplete) onComplete();
@@ -641,16 +749,23 @@ function speakNativePhrase(onComplete) {
   }
 
   utter.onstart = () => {
-    cancelAnimationFrame(animFrameId);
-    animFrameId = requestAnimationFrame(animatePlayhead);
+    cancelAnimationFrame(nativePlayheadFrameId);
+    nativePlayheadFrameId = requestAnimationFrame(animatePlayhead);
   };
 
   utter.onerror = () => {
-    cancelAnimationFrame(animFrameId);
+    cancelAnimationFrame(nativePlayheadFrameId);
+    nativePlayheadFrameId = null;
     if (onComplete) onComplete();
   };
 
   window.speechSynthesis.speak(utter);
+}
+
+function stopNativePlayback() {
+  if ("speechSynthesis" in window) window.speechSynthesis.cancel();
+  cancelAnimationFrame(nativePlayheadFrameId);
+  nativePlayheadFrameId = null;
 }
 
 function speakSingleWord(wordText) {
@@ -717,14 +832,17 @@ function autoCorrelatePitch(float32AudioBuffer, sampleRate) {
 
 // 5. LIVE SHADOW RECORDING & REAL-TIME OVERLAY
 async function startShadowRecording() {
+  let stream = null;
   try {
-    const stream = await navigator.mediaDevices.getUserMedia({
+    stream = await navigator.mediaDevices.getUserMedia({
       audio: {
         echoCancellation: true,
         noiseSuppression: true,
         autoGainControl: true
       }
     });
+
+    resetUserRecording();
 
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     const source = audioCtx.createMediaStreamSource(stream);
@@ -741,7 +859,7 @@ async function startShadowRecording() {
     };
 
     mediaRecorder.onstop = () => {
-      userAudioBlob = new Blob(recordedChunks, { type: "audio/webm" });
+      userAudioBlob = new Blob(recordedChunks, { type: mediaRecorder.mimeType || "audio/webm" });
       if (userAudioUrl) URL.revokeObjectURL(userAudioUrl);
       userAudioUrl = URL.createObjectURL(userAudioBlob);
       stream.getTracks().forEach(t => t.stop());
@@ -753,6 +871,7 @@ async function startShadowRecording() {
     userPitchTrace = [];
     isRecording = true;
     btnRecord.classList.add("recording");
+    btnRecord.setAttribute("aria-pressed", "true");
     btnRecord.innerHTML = `<span>■</span> Stop Recording`;
     statusBadge.textContent = "Shadowing Live — Trace the blue curve with your voice!";
 
@@ -791,14 +910,21 @@ async function startShadowRecording() {
       drawCanvas(t);
 
       if (t < 1) {
-        animFrameId = requestAnimationFrame(captureFrame);
+        recordFrameId = requestAnimationFrame(captureFrame);
       } else {
         stopShadowRecording();
       }
     }
 
-    animFrameId = requestAnimationFrame(captureFrame);
+    recordFrameId = requestAnimationFrame(captureFrame);
   } catch (err) {
+    if (stream) stream.getTracks().forEach(t => t.stop());
+    if (audioCtx && audioCtx.state !== "closed") audioCtx.close().catch(() => {});
+    audioCtx = null;
+    isRecording = false;
+    btnRecord.classList.remove("recording");
+    btnRecord.setAttribute("aria-pressed", "false");
+    btnRecord.innerHTML = `<span>●</span> 2. Shadow Record`;
     statusBadge.textContent = "Microphone access denied or unavailable.";
   }
 }
@@ -806,11 +932,17 @@ async function startShadowRecording() {
 function stopShadowRecording() {
   if (!isRecording) return;
   isRecording = false;
-  cancelAnimationFrame(animFrameId);
+  cancelAnimationFrame(recordFrameId);
+  recordFrameId = null;
   if (mediaRecorder && mediaRecorder.state !== "inactive") {
     mediaRecorder.stop();
   }
+  if (audioCtx && audioCtx.state !== "closed") {
+    audioCtx.close().catch(() => {});
+  }
+  audioCtx = null;
   btnRecord.classList.remove("recording");
+  btnRecord.setAttribute("aria-pressed", "false");
   btnRecord.innerHTML = `<span>●</span> 2. Shadow Record`;
   statusBadge.textContent = "Recording captured! Click 'Auto Ping-Pong Loop' to compare.";
 }
@@ -820,6 +952,7 @@ function startPingPongLoop() {
   if (!userAudioUrl) return;
   isPingPonging = true;
   btnPingPong.classList.add("looping");
+  btnPingPong.setAttribute("aria-pressed", "true");
   btnPingPong.innerHTML = `<span>■</span> Stop Ping-Pong`;
 
   function cycleNative() {
@@ -834,7 +967,8 @@ function startPingPongLoop() {
   function cycleUser() {
     if (!isPingPonging) return;
     statusBadge.textContent = "Ping-Pong: [2/2] Replaying Your Recording...";
-    const audio = new Audio(userAudioUrl);
+    pingPongAudio = new Audio(userAudioUrl);
+    const audio = pingPongAudio;
     audio.playbackRate = playbackRate;
     const duration = (currentPhrase.durationMs / playbackRate) + 300;
     const start = performance.now();
@@ -843,16 +977,29 @@ function startPingPongLoop() {
       if (!isPingPonging) return;
       const p = Math.min(1, (now - start) / duration);
       drawCanvas(p);
-      if (p < 1) requestAnimationFrame(stepUserPlayhead);
+      if (p < 1) {
+        pingPongFrameId = requestAnimationFrame(stepUserPlayhead);
+      } else {
+        pingPongFrameId = null;
+      }
     }
 
-    audio.onplay = () => requestAnimationFrame(stepUserPlayhead);
+    audio.onplay = () => {
+      cancelAnimationFrame(pingPongFrameId);
+      pingPongFrameId = requestAnimationFrame(stepUserPlayhead);
+    };
     audio.onended = () => {
+      pingPongFrameId = null;
+      pingPongAudio = null;
       drawCanvas(0);
       if (!isPingPonging) return;
       pingPongTimeout = setTimeout(cycleNative, 300);
     };
-    audio.play();
+    audio.play().catch(() => {
+      if (!isPingPonging) return;
+      statusBadge.textContent = "Could not replay the recording. Please record again.";
+      stopPingPong();
+    });
   }
 
   cycleNative();
@@ -861,9 +1008,19 @@ function startPingPongLoop() {
 function stopPingPong() {
   isPingPonging = false;
   clearTimeout(pingPongTimeout);
-  if ("speechSynthesis" in window) window.speechSynthesis.cancel();
+  cancelAnimationFrame(pingPongFrameId);
+  pingPongFrameId = null;
+  if (pingPongAudio) {
+    pingPongAudio.pause();
+    pingPongAudio.removeAttribute("src");
+    pingPongAudio.load();
+    pingPongAudio = null;
+  }
+  stopNativePlayback();
   btnPingPong.classList.remove("looping");
+  btnPingPong.setAttribute("aria-pressed", "false");
   btnPingPong.innerHTML = `<span>⇄</span> 3. Auto Ping-Pong Loop`;
+  drawCanvas(0);
 }
 
 // 7. COMPUTE PROSODY & RHYTHM SCORES
@@ -904,9 +1061,19 @@ function computeProsodyScores() {
 }
 
 // 8. RENDER DUAL PROSODY CANVAS
+function resizeCanvas() {
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const cssWidth = canvas.clientWidth || 900;
+  canvas.width = Math.max(1, Math.round(cssWidth * dpr));
+  canvas.height = Math.round(CANVAS_HEIGHT * dpr);
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  drawCanvas(currentPlayhead);
+}
+
 function drawCanvas(playheadProgress = 0) {
-  const W = canvas.width;
-  const H = canvas.height;
+  const W = canvas.clientWidth || 900;
+  const H = CANVAS_HEIGHT;
+  currentPlayhead = playheadProgress;
   ctx.clearRect(0, 0, W, H);
 
   // Subtle horizontal pitch grid lines & word dividers
