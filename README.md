@@ -1,14 +1,25 @@
-# EchoTrace — ESL Prosody & Shadowing Mirror
+# EchoTrace — English Prosody for Spanish Speakers
 
-A browser-only English pronunciation practice tool. Pick a phrase, listen to the
-native target, record yourself shadowing it, and compare your pitch and rhythm
-against the target in real time.
+A browser-only English pronunciation practice tool for Mexican Spanish speakers.
+Pick an everyday phrase, listen to the native target, record yourself shadowing
+it, and compare your pitch and rhythm against the target in real time.
 
 **Live site:** https://karangattu.github.io/speak-back-2-me/
+
+## Practice phrases
+
+- Supermarket: asking where to find the milk.
+- Checkout: paying with a card.
+- Coffee shop: ordering a coffee with milk.
+- Baby gift: buying a gift for a newborn.
+- Kid's gift: buying a gift for a five-year-old.
+
+Each English word has its Mexican Spanish translation underneath, plus IPA.
 
 ## What it does
 
 - Visualizes stressed and reduced syllables in each practice phrase.
+- Shows a Mexican Spanish translation under every English word.
 - Draws the target pitch contour and volume envelope on a canvas.
 - Records your voice and overlays your live pitch and energy trace.
 - Scores pitch match and rhythm/stress sync.

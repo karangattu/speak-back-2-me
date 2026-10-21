@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Practice English prosody and shadowing in your browser with live pitch and rhythm feedback.">
+  <meta name="description" content="Practice everyday English for the supermarket, coffee shop, and gift shopping. Mexican Spanish translations plus live pitch and rhythm feedback.">
   <meta name="color-scheme" content="dark">
   <meta name="theme-color" content="#0b0f17">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b0f17'/%3E%3Ccircle cx='32' cy='32' r='18' fill='%2338bdf8'/%3E%3Ccircle cx='40' cy='24' r='8' fill='%23fb7185'/%3E%3C/svg%3E">
-  <title>EchoTrace — ESL Prosody &amp; Shadowing Mirror</title>
+  <title>EchoTrace — English Prosody for Spanish Speakers</title>
   <style>
     :root {
       --bg: #0b0f17;
@@ -136,23 +136,25 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      align-items: baseline;
-      gap: 0.65rem;
-      min-height: 64px;
+      align-items: flex-start;
+      gap: 0.4rem;
+      min-height: 88px;
       padding: 0.5rem 0;
     }
 
     .word-token {
-      display: inline-flex;
-      flex-direction: column;
-      align-items: center;
+      display: inline-grid;
+      grid-template-rows: 2.2rem auto auto;
+      align-items: end;
+      justify-items: center;
       cursor: pointer;
-      padding: 0.35rem 0.6rem;
+      padding: 0.25rem 0.45rem;
       border: 0;
       border-radius: 8px;
       background: transparent;
       color: inherit;
       font-family: inherit;
+      gap: 0;
       transition: transform 0.15s ease, background 0.15s ease;
       user-select: none;
     }
@@ -193,10 +195,18 @@
       text-shadow: 0 4px 16px var(--native-glow);
     }
 
+    .word-es {
+      font-size: 0.8rem;
+      color: var(--success);
+      margin-top: 0.15rem;
+      font-weight: 500;
+      line-height: 1.2;
+    }
+
     .word-ipa {
-      font-size: 0.75rem;
+      font-size: 0.62rem;
       color: var(--muted);
-      margin-top: 0.25rem;
+      margin-top: 0.05rem;
       font-family: monospace;
     }
 
@@ -403,20 +413,20 @@
   <header>
     <div class="brand">
       <div class="brand-dot"></div>
-      <h1>EchoTrace <span class="brand-subtitle">| Prosody &amp; Shadowing Mirror</span></h1>
+      <h1>EchoTrace <span class="brand-subtitle">| English Prosody for Spanish Speakers</span></h1>
     </div>
     <div class="phrase-select-wrap">
-      <select id="phraseSelect" aria-label="Select ESL practice phrase"></select>
+      <select id="phraseSelect" aria-label="Select an everyday English practice phrase"></select>
     </div>
   </header>
 
   <main class="app-main">
   <!-- ZONE 2: Stress-Mapped Transcript -->
   <section class="subtitle-card">
-    <div class="phonetic-hint" id="focusHint">Focus: Reduction &amp; Rising Question Intonation</div>
+    <div class="phonetic-hint" id="focusHint">Supermarket English: ask where something is and finish with a rising tone</div>
     <div class="stress-strip" id="stressStrip"></div>
     <div class="strip-tip">
-      Tip: Click any word to hear its pronunciation and inspect its pitch slice on the canvas.
+      Tip: Click any word to hear it. The Mexican Spanish translation is under each word, with IPA below.
     </div>
   </section>
 
@@ -425,7 +435,7 @@
     <div class="canvas-legend">
       <div class="legend-items">
         <div class="legend-badge"><span class="swatch native"></span> Native Target (Pitch + Stress Envelope)</div>
-        <div class="legend-badge"><span class="swatch user"></span> Your Live Voice ($F_0$ Curve + Volume)</div>
+        <div class="legend-badge"><span class="swatch user"></span> Your Live Voice (Pitch + Volume)</div>
       </div>
       <div id="statusBadge" role="status" aria-live="polite">Ready — Click "Shadow Record" and speak along</div>
     </div>
@@ -471,7 +481,7 @@
   </main>
 
   <footer class="app-footer">
-    All audio is processed locally in your browser. Nothing is uploaded or stored.
+    Everyday English for Spanish speakers. All audio is processed locally in your browser. Nothing is uploaded or stored.
   </footer>
 </div>
 
@@ -483,79 +493,123 @@
 /**
  * PHRASE MANIFEST
  * Stress levels: 0 = reduced/schwa, 1 = normal, 2 = primary nuclear stress
+ * es: Mexican Spanish translation shown under each English word
  * pitchCurve: Normalized [0.0 - 1.0] target intonation contour across phrase duration
  * energyCurve: Normalized [0.0 - 1.0] syllable volume envelope
  */
 const PHRASES = [
   {
-    id: "whaddaya",
-    title: "Connected Speech: 'What are you going to do?'",
-    hint: "Reduction: 'What are you going to' shrinks into 'Whaddaya-gonna', then leaps up on 'DO'",
-    durationMs: 2200,
+    id: "supermarket_milk",
+    title: "Supermarket: 'Excuse me, where can I find the milk?'",
+    hint: "Question Rise: Keep 'can I' light, stress 'FIND', and let 'MILK' rise at the end. En español: 'Disculpe, ¿dónde puedo encontrar la leche?'",
+    durationMs: 3000,
     words: [
-      { text: "What", ipa: "/wʌt/", stress: 1, slice: [0.0, 0.14] },
-      { text: "are", ipa: "/ə/", stress: 0, slice: [0.14, 0.24] },
-      { text: "you", ipa: "/jə/", stress: 0, slice: [0.24, 0.36] },
-      { text: "going", ipa: "/ˈɡoʊn/", stress: 1, slice: [0.36, 0.56] },
-      { text: "to", ipa: "/nə/", stress: 0, slice: [0.56, 0.68] },
-      { text: "DO?", ipa: "/duː/", stress: 2, slice: [0.68, 1.0] }
+      { text: "Excuse me,", es: "Disculpe,", ipa: "/ɪkˈskjuz mi/", stress: 1, slice: [0.0, 0.20] },
+      { text: "where", es: "¿dónde", ipa: "/wɛr/", stress: 1, slice: [0.20, 0.38] },
+      { text: "can", es: "puedo", ipa: "/kæn/", stress: 0, slice: [0.38, 0.47] },
+      { text: "I", es: "yo", ipa: "/aɪ/", stress: 0, slice: [0.47, 0.55] },
+      { text: "find", es: "encontrar", ipa: "/faɪnd/", stress: 1, slice: [0.55, 0.72] },
+      { text: "the", es: "la", ipa: "/ðə/", stress: 0, slice: [0.72, 0.80] },
+      { text: "milk?", es: "leche?", ipa: "/mɪlk/", stress: 2, slice: [0.80, 1.0] }
     ],
     pitchCurve: [
-      0.48, 0.50, 0.45, 0.38, 0.34, 0.32, 0.35, 0.44, 0.52, 0.49,
-      0.40, 0.35, 0.38, 0.58, 0.78, 0.85, 0.72, 0.52, 0.38, 0.30
+      0.42, 0.55, 0.50, 0.40, 0.35, 0.42, 0.55, 0.62, 0.48, 0.36,
+      0.30, 0.35, 0.50, 0.68, 0.58, 0.40, 0.34, 0.48, 0.70, 0.86
     ],
     energyCurve: [
-      0.55, 0.60, 0.30, 0.22, 0.25, 0.20, 0.45, 0.70, 0.65, 0.35,
-      0.20, 0.25, 0.55, 0.90, 1.00, 0.92, 0.75, 0.50, 0.25, 0.10
+      0.50, 0.78, 0.62, 0.30, 0.22, 0.28, 0.60, 0.82, 0.65, 0.32,
+      0.20, 0.22, 0.45, 0.78, 0.60, 0.28, 0.22, 0.45, 0.80, 1.00
     ]
   },
   {
-    id: "standup",
-    title: "Tech Standup: 'I'll follow up on the ticket this afternoon.'",
-    hint: "Contrastive Stress: Punch 'FOLLOW', 'TICKET', and 'NOON'—glide over 'on the'",
+    id: "checkout_card",
+    title: "Checkout: 'Can I pay with my card?'",
+    hint: "Yes/No Question: Reduce 'can I', lift 'PAY', and finish with a rising 'CARD?'. En español: '¿Puedo pagar con mi tarjeta?'",
+    durationMs: 2400,
+    words: [
+      { text: "Can", es: "¿Puedo", ipa: "/kæn/", stress: 0, slice: [0.0, 0.12] },
+      { text: "I", es: "yo", ipa: "/aɪ/", stress: 0, slice: [0.12, 0.22] },
+      { text: "pay", es: "pagar", ipa: "/peɪ/", stress: 1, slice: [0.22, 0.44] },
+      { text: "with", es: "con", ipa: "/wɪð/", stress: 0, slice: [0.44, 0.56] },
+      { text: "my", es: "mi", ipa: "/maɪ/", stress: 1, slice: [0.56, 0.70] },
+      { text: "card?", es: "tarjeta?", ipa: "/kɑrd/", stress: 2, slice: [0.70, 1.0] }
+    ],
+    pitchCurve: [
+      0.38, 0.42, 0.40, 0.35, 0.45, 0.62, 0.70, 0.58, 0.42, 0.35,
+      0.40, 0.55, 0.48, 0.36, 0.42, 0.58, 0.75, 0.88, 0.82, 0.72
+    ],
+    energyCurve: [
+      0.30, 0.40, 0.28, 0.20, 0.55, 0.85, 0.95, 0.72, 0.35, 0.22,
+      0.45, 0.70, 0.55, 0.28, 0.40, 0.75, 0.95, 1.00, 0.85, 0.60
+    ]
+  },
+  {
+    id: "coffee_order",
+    title: "Coffee Shop: 'I'd like a coffee with milk, please.'",
+    hint: "Polite Order: Stress 'LIKE' and 'COFFEE', then soften 'please'. En español: 'Me gustaría un café con leche, por favor.'",
     durationMs: 2800,
     words: [
-      { text: "I'll", ipa: "/ɑl/", stress: 0, slice: [0.0, 0.10] },
-      { text: "FOLLOW", ipa: "/ˈfɑloʊ/", stress: 2, slice: [0.10, 0.28] },
-      { text: "up", ipa: "/ʌp/", stress: 1, slice: [0.28, 0.38] },
-      { text: "on", ipa: "/ən/", stress: 0, slice: [0.38, 0.46] },
-      { text: "the", ipa: "/ðə/", stress: 0, slice: [0.46, 0.53] },
-      { text: "TICKET", ipa: "/ˈtɪkɪt/", stress: 2, slice: [0.53, 0.72] },
-      { text: "this", ipa: "/ðɪs/", stress: 0, slice: [0.72, 0.80] },
-      { text: "afterNOON.", ipa: "/ˌæftərˈnuːn/", stress: 2, slice: [0.80, 1.0] }
+      { text: "I'd", es: "Me", ipa: "/aɪd/", stress: 0, slice: [0.0, 0.10] },
+      { text: "like", es: "gustaría", ipa: "/laɪk/", stress: 1, slice: [0.10, 0.28] },
+      { text: "a", es: "un", ipa: "/ə/", stress: 0, slice: [0.28, 0.38] },
+      { text: "coffee", es: "café", ipa: "/ˈkɔfi/", stress: 2, slice: [0.38, 0.62] },
+      { text: "with", es: "con", ipa: "/wɪð/", stress: 0, slice: [0.62, 0.72] },
+      { text: "milk,", es: "leche,", ipa: "/mɪlk/", stress: 1, slice: [0.72, 0.86] },
+      { text: "please.", es: "por favor.", ipa: "/pliz/", stress: 1, slice: [0.86, 1.0] }
     ],
     pitchCurve: [
-      0.38, 0.45, 0.74, 0.78, 0.62, 0.50, 0.42, 0.34, 0.30, 0.32,
-      0.55, 0.72, 0.68, 0.48, 0.36, 0.42, 0.68, 0.75, 0.52, 0.26
+      0.40, 0.50, 0.62, 0.72, 0.65, 0.48, 0.38, 0.35, 0.55, 0.80,
+      0.90, 0.78, 0.55, 0.40, 0.35, 0.48, 0.58, 0.52, 0.44, 0.36
     ],
     energyCurve: [
-      0.30, 0.65, 0.92, 0.85, 0.55, 0.48, 0.25, 0.18, 0.18, 0.35,
-      0.85, 0.90, 0.70, 0.30, 0.25, 0.50, 0.88, 0.95, 0.60, 0.15
+      0.30, 0.55, 0.75, 0.85, 0.70, 0.35, 0.22, 0.25, 0.55, 0.88,
+      1.00, 0.85, 0.50, 0.28, 0.20, 0.45, 0.65, 0.55, 0.40, 0.25
     ]
   },
   {
-    id: "minimal_sheep",
-    title: "Minimal Pair Contrast: 'Did you see the cheap ship or the sheep?'",
-    hint: "Vowel Length + Question Rise: Stretch '/iː/' in 'cheap/sheep', clip '/ɪ/' in 'ship'",
-    durationMs: 2600,
+    id: "gift_newborn",
+    title: "Baby Gift: 'I need a gift for a newborn.'",
+    hint: "Statement Stress: Lift 'GIFT', then land on 'NEWBORN'. En español: 'Necesito un regalo para un recién nacido.'",
+    durationMs: 3000,
     words: [
-      { text: "Did", ipa: "/dɪd/", stress: 0, slice: [0.0, 0.10] },
-      { text: "you", ipa: "/jə/", stress: 0, slice: [0.10, 0.18] },
-      { text: "see", ipa: "/siː/", stress: 1, slice: [0.18, 0.30] },
-      { text: "the", ipa: "/ðə/", stress: 0, slice: [0.30, 0.37] },
-      { text: "CHEAP", ipa: "/tʃiːp/", stress: 2, slice: [0.37, 0.54] },
-      { text: "SHIP", ipa: "/ʃɪp/", stress: 2, slice: [0.54, 0.68] },
-      { text: "or", ipa: "/ər/", stress: 0, slice: [0.68, 0.75] },
-      { text: "the", ipa: "/ðə/", stress: 0, slice: [0.75, 0.82] },
-      { text: "SHEEP?", ipa: "/ʃiːp/", stress: 2, slice: [0.82, 1.0] }
+      { text: "I", es: "Yo", ipa: "/aɪ/", stress: 0, slice: [0.0, 0.09] },
+      { text: "need", es: "necesito", ipa: "/nid/", stress: 1, slice: [0.09, 0.25] },
+      { text: "a", es: "un", ipa: "/ə/", stress: 0, slice: [0.25, 0.34] },
+      { text: "gift", es: "regalo", ipa: "/ɡɪft/", stress: 1, slice: [0.34, 0.54] },
+      { text: "for", es: "para", ipa: "/fɔr/", stress: 0, slice: [0.54, 0.63] },
+      { text: "a", es: "un", ipa: "/ə/", stress: 0, slice: [0.63, 0.72] },
+      { text: "newborn.", es: "recién nacido.", ipa: "/ˈnubɔrn/", stress: 2, slice: [0.72, 1.0] }
     ],
     pitchCurve: [
-      0.40, 0.38, 0.48, 0.52, 0.40, 0.58, 0.80, 0.76, 0.65, 0.72,
-      0.60, 0.35, 0.32, 0.38, 0.55, 0.78, 0.88, 0.68, 0.42, 0.28
+      0.35, 0.42, 0.55, 0.62, 0.52, 0.40, 0.32, 0.28, 0.45, 0.68,
+      0.78, 0.65, 0.45, 0.35, 0.30, 0.45, 0.62, 0.78, 0.88, 0.72
     ],
     energyCurve: [
-      0.35, 0.25, 0.60, 0.55, 0.22, 0.85, 0.95, 0.80, 0.85, 0.75,
-      0.40, 0.20, 0.18, 0.30, 0.75, 0.95, 0.90, 0.70, 0.40, 0.15
+      0.35, 0.55, 0.70, 0.80, 0.65, 0.35, 0.22, 0.25, 0.55, 0.85,
+      0.95, 0.75, 0.45, 0.25, 0.18, 0.40, 0.70, 0.90, 1.00, 0.65
+    ]
+  },
+  {
+    id: "gift_kid",
+    title: "Kid's Gift: 'I need a gift for a five-year-old.'",
+    hint: "Compound Stress: Stress 'FIVE' in 'FIVE-year-old'. En español: 'Necesito un regalo para un niño de cinco años.'",
+    durationMs: 3200,
+    words: [
+      { text: "I", es: "Yo", ipa: "/aɪ/", stress: 0, slice: [0.0, 0.08] },
+      { text: "need", es: "necesito", ipa: "/nid/", stress: 1, slice: [0.08, 0.22] },
+      { text: "a", es: "un", ipa: "/ə/", stress: 0, slice: [0.22, 0.30] },
+      { text: "gift", es: "regalo", ipa: "/ɡɪft/", stress: 1, slice: [0.30, 0.48] },
+      { text: "for", es: "para", ipa: "/fɔr/", stress: 0, slice: [0.48, 0.56] },
+      { text: "a", es: "un", ipa: "/ə/", stress: 0, slice: [0.56, 0.64] },
+      { text: "five-year-old.", es: "niño de cinco años.", ipa: "/ˌfaɪv jɪr ˈoʊld/", stress: 2, slice: [0.64, 1.0] }
+    ],
+    pitchCurve: [
+      0.38, 0.45, 0.58, 0.66, 0.55, 0.42, 0.34, 0.30, 0.46, 0.66,
+      0.76, 0.62, 0.44, 0.36, 0.32, 0.44, 0.58, 0.70, 0.82, 0.68
+    ],
+    energyCurve: [
+      0.32, 0.52, 0.68, 0.78, 0.62, 0.32, 0.22, 0.24, 0.50, 0.82,
+      0.92, 0.72, 0.42, 0.24, 0.18, 0.38, 0.65, 0.85, 0.98, 0.62
     ]
   }
 ];
@@ -690,11 +744,16 @@ function renderPhraseStrip() {
     wordText.className = "word-text";
     wordText.textContent = w.text;
 
+    const wordEs = document.createElement("span");
+    wordEs.className = "word-es";
+    wordEs.lang = "es";
+    wordEs.textContent = w.es;
+
     const wordIpa = document.createElement("span");
     wordIpa.className = "word-ipa";
     wordIpa.textContent = w.ipa;
 
-    token.append(wordText, wordIpa);
+    token.append(wordText, wordEs, wordIpa);
     token.addEventListener("click", () => {
       activeWordIndex = activeWordIndex === idx ? null : idx;
       syncWordSelection();
@@ -771,7 +830,11 @@ function stopNativePlayback() {
 function speakSingleWord(wordText) {
   if (!("speechSynthesis" in window)) return;
   window.speechSynthesis.cancel();
-  const utter = new SpeechSynthesisUtterance(wordText.replace(/[^a-zA-Z']/g, ""));
+  const spokenWord = wordText
+    .replace(/-/g, " ")
+    .replace(/[^a-zA-Z' ]/g, "")
+    .trim();
+  const utter = new SpeechSynthesisUtterance(spokenWord);
   utter.lang = "en-US";
   utter.rate = 0.85;
   window.speechSynthesis.speak(utter);
