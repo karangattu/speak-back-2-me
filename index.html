@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EchoTrace — ESL Prosody & Shadowing Mirror</title>
+  <style>
+    :root {
+      --bg: #0b0f17;
+      --panel: #151c28;
+      --border: #263147;
+      --text: #e2e8f0;
+      --muted: #64748b;
+      --native: #38bdf8;
+      --native-glow: rgba(56, 189, 248, 0.22);
+      --user: #fb7185;
+      --user-glow: rgba(251, 113, 133, 0.25);
+      --accent: #a855f7;
+      --success: #34d399;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1.5rem;
+    }
+
+    .app-shell {
+      width: 100%;
+      max-width: 960px;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    /* ZONE 1: Header & Phrase Picker */
+    header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      padding: 1rem 1.25rem;
+      border-radius: 14px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .brand-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--native), var(--user));
+      box-shadow: 0 0 12px var(--native);
+    }
+
+    .brand h1 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .phrase-select-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex: 1;
+      justify-content: flex-end;
+    }
+
+    select {
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 0.6rem 1rem;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      max-width: 420px;
+      width: 100%;
+    }
+
+    /* ZONE 2: Stress-Mapped Subtitle Strip */
+    .subtitle-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.5rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .phonetic-hint {
+      font-size: 0.85rem;
+      color: var(--native);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.75rem;
+      font-weight: 600;
+    }
+
+    .stress-strip {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: baseline;
+      gap: 0.65rem;
+      min-height: 64px;
+      padding: 0.5rem 0;
+    }
+
+    .word-token {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      padding: 0.35rem 0.6rem;
+      border-radius: 8px;
+      transition: transform 0.15s ease, background 0.15s ease;
+      user-select: none;
+    }
+
+    .word-token:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .word-token.active-slice {
+      background: rgba(56, 189, 248, 0.15);
+      outline: 1px solid var(--native);
+    }
+
+    /* Visual Prosody Typography */
+    .word-token[data-stress="0"] .word-text {
+      font-size: 1.05rem;
+      opacity: 0.45;
+      font-weight: 400;
+    }
+
+    .word-token[data-stress="1"] .word-text {
+      font-size: 1.35rem;
+      opacity: 0.85;
+      font-weight: 600;
+    }
+
+    .word-token[data-stress="2"] .word-text {
+      font-size: 1.75rem;
+      opacity: 1;
+      font-weight: 800;
+      color: var(--native);
+      transform: translateY(-4px);
+      text-shadow: 0 4px 16px var(--native-glow);
+    }
+
+    .word-ipa {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 0.25rem;
+      font-family: monospace;
+    }
+
+    /* ZONE 3: Center Stage Prosody Canvas */
+    .canvas-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1rem;
+      position: relative;
+    }
+
+    .canvas-legend {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+      padding: 0 0.25rem;
+    }
+
+    .legend-items {
+      display: flex;
+      gap: 1.25rem;
+    }
+
+    .legend-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .swatch {
+      width: 12px;
+      height: 4px;
+      border-radius: 2px;
+    }
+
+    .swatch.native { background: var(--native); box-shadow: 0 0 8px var(--native); }
+    .swatch.user { background: var(--user); box-shadow: 0 0 8px var(--user); }
+
+    canvas {
+      width: 100%;
+      height: 290px;
+      background: #080b11;
+      border-radius: 10px;
+      border: 1px solid #1e293b;
+      display: block;
+    }
+
+    .metrics-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin-top: 0.85rem;
+    }
+
+    .metric-box {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 0.75rem 1rem;
+      border-radius: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .metric-label {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .metric-val {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    /* ZONE 4: Bottom Shadowing Deck */
+    .controls-dock {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1rem 1.25rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    button {
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 0.75rem 1.2rem;
+      border-radius: 10px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      transition: all 0.15s ease;
+    }
+
+    button:hover:not(:disabled) {
+      border-color: var(--native);
+      transform: translateY(-1px);
+    }
+
+    button:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .btn-listen {
+      border-color: rgba(56, 189, 248, 0.4);
+      color: var(--native);
+    }
+
+    .btn-record {
+      background: rgba(251, 113, 133, 0.12);
+      border-color: var(--user);
+      color: var(--user);
+    }
+
+    .btn-record.recording {
+      background: var(--user);
+      color: #0b0f17;
+      animation: pulse 1.2s infinite;
+    }
+
+    .btn-pingpong {
+      border-color: rgba(168, 85, 247, 0.5);
+      color: #c084fc;
+    }
+
+    .btn-pingpong.looping {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .speed-toggle {
+      font-size: 0.85rem;
+      padding: 0.6rem 0.95rem;
+    }
+
+    .speed-toggle.slow {
+      border-color: var(--success);
+      color: var(--success);
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(251, 113, 133, 0.6); }
+      50% { box-shadow: 0 0 0 10px rgba(251, 113, 133, 0); }
+    }
+
+    @media (max-width: 680px) {
+      .metrics-row { grid-template-columns: 1fr; }
+      .controls-dock { flex-direction: column; align-items: stretch; }
+      .btn-group { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="app-shell">
+  <!-- ZONE 1: Top Phrase Picker -->
+  <header>
+    <div class="brand">
+      <div class="brand-dot"></div>
+      <h1>EchoTrace <span style="font-weight:400; color:var(--muted); font-size:0.9rem;">| Prosody & Shadowing Mirror</span></h1>
+    </div>
+    <div class="phrase-select-wrap">
+      <select id="phraseSelect" aria-label="Select ESL practice phrase"></select>
+    </div>
+  </header>
+
+  <!-- ZONE 2: Stress-Mapped Transcript -->
+  <section class="subtitle-card">
+    <div class="phonetic-hint" id="focusHint">Focus: Reduction & Rising Question Intonation</div>
+    <div class="stress-strip" id="stressStrip"></div>
+    <div style="font-size: 0.8rem; color: var(--muted); margin-top: 0.4rem;">
+      Tip: Click any word to hear its pronunciation and inspect its pitch slice on the canvas.
+    </div>
+  </section>
+
+  <!-- ZONE 3: Dual Pitch & Rhythm Canvas -->
+  <section class="canvas-card">
+    <div class="canvas-legend">
+      <div class="legend-items">
+        <div class="legend-badge"><span class="swatch native"></span> Native Target (Pitch + Stress Envelope)</div>
+        <div class="legend-badge"><span class="swatch user"></span> Your Live Voice ($F_0$ Curve + Volume)</div>
+      </div>
+      <div id="statusBadge">Ready — Click "Shadow Record" and speak along</div>
+    </div>
+
+    <canvas id="prosodyCanvas" width="900" height="290"></canvas>
+
+    <div class="metrics-row">
+      <div class="metric-box">
+        <span class="metric-label">Pitch Contour Match</span>
+        <span class="metric-val" id="pitchScore">—</span>
+      </div>
+      <div class="metric-box">
+        <span class="metric-label">Rhythm & Stress Sync</span>
+        <span class="metric-val" id="rhythmScore">—</span>
+      </div>
+      <div class="metric-box">
+        <span class="metric-label">Detected Live Pitch</span>
+        <span class="metric-val" id="liveHz">0 Hz</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ZONE 4: Shadowing Deck -->
+  <section class="controls-dock">
+    <div class="btn-group">
+      <button class="btn-listen" id="btnListen">
+        <span>▶</span> 1. Listen Native
+      </button>
+      <button class="btn-record" id="btnRecord">
+        <span>●</span> 2. Shadow Record
+      </button>
+      <button class="btn-pingpong" id="btnPingPong" disabled>
+        <span>⇄</span> 3. Auto Ping-Pong Loop
+      </button>
+    </div>
+    <div class="btn-group">
+      <button class="speed-toggle" id="btnSpeed">Speed: 1.0x</button>
+    </div>
+  </section>
+</div>
+
+<script>
+/**
+ * PHRASE MANIFEST
+ * Stress levels: 0 = reduced/schwa, 1 = normal, 2 = primary nuclear stress
+ * pitchCurve: Normalized [0.0 - 1.0] target intonation contour across phrase duration
+ * energyCurve: Normalized [0.0 - 1.0] syllable volume envelope
+ */
+const PHRASES = [
+  {
+    id: "whaddaya",
+    title: "Connected Speech: 'What are you going to do?'",
+    hint: "Reduction: 'What are you going to' shrinks into 'Whaddaya-gonna', then leaps up on 'DO'",
+    durationMs: 2200,
+    words: [
+      { text: "What", ipa: "/wʌt/", stress: 1, slice: [0.0, 0.14] },
+      { text: "are", ipa: "/ə/", stress: 0, slice: [0.14, 0.24] },
+      { text: "you", ipa: "/jə/", stress: 0, slice: [0.24, 0.36] },
+      { text: "going", ipa: "/ˈɡoʊn/", stress: 1, slice: [0.36, 0.56] },
+      { text: "to", ipa: "/nə/", stress: 0, slice: [0.56, 0.68] },
+      { text: "DO?", ipa: "/duː/", stress: 2, slice: [0.68, 1.0] }
+    ],
+    pitchCurve: [
+      0.48, 0.50, 0.45, 0.38, 0.34, 0.32, 0.35, 0.44, 0.52, 0.49,
+      0.40, 0.35, 0.38, 0.58, 0.78, 0.85, 0.72, 0.52, 0.38, 0.30
+    ],
+    energyCurve: [
+      0.55, 0.60, 0.30, 0.22, 0.25, 0.20, 0.45, 0.70, 0.65, 0.35,
+      0.20, 0.25, 0.55, 0.90, 1.00, 0.92, 0.75, 0.50, 0.25, 0.10
+    ]
+  },
+  {
+    id: "standup",
+    title: "Tech Standup: 'I'll follow up on the ticket this afternoon.'",
+    hint: "Contrastive Stress: Punch 'FOLLOW', 'TICKET', and 'NOON'—glide over 'on the'",
+    durationMs: 2800,
+    words: [
+      { text: "I'll", ipa: "/ɑl/", stress: 0, slice: [0.0, 0.10] },
+      { text: "FOLLOW", ipa: "/ˈfɑloʊ/", stress: 2, slice: [0.10, 0.28] },
+      { text: "up", ipa: "/ʌp/", stress: 1, slice: [0.28, 0.38] },
+      { text: "on", ipa: "/ən/", stress: 0, slice: [0.38, 0.46] },
+      { text: "the", ipa: "/ðə/", stress: 0, slice: [0.46, 0.53] },
+      { text: "TICKET", ipa: "/ˈtɪkɪt/", stress: 2, slice: [0.53, 0.72] },
+      { text: "this", ipa: "/ðɪs/", stress: 0, slice: [0.72, 0.80] },
+      { text: "afterNOON.", ipa: "/ˌæftərˈnuːn/", stress: 2, slice: [0.80, 1.0] }
+    ],
+    pitchCurve: [
+      0.38, 0.45, 0.74, 0.78, 0.62, 0.50, 0.42, 0.34, 0.30, 0.32,
+      0.55, 0.72, 0.68, 0.48, 0.36, 0.42, 0.68, 0.75, 0.52, 0.26
+    ],
+    energyCurve: [
+      0.30, 0.65, 0.92, 0.85, 0.55, 0.48, 0.25, 0.18, 0.18, 0.35,
+      0.85, 0.90, 0.70, 0.30, 0.25, 0.50, 0.88, 0.95, 0.60, 0.15
+    ]
+  },
+  {
+    id: "minimal_sheep",
+    title: "Minimal Pair Contrast: 'Did you see the cheap ship or the sheep?'",
+    hint: "Vowel Length + Question Rise: Stretch '/iː/' in 'cheap/sheep', clip '/ɪ/' in 'ship'",
+    durationMs: 2600,
+    words: [
+      { text: "Did", ipa: "/dɪd/", stress: 0, slice: [0.0, 0.10] },
+      { text: "you", ipa: "/jə/", stress: 0, slice: [0.10, 0.18] },
+      { text: "see", ipa: "/siː/", stress: 1, slice: [0.18, 0.30] },
+      { text: "the", ipa: "/ðə/", stress: 0, slice: [0.30, 0.37] },
+      { text: "CHEAP", ipa: "/tʃiːp/", stress: 2, slice: [0.37, 0.54] },
+      { text: "SHIP", ipa: "/ʃɪp/", stress: 2, slice: [0.54, 0.68] },
+      { text: "or", ipa: "/ər/", stress: 0, slice: [0.68, 0.75] },
+      { text: "the", ipa: "/ðə/", stress: 0, slice: [0.75, 0.82] },
+      { text: "SHEEP?", ipa: "/ʃiːp/", stress: 2, slice: [0.82, 1.0] }
+    ],
+    pitchCurve: [
+      0.40, 0.38, 0.48, 0.52, 0.40, 0.58, 0.80, 0.76, 0.65, 0.72,
+      0.60, 0.35, 0.32, 0.38, 0.55, 0.78, 0.88, 0.68, 0.42, 0.28
+    ],
+    energyCurve: [
+      0.35, 0.25, 0.60, 0.55, 0.22, 0.85, 0.95, 0.80, 0.85, 0.75,
+      0.40, 0.20, 0.18, 0.30, 0.75, 0.95, 0.90, 0.70, 0.40, 0.15
+    ]
+  }
+];
+
+// APP STATE
+let currentPhrase = PHRASES[0];
+let playbackRate = 1.0;
+let activeWordIndex = null;
+
+// Audio & Recording State
+let audioCtx = null;
+let mediaRecorder = null;
+let recordedChunks = [];
+let userAudioBlob = null;
+let userAudioUrl = null;
+let isRecording = false;
+let isPingPonging = false;
+let pingPongTimeout = null;
+let animFrameId = null;
+
+// User captured curves (normalized 0..1 across time)
+let userPitchTrace = [];  // { t: 0..1, pitchNorm: 0..1 | null, energy: 0..1 }
+
+// DOM Elements
+const phraseSelect = document.getElementById("phraseSelect");
+const focusHint = document.getElementById("focusHint");
+const stressStrip = document.getElementById("stressStrip");
+const canvas = document.getElementById("prosodyCanvas");
+const ctx = canvas.getContext("2d");
+const statusBadge = document.getElementById("statusBadge");
+const pitchScoreEl = document.getElementById("pitchScore");
+const rhythmScoreEl = document.getElementById("rhythmScore");
+const liveHzEl = document.getElementById("liveHz");
+
+const btnListen = document.getElementById("btnListen");
+const btnRecord = document.getElementById("btnRecord");
+const btnPingPong = document.getElementById("btnPingPong");
+const btnSpeed = document.getElementById("btnSpeed");
+
+// 1. INITIALIZE UI
+function init() {
+  PHRASES.forEach((p, idx) => {
+    const opt = document.createElement("option");
+    opt.value = idx;
+    opt.textContent = p.title;
+    phraseSelect.appendChild(opt);
+  });
+
+  phraseSelect.addEventListener("change", (e) => {
+    stopPingPong();
+    currentPhrase = PHRASES[Number(e.target.value)];
+    userPitchTrace = [];
+    userAudioUrl = null;
+    activeWordIndex = null;
+    btnPingPong.disabled = true;
+    pitchScoreEl.textContent = "—";
+    rhythmScoreEl.textContent = "—";
+    renderPhraseStrip();
+    drawCanvas(0);
+  });
+
+  btnListen.addEventListener("click", () => {
+    stopPingPong();
+    speakNativePhrase();
+  });
+
+  btnRecord.addEventListener("click", () => {
+    stopPingPong();
+    if (isRecording) {
+      stopShadowRecording();
+    } else {
+      startShadowRecording();
+    }
+  });
+
+  btnPingPong.addEventListener("click", () => {
+    if (isPingPonging) {
+      stopPingPong();
+    } else {
+      startPingPongLoop();
+    }
+  });
+
+  btnSpeed.addEventListener("click", () => {
+    playbackRate = playbackRate === 1.0 ? 0.75 : 1.0;
+    btnSpeed.textContent = `Speed: ${playbackRate.toFixed(2)}x`;
+    btnSpeed.classList.toggle("slow", playbackRate === 0.75);
+  });
+
+  renderPhraseStrip();
+  drawCanvas(0);
+}
+
+// 2. RENDER STRESS-MAPPED SUBTITLE STRIP
+function renderPhraseStrip() {
+  focusHint.textContent = currentPhrase.hint;
+  stressStrip.innerHTML = "";
+
+  currentPhrase.words.forEach((w, idx) => {
+    const token = document.createElement("div");
+    token.className = "word-token" + (activeWordIndex === idx ? " active-slice" : "");
+    token.dataset.stress = w.stress;
+    token.innerHTML = `
+      <span class="word-text">${w.text}</span>
+      <span class="word-ipa">${w.ipa}</span>
+    `;
+    token.addEventListener("click", () => {
+      activeWordIndex = activeWordIndex === idx ? null : idx;
+      renderPhraseStrip();
+      speakSingleWord(w.text);
+      drawCanvas(0);
+    });
+    stressStrip.appendChild(token);
+  });
+}
+
+// 3. NATIVE SPEECH SYNTHESIS + PROSODY PLAYHEAD
+function speakNativePhrase(onComplete) {
+  if (!("speechSynthesis" in window)) {
+    statusBadge.textContent = "Speech Synthesis not supported in this browser.";
+    if (onComplete) onComplete();
+    return;
+  }
+
+  window.speechSynthesis.cancel();
+  const rawText = currentPhrase.words.map(w => w.text).join(" ");
+  const utter = new SpeechSynthesisUtterance(rawText);
+  utter.lang = "en-US";
+  utter.rate = playbackRate;
+
+  const duration = currentPhrase.durationMs / playbackRate;
+  const startTime = performance.now();
+
+  statusBadge.textContent = "Playing Native Reference...";
+
+  function animatePlayhead(now) {
+    const progress = Math.min(1, (now - startTime) / duration);
+    drawCanvas(progress);
+    if (progress < 1) {
+      animFrameId = requestAnimationFrame(animatePlayhead);
+    } else {
+      drawCanvas(0);
+      statusBadge.textContent = "Native Reference finished.";
+      if (onComplete) onComplete();
+    }
+  }
+
+  utter.onstart = () => {
+    cancelAnimationFrame(animFrameId);
+    animFrameId = requestAnimationFrame(animatePlayhead);
+  };
+
+  utter.onerror = () => {
+    cancelAnimationFrame(animFrameId);
+    if (onComplete) onComplete();
+  };
+
+  window.speechSynthesis.speak(utter);
+}
+
+function speakSingleWord(wordText) {
+  if (!("speechSynthesis" in window)) return;
+  window.speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(wordText.replace(/[^a-zA-Z']/g, ""));
+  utter.lang = "en-US";
+  utter.rate = 0.85;
+  window.speechSynthesis.speak(utter);
+}
+
+// 4. REAL-TIME AUTOCORRELATION PITCH DETECTOR (Zero Dependencies)
+function autoCorrelatePitch(float32AudioBuffer, sampleRate) {
+  const SIZE = float32AudioBuffer.length;
+  let rms = 0;
+  for (let i = 0; i < SIZE; i++) {
+    const val = float32AudioBuffer[i];
+    rms += val * val;
+  }
+  rms = Math.sqrt(rms / SIZE);
+
+  // Noise gate: ignore silence/background hum
+  if (rms < 0.015) return { hz: null, rms };
+
+  // Trim edges to improve autocorrelation lock
+  let r1 = 0, r2 = SIZE - 1;
+  const thres = 0.2;
+  for (let i = 0; i < SIZE / 2; i++) {
+    if (Math.abs(float32AudioBuffer[i]) < thres) { r1 = i; break; }
+  }
+  for (let i = 1; i < SIZE / 2; i++) {
+    if (Math.abs(float32AudioBuffer[SIZE - i]) < thres) { r2 = SIZE - i; break; }
+  }
+
+  const buf2 = float32AudioBuffer.slice(r1, r2);
+  const newSize = buf2.length;
+  const c = new Float32Array(newSize);
+
+  for (let i = 0; i < newSize; i++) {
+    for (let j = 0; j < newSize - i; j++) {
+      c[i] = c[i] + buf2[j] * buf2[j + i];
+    }
+  }
+
+  let d = 0;
+  while (d < newSize - 1 && c[d] > c[d + 1]) d++;
+
+  let maxval = -1, maxpos = -1;
+  for (let i = d; i < newSize; i++) {
+    if (c[i] > maxval) {
+      maxval = c[i];
+      maxpos = i;
+    }
+  }
+
+  if (maxpos <= 0) return { hz: null, rms };
+  const T0 = maxpos;
+  const hz = sampleRate / T0;
+
+  // Human speech fundamental frequency bounds (75 Hz - 380 Hz)
+  if (hz < 75 || hz > 380) return { hz: null, rms };
+  return { hz, rms };
+}
+
+// 5. LIVE SHADOW RECORDING & REAL-TIME OVERLAY
+async function startShadowRecording() {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({
+      audio: {
+        echoCancellation: true,
+        noiseSuppression: true,
+        autoGainControl: true
+      }
+    });
+
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const source = audioCtx.createMediaStreamSource(stream);
+    const analyser = audioCtx.createAnalyser();
+    analyser.fftSize = 2048;
+    source.connect(analyser);
+
+    const pcmBuffer = new Float32Array(analyser.fftSize);
+
+    recordedChunks = [];
+    mediaRecorder = new MediaRecorder(stream);
+    mediaRecorder.ondataavailable = (e) => {
+      if (e.data.size > 0) recordedChunks.push(e.data);
+    };
+
+    mediaRecorder.onstop = () => {
+      userAudioBlob = new Blob(recordedChunks, { type: "audio/webm" });
+      if (userAudioUrl) URL.revokeObjectURL(userAudioUrl);
+      userAudioUrl = URL.createObjectURL(userAudioBlob);
+      stream.getTracks().forEach(t => t.stop());
+      btnPingPong.disabled = false;
+      computeProsodyScores();
+      drawCanvas(0);
+    };
+
+    userPitchTrace = [];
+    isRecording = true;
+    btnRecord.classList.add("recording");
+    btnRecord.innerHTML = `<span>■</span> Stop Recording`;
+    statusBadge.textContent = "Shadowing Live — Trace the blue curve with your voice!";
+
+    mediaRecorder.start();
+
+    // Optional choral guide: speak native softly at the same time
+    speakNativePhrase();
+
+    const totalDuration = (currentPhrase.durationMs / playbackRate) + 450;
+    const startTime = performance.now();
+    let smoothedPitch = 0.45;
+
+    function captureFrame(now) {
+      if (!isRecording) return;
+      const elapsed = now - startTime;
+      const t = Math.min(1, elapsed / totalDuration);
+
+      analyser.getFloatTimeDomainData(pcmBuffer);
+      const { hz, rms } = autoCorrelatePitch(pcmBuffer, audioCtx.sampleRate);
+
+      let pitchNorm = null;
+      if (hz !== null) {
+        liveHzEl.textContent = `${Math.round(hz)} Hz`;
+        // Normalize log-scale between 85Hz and 310Hz for gender-neutral contour shape
+        const rawNorm = (Math.log(hz) - Math.log(85)) / (Math.log(310) - Math.log(85));
+        const clamped = Math.max(0.08, Math.min(0.95, rawNorm));
+        smoothedPitch = smoothedPitch * 0.65 + clamped * 0.35;
+        pitchNorm = smoothedPitch;
+      } else {
+        liveHzEl.textContent = "— Hz";
+      }
+
+      const normEnergy = Math.min(1.0, rms * 6.5);
+      userPitchTrace.push({ t, pitchNorm, energy: normEnergy });
+
+      drawCanvas(t);
+
+      if (t < 1) {
+        animFrameId = requestAnimationFrame(captureFrame);
+      } else {
+        stopShadowRecording();
+      }
+    }
+
+    animFrameId = requestAnimationFrame(captureFrame);
+  } catch (err) {
+    statusBadge.textContent = "Microphone access denied or unavailable.";
+  }
+}
+
+function stopShadowRecording() {
+  if (!isRecording) return;
+  isRecording = false;
+  cancelAnimationFrame(animFrameId);
+  if (mediaRecorder && mediaRecorder.state !== "inactive") {
+    mediaRecorder.stop();
+  }
+  btnRecord.classList.remove("recording");
+  btnRecord.innerHTML = `<span>●</span> 2. Shadow Record`;
+  statusBadge.textContent = "Recording captured! Click 'Auto Ping-Pong Loop' to compare.";
+}
+
+// 6. AUTO PING-PONG LOOP (Native -> User -> Native -> User)
+function startPingPongLoop() {
+  if (!userAudioUrl) return;
+  isPingPonging = true;
+  btnPingPong.classList.add("looping");
+  btnPingPong.innerHTML = `<span>■</span> Stop Ping-Pong`;
+
+  function cycleNative() {
+    if (!isPingPonging) return;
+    statusBadge.textContent = "Ping-Pong: [1/2] Listening to Native Target...";
+    speakNativePhrase(() => {
+      if (!isPingPonging) return;
+      pingPongTimeout = setTimeout(cycleUser, 220);
+    });
+  }
+
+  function cycleUser() {
+    if (!isPingPonging) return;
+    statusBadge.textContent = "Ping-Pong: [2/2] Replaying Your Recording...";
+    const audio = new Audio(userAudioUrl);
+    audio.playbackRate = playbackRate;
+    const duration = (currentPhrase.durationMs / playbackRate) + 300;
+    const start = performance.now();
+
+    function stepUserPlayhead(now) {
+      if (!isPingPonging) return;
+      const p = Math.min(1, (now - start) / duration);
+      drawCanvas(p);
+      if (p < 1) requestAnimationFrame(stepUserPlayhead);
+    }
+
+    audio.onplay = () => requestAnimationFrame(stepUserPlayhead);
+    audio.onended = () => {
+      drawCanvas(0);
+      if (!isPingPonging) return;
+      pingPongTimeout = setTimeout(cycleNative, 300);
+    };
+    audio.play();
+  }
+
+  cycleNative();
+}
+
+function stopPingPong() {
+  isPingPonging = false;
+  clearTimeout(pingPongTimeout);
+  if ("speechSynthesis" in window) window.speechSynthesis.cancel();
+  btnPingPong.classList.remove("looping");
+  btnPingPong.innerHTML = `<span>⇄</span> 3. Auto Ping-Pong Loop`;
+}
+
+// 7. COMPUTE PROSODY & RHYTHM SCORES
+function sampleCurveAt(curveArray, t) {
+  const idx = t * (curveArray.length - 1);
+  const low = Math.floor(idx);
+  const high = Math.min(curveArray.length - 1, Math.ceil(idx));
+  const frac = idx - low;
+  return curveArray[low] * (1 - frac) + curveArray[high] * frac;
+}
+
+function computeProsodyScores() {
+  if (userPitchTrace.length < 8) return;
+
+  let pitchDiffSum = 0;
+  let validPitchPoints = 0;
+  let energyDiffSum = 0;
+
+  userPitchTrace.forEach(pt => {
+    const targetPitch = sampleCurveAt(currentPhrase.pitchCurve, pt.t);
+    const targetEnergy = sampleCurveAt(currentPhrase.energyCurve, pt.t);
+
+    if (pt.pitchNorm !== null) {
+      pitchDiffSum += Math.abs(pt.pitchNorm - targetPitch);
+      validPitchPoints++;
+    }
+    energyDiffSum += Math.abs(pt.energy - targetEnergy);
+  });
+
+  const pitchAccuracy = validPitchPoints > 4
+    ? Math.max(15, Math.min(99, Math.round((1 - (pitchDiffSum / validPitchPoints) * 1.45) * 100)))
+    : 0;
+
+  const rhythmAccuracy = Math.max(20, Math.min(99, Math.round((1 - (energyDiffSum / userPitchTrace.length) * 1.2) * 100)));
+
+  pitchScoreEl.textContent = validPitchPoints > 4 ? `${pitchAccuracy}%` : "Speak Louder";
+  rhythmScoreEl.textContent = `${rhythmAccuracy}%`;
+}
+
+// 8. RENDER DUAL PROSODY CANVAS
+function drawCanvas(playheadProgress = 0) {
+  const W = canvas.width;
+  const H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+
+  // Subtle horizontal pitch grid lines & word dividers
+  ctx.strokeStyle = "rgba(255, 255, 255, 0.05)";
+  ctx.lineWidth = 1;
+  for (let i = 1; i <= 3; i++) {
+    const y = (H / 4) * i;
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(W, y);
+    ctx.stroke();
+  }
+
+  // Draw word slice dividers & highlight selected word slice
+  currentPhrase.words.forEach((w, idx) => {
+    const xStart = w.slice[0] * W;
+    const xEnd = w.slice[1] * W;
+
+    if (activeWordIndex === idx) {
+      ctx.fillStyle = "rgba(56, 189, 248, 0.09)";
+      ctx.fillRect(xStart, 0, xEnd - xStart, H);
+    }
+
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.07)";
+    ctx.beginPath();
+    ctx.moveTo(xStart, 0);
+    ctx.lineTo(xStart, H);
+    ctx.stroke();
+
+    // Label word at bottom of canvas
+    ctx.fillStyle = w.stress === 2 ? "#38bdf8" : "rgba(226, 232, 240, 0.45)";
+    ctx.font = w.stress === 2 ? "bold 12px sans-serif" : "11px sans-serif";
+    ctx.fillText(w.text, xStart + 8, H - 10);
+  });
+
+  // A. Draw Native Energy Rhythm Envelope (Ghost Blue Bars at Bottom)
+  const numBars = 60;
+  const barWidth = (W / numBars) * 0.65;
+  for (let i = 0; i < numBars; i++) {
+    const t = i / (numBars - 1);
+    const e = sampleCurveAt(currentPhrase.energyCurve, t);
+    const barH = e * (H * 0.35);
+    const x = t * (W - barWidth);
+    const y = H - 28 - barH;
+    ctx.fillStyle = "rgba(56, 189, 248, 0.16)";
+    ctx.fillRect(x, y, barWidth, barH);
+  }
+
+  // B. Draw Native Target Pitch Curve (Glowing Blue)
+  ctx.save();
+  ctx.beginPath();
+  const steps = 100;
+  for (let i = 0; i <= steps; i++) {
+    const t = i / steps;
+    const p = sampleCurveAt(currentPhrase.pitchCurve, t);
+    const x = t * W;
+    const y = H - 45 - p * (H - 85);
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  }
+  ctx.strokeStyle = "#38bdf8";
+  ctx.lineWidth = 4.5;
+  ctx.lineCap = "round";
+  ctx.shadowColor = "#38bdf8";
+  ctx.shadowBlur = 14;
+  ctx.stroke();
+  ctx.restore();
+
+  // C. Draw User Recorded Energy & Pitch Curve (Neon Coral)
+  if (userPitchTrace.length > 1) {
+    // User volume envelope shadow
+    ctx.fillStyle = "rgba(251, 113, 133, 0.18)";
+    userPitchTrace.forEach(pt => {
+      const x = pt.t * W;
+      const barH = pt.energy * (H * 0.32);
+      ctx.fillRect(x - 2, H - 28 - barH, 4, barH);
+    });
+
+    // User Pitch Contour Line
+    ctx.save();
+    ctx.beginPath();
+    let penDown = false;
+    userPitchTrace.forEach(pt => {
+      if (pt.pitchNorm === null) {
+        penDown = false;
+        return;
+      }
+      const x = pt.t * W;
+      const y = H - 45 - pt.pitchNorm * (H - 85);
+      if (!penDown) {
+        ctx.moveTo(x, y);
+        penDown = true;
+      } else {
+        ctx.lineTo(x, y);
+      }
+    });
+    ctx.strokeStyle = "#fb7185";
+    ctx.lineWidth = 3.5;
+    ctx.lineCap = "round";
+    ctx.shadowColor = "#fb7185";
+    ctx.shadowBlur = 12;
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  // D. Playhead Scrubber Line
+  if (playheadProgress > 0 && playheadProgress < 1) {
+    const px = playheadProgress * W;
+    ctx.strokeStyle = "#e2e8f0";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(px, 0);
+    ctx.lineTo(px, H);
+    ctx.stroke();
+  }
+}
+
+init();
+</script>
+</body>
+</html>
