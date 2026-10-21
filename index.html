@@ -396,7 +396,7 @@
       padding: 0.6rem 0.95rem;
     }
 
-    .speed-toggle.slow {
+    .speed-toggle.active-opt {
       border-color: var(--success);
       color: var(--success);
     }
@@ -571,10 +571,14 @@
         font-size: 0.95rem;
       }
 
+      .speed-group {
+        flex-direction: row;
+        justify-content: center;
+      }
+
       .speed-group .speed-toggle {
         width: auto;
-        min-width: 10rem;
-        align-self: center;
+        flex: 1;
       }
 
       .app-footer {
@@ -607,63 +611,66 @@
   </header>
 
   <main class="app-main">
-  <!-- ZONE 2: Stress-Mapped Transcript -->
-  <section class="subtitle-card">
-    <div class="phonetic-hint" id="focusHint">Supermarket English: ask where something is and finish with a rising tone</div>
-    <div class="stress-strip" id="stressStrip"></div>
-    <div class="strip-tip">
-      Tip: Click any word to hear it. The Mexican Spanish translation is under each word, with IPA below.
-    </div>
-  </section>
-
-  <!-- ZONE 3: Dual Pitch & Rhythm Canvas -->
-  <section class="canvas-card">
-    <div class="canvas-legend">
-      <div class="legend-items">
-        <div class="legend-badge"><span class="swatch native"></span> Native Target (Pitch + Stress Envelope)</div>
-        <div class="legend-badge"><span class="swatch user"></span> Your Live Voice (Pitch + Volume)</div>
+    <!-- ZONE 2: Stress-Mapped Transcript -->
+    <section class="subtitle-card">
+      <div class="phonetic-hint" id="focusHint">Supermarket English: ask where something is and finish with a rising tone</div>
+      <div class="stress-strip" id="stressStrip"></div>
+      <div class="strip-tip">
+        Tip: Click any word to hear it. Unstressed words shrink to a quick schwa (/ə/) so stressed words stand out.
       </div>
-      <div id="statusBadge" role="status" aria-live="polite">Ready — Click "Shadow Record" and speak along</div>
-    </div>
+    </section>
 
-    <canvas id="prosodyCanvas" width="900" height="290" role="img"
-      aria-label="Chart comparing the native pitch and stress target with your recorded voice">
-      Your browser does not support the canvas element.
-    </canvas>
+    <!-- ZONE 3: Dual Pitch & Rhythm Canvas -->
+    <section class="canvas-card">
+      <div class="canvas-legend">
+        <div class="legend-items">
+          <div class="legend-badge"><span class="swatch native"></span> Native Target (Pitch + Stress Envelope)</div>
+          <div class="legend-badge"><span class="swatch user"></span> Your Live Voice (Auto-Calibrated to Your Pitch Range)</div>
+        </div>
+        <div id="statusBadge" role="status" aria-live="polite">Ready — Click "Shadow Record" and speak along</div>
+      </div>
 
-    <div class="metrics-row">
-      <div class="metric-box">
-        <span class="metric-label">Pitch Contour Match</span>
-        <span class="metric-val" id="pitchScore">—</span>
-      </div>
-      <div class="metric-box">
-        <span class="metric-label">Rhythm &amp; Stress Sync</span>
-        <span class="metric-val" id="rhythmScore">—</span>
-      </div>
-      <div class="metric-box">
-        <span class="metric-label">Detected Live Pitch</span>
-        <span class="metric-val" id="liveHz">0 Hz</span>
-      </div>
-    </div>
-  </section>
+      <canvas id="prosodyCanvas" width="900" height="290" role="img"
+        aria-label="Chart comparing the native pitch and stress target with your recorded voice">
+        Your browser does not support the canvas element.
+      </canvas>
 
-  <!-- ZONE 4: Shadowing Deck -->
-  <section class="controls-dock">
-    <div class="btn-group">
-      <button type="button" class="btn-listen" id="btnListen">
-        <span>▶</span> 1. Listen Native
-      </button>
-      <button type="button" class="btn-record" id="btnRecord" aria-pressed="false">
-        <span>●</span> 2. Shadow Record
-      </button>
-      <button type="button" class="btn-pingpong" id="btnPingPong" aria-pressed="false" disabled>
-        <span>⇄</span> 3. Auto Ping-Pong Loop
-      </button>
-    </div>
-    <div class="btn-group speed-group">
-      <button type="button" class="speed-toggle" id="btnSpeed">Speed: 1.0x</button>
-    </div>
-  </section>
+      <div class="metrics-row">
+        <div class="metric-box">
+          <span class="metric-label">Pitch Contour Match</span>
+          <span class="metric-val" id="pitchScore">—</span>
+        </div>
+        <div class="metric-box">
+          <span class="metric-label">Rhythm &amp; Stress Sync</span>
+          <span class="metric-val" id="rhythmScore">—</span>
+        </div>
+        <div class="metric-box">
+          <span class="metric-label">Detected Live Pitch</span>
+          <span class="metric-val" id="liveHz">0 Hz</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ZONE 4: Shadowing Deck -->
+    <section class="controls-dock">
+      <div class="btn-group">
+        <button type="button" class="btn-listen" id="btnListen">
+          <span>▶</span> 1. Listen Native
+        </button>
+        <button type="button" class="btn-record" id="btnRecord" aria-pressed="false">
+          <span>●</span> 2. Shadow Record
+        </button>
+        <button type="button" class="btn-pingpong" id="btnPingPong" aria-pressed="false" disabled>
+          <span>⇄</span> 3. Auto Ping-Pong Loop
+        </button>
+      </div>
+      <div class="btn-group speed-group">
+        <button type="button" class="speed-toggle active-opt" id="btnGuide" aria-pressed="true" title="Play native voice while recording (best with headphones)">
+          Guide Voice: ON
+        </button>
+        <button type="button" class="speed-toggle" id="btnSpeed">Speed: 1.00x</button>
+      </div>
+    </section>
   </main>
 
   <footer class="app-footer">
@@ -678,7 +685,7 @@
 <script>
 /**
  * PHRASE MANIFEST
- * Stress levels: 0 = reduced/schwa, 1 = normal, 2 = primary nuclear stress
+ * Stress levels: 0 = reduced/schwa, 1 = normal content word, 2 = primary nuclear stress
  * es: Mexican Spanish translation shown under each English word
  * pitchCurve: Normalized [0.0 - 1.0] target intonation contour across phrase duration
  * energyCurve: Normalized [0.0 - 1.0] syllable volume envelope
@@ -688,12 +695,12 @@ const PHRASES = [
     id: "supermarket_milk",
     label: "Supermarket: milk",
     title: "Supermarket: 'Excuse me, where can I find the milk?'",
-    hint: "Question Rise: Keep 'can I' light, stress 'FIND', and let 'MILK' rise at the end. En español: 'Disculpe, ¿dónde puedo encontrar la leche?'",
+    hint: "Question Rise: Reduce 'can' to /kən/, stress 'FIND', and let 'MILK?' rise at the end. En español: 'Disculpe, ¿dónde puedo encontrar la leche?'",
     durationMs: 3000,
     words: [
       { text: "Excuse me,", es: "Disculpe,", ipa: "/ɪkˈskjuz mi/", stress: 1, slice: [0.0, 0.20] },
       { text: "where", es: "¿dónde", ipa: "/wɛr/", stress: 1, slice: [0.20, 0.38] },
-      { text: "can", es: "puedo", ipa: "/kæn/", stress: 0, slice: [0.38, 0.47] },
+      { text: "can", es: "puedo", ipa: "/kən/", stress: 0, slice: [0.38, 0.47] },
       { text: "I", es: "yo", ipa: "/aɪ/", stress: 0, slice: [0.47, 0.55] },
       { text: "find", es: "encontrar", ipa: "/faɪnd/", stress: 1, slice: [0.55, 0.72] },
       { text: "the", es: "la", ipa: "/ðə/", stress: 0, slice: [0.72, 0.80] },
@@ -712,13 +719,13 @@ const PHRASES = [
     id: "checkout_card",
     label: "Checkout: card",
     title: "Checkout: 'Can I pay with my card?'",
-    hint: "Yes/No Question: Reduce 'can I', lift 'PAY', and finish with a rising 'CARD?'. En español: '¿Puedo pagar con mi tarjeta?'",
+    hint: "Yes/No Question: Shrink 'Can I' (/kən aɪ/), lift 'PAY', and finish with a rising 'CARD?'. En español: '¿Puedo pagar con mi tarjeta?'",
     durationMs: 2400,
     words: [
-      { text: "Can", es: "¿Puedo", ipa: "/kæn/", stress: 0, slice: [0.0, 0.12] },
+      { text: "Can", es: "¿Puedo", ipa: "/kən/", stress: 0, slice: [0.0, 0.12] },
       { text: "I", es: "yo", ipa: "/aɪ/", stress: 0, slice: [0.12, 0.22] },
       { text: "pay", es: "pagar", ipa: "/peɪ/", stress: 1, slice: [0.22, 0.44] },
-      { text: "with", es: "con", ipa: "/wɪð/", stress: 0, slice: [0.44, 0.56] },
+      { text: "with", es: "con", ipa: "/wɪθ/", stress: 0, slice: [0.44, 0.56] },
       { text: "my", es: "mi", ipa: "/maɪ/", stress: 1, slice: [0.56, 0.70] },
       { text: "card?", es: "tarjeta?", ipa: "/kɑrd/", stress: 2, slice: [0.70, 1.0] }
     ],
@@ -742,7 +749,7 @@ const PHRASES = [
       { text: "like", es: "gustaría", ipa: "/laɪk/", stress: 1, slice: [0.10, 0.28] },
       { text: "a", es: "un", ipa: "/ə/", stress: 0, slice: [0.28, 0.38] },
       { text: "coffee", es: "café", ipa: "/ˈkɔfi/", stress: 2, slice: [0.38, 0.62] },
-      { text: "with", es: "con", ipa: "/wɪð/", stress: 0, slice: [0.62, 0.72] },
+      { text: "with", es: "con", ipa: "/wɪθ/", stress: 0, slice: [0.62, 0.72] },
       { text: "milk,", es: "leche,", ipa: "/mɪlk/", stress: 1, slice: [0.72, 0.86] },
       { text: "please.", es: "por favor.", ipa: "/pliz/", stress: 1, slice: [0.86, 1.0] }
     ],
@@ -759,14 +766,14 @@ const PHRASES = [
     id: "gift_newborn",
     label: "Newborn gift",
     title: "Baby Gift: 'I need a gift for a newborn.'",
-    hint: "Statement Stress: Lift 'GIFT', then land on 'NEWBORN'. En español: 'Necesito un regalo para un recién nacido.'",
+    hint: "Statement Stress: Lift 'GIFT', reduce 'for a' (/fər ə/), and land on 'NEWBORN'. En español: 'Necesito un regalo para un recién nacido.'",
     durationMs: 3000,
     words: [
       { text: "I", es: "Yo", ipa: "/aɪ/", stress: 0, slice: [0.0, 0.09] },
       { text: "need", es: "necesito", ipa: "/nid/", stress: 1, slice: [0.09, 0.25] },
       { text: "a", es: "un", ipa: "/ə/", stress: 0, slice: [0.25, 0.34] },
       { text: "gift", es: "regalo", ipa: "/ɡɪft/", stress: 1, slice: [0.34, 0.54] },
-      { text: "for", es: "para", ipa: "/fɔr/", stress: 0, slice: [0.54, 0.63] },
+      { text: "for", es: "para", ipa: "/fər/", stress: 0, slice: [0.54, 0.63] },
       { text: "a", es: "un", ipa: "/ə/", stress: 0, slice: [0.63, 0.72] },
       { text: "newborn.", es: "recién nacido.", ipa: "/ˈnubɔrn/", stress: 2, slice: [0.72, 1.0] }
     ],
@@ -783,14 +790,14 @@ const PHRASES = [
     id: "gift_kid",
     label: "Kid's gift",
     title: "Kid's Gift: 'I need a gift for a five-year-old.'",
-    hint: "Compound Stress: Stress 'FIVE' in 'FIVE-year-old'. En español: 'Necesito un regalo para un niño de cinco años.'",
+    hint: "Compound Stress: Reduce 'for a' (/fər ə/) and stress 'FIVE' in 'FIVE-year-old'. En español: 'Necesito un regalo para un niño de cinco años.'",
     durationMs: 3200,
     words: [
       { text: "I", es: "Yo", ipa: "/aɪ/", stress: 0, slice: [0.0, 0.08] },
       { text: "need", es: "necesito", ipa: "/nid/", stress: 1, slice: [0.08, 0.22] },
       { text: "a", es: "un", ipa: "/ə/", stress: 0, slice: [0.22, 0.30] },
       { text: "gift", es: "regalo", ipa: "/ɡɪft/", stress: 1, slice: [0.30, 0.48] },
-      { text: "for", es: "para", ipa: "/fɔr/", stress: 0, slice: [0.48, 0.56] },
+      { text: "for", es: "para", ipa: "/fər/", stress: 0, slice: [0.48, 0.56] },
       { text: "a", es: "un", ipa: "/ə/", stress: 0, slice: [0.56, 0.64] },
       { text: "five-year-old.", es: "niño de cinco años.", ipa: "/ˌfaɪv jɪr ˈoʊld/", stress: 2, slice: [0.64, 1.0] }
     ],
@@ -808,6 +815,7 @@ const PHRASES = [
 // APP STATE
 let currentPhrase = PHRASES[0];
 let playbackRate = 1.0;
+let playGuideDuringRecord = true;
 let activeWordIndex = null;
 
 // Audio & Recording State
@@ -830,7 +838,7 @@ const DEFAULT_CANVAS_HEIGHT = 290;
 let currentPlayhead = 0;
 
 // User captured curves (normalized 0..1 across time)
-let userPitchTrace = [];  // { t: 0..1, pitchNorm: 0..1 | null, energy: 0..1 }
+let userPitchTrace = []; // { t: 0..1, hz: number | null, pitchNorm: 0..1 | null, energy: 0..1 }
 
 // DOM Elements
 const phraseSelect = document.getElementById("phraseSelect");
@@ -846,6 +854,7 @@ const liveHzEl = document.getElementById("liveHz");
 const btnListen = document.getElementById("btnListen");
 const btnRecord = document.getElementById("btnRecord");
 const btnPingPong = document.getElementById("btnPingPong");
+const btnGuide = document.getElementById("btnGuide");
 const btnSpeed = document.getElementById("btnSpeed");
 
 // 1. INITIALIZE UI
@@ -891,10 +900,17 @@ function init() {
     }
   });
 
+  btnGuide.addEventListener("click", () => {
+    playGuideDuringRecord = !playGuideDuringRecord;
+    btnGuide.textContent = `Guide Voice: ${playGuideDuringRecord ? "ON" : "OFF"}`;
+    btnGuide.setAttribute("aria-pressed", String(playGuideDuringRecord));
+    btnGuide.classList.toggle("active-opt", playGuideDuringRecord);
+  });
+
   btnSpeed.addEventListener("click", () => {
     playbackRate = playbackRate === 1.0 ? 0.75 : 1.0;
     btnSpeed.textContent = `Speed: ${playbackRate.toFixed(2)}x`;
-    btnSpeed.classList.toggle("slow", playbackRate === 0.75);
+    btnSpeed.classList.toggle("active-opt", playbackRate === 0.75);
   });
 
   renderPhraseStrip();
@@ -989,33 +1005,44 @@ function speakNativePhrase(onComplete) {
   utter.rate = playbackRate;
 
   const duration = currentPhrase.durationMs / playbackRate;
-  const startTime = performance.now();
+  let startTime = performance.now();
+  let finished = false;
 
   statusBadge.textContent = "Playing Native Reference...";
 
+  function finishNative() {
+    if (finished) return;
+    finished = true;
+    cancelAnimationFrame(nativePlayheadFrameId);
+    nativePlayheadFrameId = null;
+    if (!isRecording) {
+      drawCanvas(0);
+      statusBadge.textContent = "Native Reference finished.";
+    }
+    if (onComplete) onComplete();
+  }
+
   function animatePlayhead(now) {
+    if (finished) return;
     const progress = Math.min(1, (now - startTime) / duration);
-    drawCanvas(progress);
+    if (!isRecording) {
+      drawCanvas(progress);
+    }
     if (progress < 1) {
       nativePlayheadFrameId = requestAnimationFrame(animatePlayhead);
     } else {
-      nativePlayheadFrameId = null;
-      drawCanvas(0);
-      statusBadge.textContent = "Native Reference finished.";
-      if (onComplete) onComplete();
+      finishNative();
     }
   }
 
   utter.onstart = () => {
+    startTime = performance.now();
     cancelAnimationFrame(nativePlayheadFrameId);
     nativePlayheadFrameId = requestAnimationFrame(animatePlayhead);
   };
 
-  utter.onerror = () => {
-    cancelAnimationFrame(nativePlayheadFrameId);
-    nativePlayheadFrameId = null;
-    if (onComplete) onComplete();
-  };
+  utter.onend = finishNative;
+  utter.onerror = finishNative;
 
   window.speechSynthesis.speak(utter);
 }
@@ -1039,7 +1066,7 @@ function speakSingleWord(wordText) {
   window.speechSynthesis.speak(utter);
 }
 
-// 4. REAL-TIME AUTOCORRELATION PITCH DETECTOR (Zero Dependencies)
+// 4. FAST BOUNDED AUTOCORRELATION PITCH DETECTOR (75 Hz - 380 Hz)
 function autoCorrelatePitch(float32AudioBuffer, sampleRate) {
   const SIZE = float32AudioBuffer.length;
   let rms = 0;
@@ -1052,47 +1079,49 @@ function autoCorrelatePitch(float32AudioBuffer, sampleRate) {
   // Noise gate: ignore silence/background hum
   if (rms < 0.015) return { hz: null, rms };
 
-  // Trim edges to improve autocorrelation lock
-  let r1 = 0, r2 = SIZE - 1;
-  const thres = 0.2;
-  for (let i = 0; i < SIZE / 2; i++) {
-    if (Math.abs(float32AudioBuffer[i]) < thres) { r1 = i; break; }
+  // Restrict lag search strictly to human speech fundamental frequencies (75 Hz - 380 Hz)
+  const minLag = Math.max(1, Math.floor(sampleRate / 380));
+  const maxLag = Math.min(SIZE - 2, Math.ceil(sampleRate / 75));
+
+  // Find first local minimum to skip zero-lag peak
+  let startLag = minLag;
+  let prevCorr = 0;
+  for (let i = 0; i < SIZE - startLag; i++) {
+    prevCorr += float32AudioBuffer[i] * float32AudioBuffer[i + startLag];
   }
-  for (let i = 1; i < SIZE / 2; i++) {
-    if (Math.abs(float32AudioBuffer[SIZE - i]) < thres) { r2 = SIZE - i; break; }
+  while (startLag < maxLag) {
+    let nextCorr = 0;
+    const nextLag = startLag + 1;
+    for (let i = 0; i < SIZE - nextLag; i++) {
+      nextCorr += float32AudioBuffer[i] * float32AudioBuffer[i + nextLag];
+    }
+    if (nextCorr > prevCorr) break;
+    prevCorr = nextCorr;
+    startLag = nextLag;
   }
 
-  const buf2 = float32AudioBuffer.slice(r1, r2);
-  const newSize = buf2.length;
-  const c = new Float32Array(newSize);
+  let maxVal = -1;
+  let bestLag = -1;
 
-  for (let i = 0; i < newSize; i++) {
-    for (let j = 0; j < newSize - i; j++) {
-      c[i] = c[i] + buf2[j] * buf2[j + i];
+  for (let lag = startLag; lag <= maxLag; lag++) {
+    let sum = 0;
+    for (let i = 0; i < SIZE - lag; i++) {
+      sum += float32AudioBuffer[i] * float32AudioBuffer[i + lag];
+    }
+    if (sum > maxVal) {
+      maxVal = sum;
+      bestLag = lag;
     }
   }
 
-  let d = 0;
-  while (d < newSize - 1 && c[d] > c[d + 1]) d++;
+  if (bestLag <= 0) return { hz: null, rms };
+  const hz = sampleRate / bestLag;
 
-  let maxval = -1, maxpos = -1;
-  for (let i = d; i < newSize; i++) {
-    if (c[i] > maxval) {
-      maxval = c[i];
-      maxpos = i;
-    }
-  }
-
-  if (maxpos <= 0) return { hz: null, rms };
-  const T0 = maxpos;
-  const hz = sampleRate / T0;
-
-  // Human speech fundamental frequency bounds (75 Hz - 380 Hz)
   if (hz < 75 || hz > 380) return { hz: null, rms };
   return { hz, rms };
 }
 
-// 5. LIVE SHADOW RECORDING & REAL-TIME OVERLAY
+// 5. LIVE SHADOW RECORDING & SPEAKER-CALIBRATED OVERLAY
 function ensureAudioContext() {
   if (!audioCtx) {
     const AudioContextClass = window.AudioContext || window.webkitAudioContext;
@@ -1114,6 +1143,40 @@ function cleanupAudioNodes() {
     try { audioAnalyser.disconnect(); } catch {}
     audioAnalyser = null;
   }
+}
+
+function getSupportedMimeType() {
+  if (typeof MediaRecorder === "undefined" || typeof MediaRecorder.isTypeSupported !== "function") {
+    return "";
+  }
+  const types = ["audio/webm;codecs=opus", "audio/webm", "audio/mp4", "audio/ogg"];
+  for (const t of types) {
+    if (MediaRecorder.isTypeSupported(t)) return t;
+  }
+  return "";
+}
+
+// Re-normalize whole recorded trace against final speaker median once recording completes
+function recalibrateUserPitchTrace() {
+  const voicedHz = userPitchTrace.filter(pt => pt.hz !== null).map(pt => pt.hz);
+  if (voicedHz.length < 3) return;
+
+  const sorted = [...voicedHz].sort((a, b) => a - b);
+  const medianHz = sorted[Math.floor(sorted.length / 2)];
+
+  let smoothed = 0.5;
+  userPitchTrace.forEach(pt => {
+    if (pt.hz === null) {
+      pt.pitchNorm = null;
+      return;
+    }
+    // Map +/- 7 semitones around the user's personal median pitch onto [0.15 .. 0.90]
+    const semitonesFromMedian = 12 * Math.log2(pt.hz / medianHz);
+    const rawNorm = 0.52 + (semitonesFromMedian / 14);
+    const clamped = Math.max(0.08, Math.min(0.95, rawNorm));
+    smoothed = smoothed * 0.55 + clamped * 0.45;
+    pt.pitchNorm = smoothed;
+  });
 }
 
 async function startShadowRecording() {
@@ -1143,22 +1206,29 @@ async function startShadowRecording() {
     const pcmBuffer = new Float32Array(analyser.fftSize);
 
     recordedChunks = [];
-    mediaRecorder = new MediaRecorder(stream);
+    const mimeType = getSupportedMimeType();
+    mediaRecorder = mimeType ? new MediaRecorder(stream, { mimeType }) : new MediaRecorder(stream);
+
     mediaRecorder.ondataavailable = (e) => {
-      if (e.data.size > 0) recordedChunks.push(e.data);
+      if (e.data && e.data.size > 0) recordedChunks.push(e.data);
     };
 
     mediaRecorder.onstop = () => {
-      userAudioBlob = new Blob(recordedChunks, { type: mediaRecorder.mimeType || "audio/webm" });
+      const blobType = mediaRecorder.mimeType || mimeType || "";
+      userAudioBlob = blobType
+        ? new Blob(recordedChunks, { type: blobType })
+        : new Blob(recordedChunks);
       if (userAudioUrl) URL.revokeObjectURL(userAudioUrl);
       userAudioUrl = URL.createObjectURL(userAudioBlob);
       stream.getTracks().forEach(t => t.stop());
+      recalibrateUserPitchTrace();
       btnPingPong.disabled = false;
       computeProsodyScores();
       drawCanvas(0);
     };
 
     userPitchTrace = [];
+    const voicedHzHistory = [];
     isRecording = true;
     btnRecord.classList.add("recording");
     btnRecord.setAttribute("aria-pressed", "true");
@@ -1167,12 +1237,13 @@ async function startShadowRecording() {
 
     mediaRecorder.start();
 
-    // Optional choral guide: speak native softly at the same time
-    speakNativePhrase();
+    if (playGuideDuringRecord) {
+      speakNativePhrase();
+    }
 
     const totalDuration = (currentPhrase.durationMs / playbackRate) + 450;
     const startTime = performance.now();
-    let smoothedPitch = 0.45;
+    let smoothedPitch = 0.50;
 
     function captureFrame(now) {
       if (!isRecording) return;
@@ -1185,17 +1256,22 @@ async function startShadowRecording() {
       let pitchNorm = null;
       if (hz !== null) {
         liveHzEl.textContent = `${Math.round(hz)} Hz`;
-        // Normalize log-scale between 85Hz and 310Hz for gender-neutral contour shape
-        const rawNorm = (Math.log(hz) - Math.log(85)) / (Math.log(310) - Math.log(85));
+        voicedHzHistory.push(hz);
+
+        // Live speaker-relative calibration around running median Hz
+        const sorted = [...voicedHzHistory].sort((a, b) => a - b);
+        const medianHz = sorted[Math.floor(sorted.length / 2)];
+        const semitonesFromMedian = 12 * Math.log2(hz / medianHz);
+        const rawNorm = 0.52 + (semitonesFromMedian / 14);
         const clamped = Math.max(0.08, Math.min(0.95, rawNorm));
-        smoothedPitch = smoothedPitch * 0.65 + clamped * 0.35;
+        smoothedPitch = smoothedPitch * 0.6 + clamped * 0.4;
         pitchNorm = smoothedPitch;
       } else {
         liveHzEl.textContent = "— Hz";
       }
 
       const normEnergy = Math.min(1.0, rms * 6.5);
-      userPitchTrace.push({ t, pitchNorm, energy: normEnergy });
+      userPitchTrace.push({ t, hz, pitchNorm, energy: normEnergy });
 
       drawCanvas(t);
 
@@ -1226,6 +1302,7 @@ function stopShadowRecording() {
   isRecording = false;
   cancelAnimationFrame(recordFrameId);
   recordFrameId = null;
+  stopNativePlayback();
   if (mediaRecorder && mediaRecorder.state !== "inactive") {
     mediaRecorder.stop();
   }
