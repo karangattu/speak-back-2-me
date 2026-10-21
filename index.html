@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="description" content="Practice everyday English for the supermarket, coffee shop, and gift shopping. Mexican Spanish translations plus live pitch and rhythm feedback.">
   <meta name="color-scheme" content="dark">
   <meta name="theme-color" content="#0b0f17">
@@ -28,6 +28,11 @@
       margin: 0;
       padding: 0;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
+    }
+
+    html {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
     }
 
     body {
@@ -93,6 +98,10 @@
       font-size: 0.9rem;
     }
 
+    .brand-subtitle::before {
+      content: "| ";
+    }
+
     .phrase-select-wrap {
       display: flex;
       align-items: center;
@@ -102,15 +111,28 @@
     }
 
     select {
-      background: var(--bg);
+      appearance: none;
+      -webkit-appearance: none;
+      background-color: var(--bg);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.9rem center;
+      background-size: 12px;
       color: var(--text);
       border: 1px solid var(--border);
-      padding: 0.6rem 1rem;
+      padding: 0.6rem 2.5rem 0.6rem 1rem;
       border-radius: 8px;
       font-size: 0.95rem;
       cursor: pointer;
       max-width: 420px;
       width: 100%;
+      color-scheme: dark;
+      touch-action: manipulation;
+    }
+
+    select option {
+      background: var(--panel);
+      color: var(--text);
     }
 
     /* ZONE 2: Stress-Mapped Subtitle Strip */
@@ -328,6 +350,7 @@
       display: inline-flex;
       align-items: center;
       gap: 0.55rem;
+      touch-action: manipulation;
       transition: all 0.15s ease;
     }
 
@@ -392,9 +415,172 @@
     }
 
     @media (max-width: 680px) {
-      .metrics-row { grid-template-columns: 1fr; }
-      .controls-dock { flex-direction: column; align-items: stretch; }
-      .btn-group { justify-content: center; }
+      body {
+        padding: 0.75rem;
+        padding-bottom: calc(0.75rem + env(safe-area-inset-bottom));
+        min-height: 100dvh;
+      }
+
+      .app-shell,
+      .app-main {
+        gap: 0.85rem;
+      }
+
+      header {
+        padding: 0.85rem 1rem;
+        gap: 0.75rem;
+      }
+
+      .brand {
+        width: 100%;
+      }
+
+      .brand h1 {
+        font-size: 1.05rem;
+        line-height: 1.35;
+      }
+
+      .brand-subtitle {
+        display: block;
+        margin-top: 0.1rem;
+        font-size: 0.78rem;
+      }
+
+      .brand-subtitle::before {
+        content: "";
+      }
+
+      .phrase-select-wrap {
+        flex: 1 0 100%;
+      }
+
+      select {
+        max-width: none;
+        min-height: 2.75rem;
+        font-size: 1rem;
+      }
+
+      .subtitle-card {
+        padding: 1rem 0.8rem;
+      }
+
+      .phonetic-hint {
+        font-size: 0.78rem;
+        line-height: 1.45;
+        letter-spacing: 0;
+        text-transform: none;
+        margin-bottom: 0.6rem;
+      }
+
+      .stress-strip {
+        gap: 0.25rem;
+        min-height: 0;
+        padding: 0.25rem 0;
+      }
+
+      .word-token {
+        grid-template-rows: 2rem auto auto;
+        min-width: 2.75rem;
+        padding: 0.25rem 0.35rem;
+      }
+
+      .word-token[data-stress="0"] .word-text {
+        font-size: 0.95rem;
+      }
+
+      .word-token[data-stress="1"] .word-text {
+        font-size: 1.15rem;
+      }
+
+      .word-token[data-stress="2"] .word-text {
+        font-size: 1.5rem;
+      }
+
+      .word-es {
+        font-size: 0.72rem;
+      }
+
+      .word-ipa {
+        font-size: 0.58rem;
+      }
+
+      .strip-tip {
+        font-size: 0.72rem;
+        line-height: 1.4;
+      }
+
+      canvas {
+        height: 220px;
+      }
+
+      .canvas-card {
+        padding: 0.8rem;
+      }
+
+      .canvas-legend {
+        font-size: 0.75rem;
+        gap: 0.35rem 0.75rem;
+      }
+
+      .legend-items {
+        gap: 0.35rem 0.75rem;
+      }
+
+      #statusBadge {
+        flex: 1 0 100%;
+      }
+
+      .metrics-row {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.4rem;
+        margin-top: 0.65rem;
+      }
+
+      .metric-box {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.15rem;
+        padding: 0.5rem 0.55rem;
+      }
+
+      .metric-label {
+        font-size: 0.68rem;
+        line-height: 1.2;
+      }
+
+      .metric-val {
+        font-size: 0.95rem;
+      }
+
+      .controls-dock {
+        padding: 0.8rem;
+        gap: 0.75rem;
+      }
+
+      .btn-group {
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.5rem;
+      }
+
+      .btn-group button {
+        width: 100%;
+        min-height: 3rem;
+        justify-content: center;
+        font-size: 0.95rem;
+      }
+
+      .speed-group .speed-toggle {
+        width: auto;
+        min-width: 10rem;
+        align-self: center;
+      }
+
+      .app-footer {
+        font-size: 0.72rem;
+        padding-bottom: 0.25rem;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -413,7 +599,7 @@
   <header>
     <div class="brand">
       <div class="brand-dot"></div>
-      <h1>EchoTrace <span class="brand-subtitle">| English Prosody for Spanish Speakers</span></h1>
+      <h1>EchoTrace <span class="brand-subtitle">English Prosody for Spanish Speakers</span></h1>
     </div>
     <div class="phrase-select-wrap">
       <select id="phraseSelect" aria-label="Select an everyday English practice phrase"></select>
@@ -474,7 +660,7 @@
         <span>⇄</span> 3. Auto Ping-Pong Loop
       </button>
     </div>
-    <div class="btn-group">
+    <div class="btn-group speed-group">
       <button type="button" class="speed-toggle" id="btnSpeed">Speed: 1.0x</button>
     </div>
   </section>
@@ -500,6 +686,7 @@
 const PHRASES = [
   {
     id: "supermarket_milk",
+    label: "Supermarket: milk",
     title: "Supermarket: 'Excuse me, where can I find the milk?'",
     hint: "Question Rise: Keep 'can I' light, stress 'FIND', and let 'MILK' rise at the end. En español: 'Disculpe, ¿dónde puedo encontrar la leche?'",
     durationMs: 3000,
@@ -523,6 +710,7 @@ const PHRASES = [
   },
   {
     id: "checkout_card",
+    label: "Checkout: card",
     title: "Checkout: 'Can I pay with my card?'",
     hint: "Yes/No Question: Reduce 'can I', lift 'PAY', and finish with a rising 'CARD?'. En español: '¿Puedo pagar con mi tarjeta?'",
     durationMs: 2400,
@@ -545,6 +733,7 @@ const PHRASES = [
   },
   {
     id: "coffee_order",
+    label: "Coffee shop: order",
     title: "Coffee Shop: 'I'd like a coffee with milk, please.'",
     hint: "Polite Order: Stress 'LIKE' and 'COFFEE', then soften 'please'. En español: 'Me gustaría un café con leche, por favor.'",
     durationMs: 2800,
@@ -568,6 +757,7 @@ const PHRASES = [
   },
   {
     id: "gift_newborn",
+    label: "Newborn gift",
     title: "Baby Gift: 'I need a gift for a newborn.'",
     hint: "Statement Stress: Lift 'GIFT', then land on 'NEWBORN'. En español: 'Necesito un regalo para un recién nacido.'",
     durationMs: 3000,
@@ -591,6 +781,7 @@ const PHRASES = [
   },
   {
     id: "gift_kid",
+    label: "Kid's gift",
     title: "Kid's Gift: 'I need a gift for a five-year-old.'",
     hint: "Compound Stress: Stress 'FIVE' in 'FIVE-year-old'. En español: 'Necesito un regalo para un niño de cinco años.'",
     durationMs: 3200,
@@ -621,6 +812,8 @@ let activeWordIndex = null;
 
 // Audio & Recording State
 let audioCtx = null;
+let audioSource = null;
+let audioAnalyser = null;
 let mediaRecorder = null;
 let recordedChunks = [];
 let userAudioBlob = null;
@@ -633,7 +826,7 @@ let nativePlayheadFrameId = null;
 let recordFrameId = null;
 let pingPongFrameId = null;
 
-const CANVAS_HEIGHT = 290;
+const DEFAULT_CANVAS_HEIGHT = 290;
 let currentPlayhead = 0;
 
 // User captured curves (normalized 0..1 across time)
@@ -660,7 +853,7 @@ function init() {
   PHRASES.forEach((p, idx) => {
     const opt = document.createElement("option");
     opt.value = idx;
-    opt.textContent = p.title;
+    opt.textContent = p.label || p.title;
     phraseSelect.appendChild(opt);
   });
 
@@ -680,6 +873,7 @@ function init() {
   });
 
   btnRecord.addEventListener("click", () => {
+    ensureAudioContext();
     stopPingPong();
     if (isRecording) {
       stopShadowRecording();
@@ -692,6 +886,7 @@ function init() {
     if (isPingPonging) {
       stopPingPong();
     } else {
+      unlockPingPongAudio();
       startPingPongLoop();
     }
   });
@@ -723,6 +918,10 @@ function resetUserRecording() {
   userAudioUrl = null;
   userAudioBlob = null;
   userPitchTrace = [];
+  if (pingPongAudio) {
+    pingPongAudio.pause();
+    pingPongAudio.currentTime = 0;
+  }
   resetScores();
   btnPingPong.disabled = true;
   btnPingPong.setAttribute("aria-pressed", "false");
@@ -894,6 +1093,29 @@ function autoCorrelatePitch(float32AudioBuffer, sampleRate) {
 }
 
 // 5. LIVE SHADOW RECORDING & REAL-TIME OVERLAY
+function ensureAudioContext() {
+  if (!audioCtx) {
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContextClass) return null;
+    audioCtx = new AudioContextClass();
+  }
+  if (audioCtx.state === "suspended") {
+    audioCtx.resume().catch(() => {});
+  }
+  return audioCtx;
+}
+
+function cleanupAudioNodes() {
+  if (audioSource) {
+    try { audioSource.disconnect(); } catch {}
+    audioSource = null;
+  }
+  if (audioAnalyser) {
+    try { audioAnalyser.disconnect(); } catch {}
+    audioAnalyser = null;
+  }
+}
+
 async function startShadowRecording() {
   let stream = null;
   try {
@@ -907,11 +1129,16 @@ async function startShadowRecording() {
 
     resetUserRecording();
 
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    const source = audioCtx.createMediaStreamSource(stream);
-    const analyser = audioCtx.createAnalyser();
+    const context = ensureAudioContext();
+    if (!context) {
+      throw new Error("AudioContext is not supported in this browser.");
+    }
+    const source = context.createMediaStreamSource(stream);
+    const analyser = context.createAnalyser();
     analyser.fftSize = 2048;
     source.connect(analyser);
+    audioSource = source;
+    audioAnalyser = analyser;
 
     const pcmBuffer = new Float32Array(analyser.fftSize);
 
@@ -982,8 +1209,10 @@ async function startShadowRecording() {
     recordFrameId = requestAnimationFrame(captureFrame);
   } catch (err) {
     if (stream) stream.getTracks().forEach(t => t.stop());
-    if (audioCtx && audioCtx.state !== "closed") audioCtx.close().catch(() => {});
-    audioCtx = null;
+    cleanupAudioNodes();
+    if (audioCtx && audioCtx.state === "running") {
+      audioCtx.suspend().catch(() => {});
+    }
     isRecording = false;
     btnRecord.classList.remove("recording");
     btnRecord.setAttribute("aria-pressed", "false");
@@ -1000,10 +1229,10 @@ function stopShadowRecording() {
   if (mediaRecorder && mediaRecorder.state !== "inactive") {
     mediaRecorder.stop();
   }
-  if (audioCtx && audioCtx.state !== "closed") {
-    audioCtx.close().catch(() => {});
+  cleanupAudioNodes();
+  if (audioCtx && audioCtx.state === "running") {
+    audioCtx.suspend().catch(() => {});
   }
-  audioCtx = null;
   btnRecord.classList.remove("recording");
   btnRecord.setAttribute("aria-pressed", "false");
   btnRecord.innerHTML = `<span>●</span> 2. Shadow Record`;
@@ -1011,6 +1240,36 @@ function stopShadowRecording() {
 }
 
 // 6. AUTO PING-PONG LOOP (Native -> User -> Native -> User)
+function ensurePingPongAudio() {
+  if (!pingPongAudio) {
+    pingPongAudio = new Audio();
+    pingPongAudio.preload = "auto";
+  }
+  return pingPongAudio;
+}
+
+// iOS only allows later playback if the element was played from a tap first.
+function unlockPingPongAudio() {
+  if (!userAudioUrl) return;
+  const audio = ensurePingPongAudio();
+  if (audio.src !== userAudioUrl) {
+    audio.src = userAudioUrl;
+  }
+  audio.muted = true;
+  const attempt = audio.play();
+  if (!attempt || typeof attempt.then !== "function") {
+    audio.muted = false;
+    return;
+  }
+  attempt.then(() => {
+    audio.pause();
+    audio.currentTime = 0;
+    audio.muted = false;
+  }).catch(() => {
+    audio.muted = false;
+  });
+}
+
 function startPingPongLoop() {
   if (!userAudioUrl) return;
   isPingPonging = true;
@@ -1030,9 +1289,13 @@ function startPingPongLoop() {
   function cycleUser() {
     if (!isPingPonging) return;
     statusBadge.textContent = "Ping-Pong: [2/2] Replaying Your Recording...";
-    pingPongAudio = new Audio(userAudioUrl);
-    const audio = pingPongAudio;
+    const audio = ensurePingPongAudio();
+    if (audio.src !== userAudioUrl) {
+      audio.src = userAudioUrl;
+    }
+    audio.muted = false;
     audio.playbackRate = playbackRate;
+    audio.currentTime = 0;
     const duration = (currentPhrase.durationMs / playbackRate) + 300;
     const start = performance.now();
 
@@ -1053,7 +1316,6 @@ function startPingPongLoop() {
     };
     audio.onended = () => {
       pingPongFrameId = null;
-      pingPongAudio = null;
       drawCanvas(0);
       if (!isPingPonging) return;
       pingPongTimeout = setTimeout(cycleNative, 300);
@@ -1075,9 +1337,7 @@ function stopPingPong() {
   pingPongFrameId = null;
   if (pingPongAudio) {
     pingPongAudio.pause();
-    pingPongAudio.removeAttribute("src");
-    pingPongAudio.load();
-    pingPongAudio = null;
+    pingPongAudio.currentTime = 0;
   }
   stopNativePlayback();
   btnPingPong.classList.remove("looping");
@@ -1127,15 +1387,17 @@ function computeProsodyScores() {
 function resizeCanvas() {
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
   const cssWidth = canvas.clientWidth || 900;
+  const cssHeight = canvas.clientHeight || DEFAULT_CANVAS_HEIGHT;
   canvas.width = Math.max(1, Math.round(cssWidth * dpr));
-  canvas.height = Math.round(CANVAS_HEIGHT * dpr);
+  canvas.height = Math.max(1, Math.round(cssHeight * dpr));
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   drawCanvas(currentPlayhead);
 }
 
 function drawCanvas(playheadProgress = 0) {
   const W = canvas.clientWidth || 900;
-  const H = CANVAS_HEIGHT;
+  const H = canvas.clientHeight || DEFAULT_CANVAS_HEIGHT;
+  const compactCanvas = W < 480;
   currentPlayhead = playheadProgress;
   ctx.clearRect(0, 0, W, H);
 
@@ -1168,12 +1430,14 @@ function drawCanvas(playheadProgress = 0) {
 
     // Label word at bottom of canvas
     ctx.fillStyle = w.stress === 2 ? "#38bdf8" : "rgba(226, 232, 240, 0.45)";
-    ctx.font = w.stress === 2 ? "bold 12px sans-serif" : "11px sans-serif";
-    ctx.fillText(w.text, xStart + 8, H - 10);
+    ctx.font = w.stress === 2
+      ? `bold ${compactCanvas ? 10 : 12}px sans-serif`
+      : `${compactCanvas ? 9 : 11}px sans-serif`;
+    ctx.fillText(w.text, xStart + (compactCanvas ? 5 : 8), H - 10);
   });
 
   // A. Draw Native Energy Rhythm Envelope (Ghost Blue Bars at Bottom)
-  const numBars = 60;
+  const numBars = compactCanvas ? 40 : 60;
   const barWidth = (W / numBars) * 0.65;
   for (let i = 0; i < numBars; i++) {
     const t = i / (numBars - 1);

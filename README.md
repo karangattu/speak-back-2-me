@@ -30,6 +30,13 @@ Each English word has its Mexican Spanish translation underneath, plus IPA.
 Microphone access is required for recording. Speech playback uses the browser's
 built-in `speechSynthesis` API, so voice availability varies by browser and OS.
 
+## Mobile
+
+The layout is tuned for phone screens: full-width tap targets, compact metrics,
+and a shorter chart. Recording and ping-pong playback follow iOS Safari's audio
+rules, so the audio context is created on tap and one unlocked audio element is
+reused for replay.
+
 ## Run locally
 
 No build step or dependencies are required.
