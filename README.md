@@ -24,5 +24,6 @@ playback and the comparison loop. Speech does not depend on installed system
 voices, an API key, or an online service. Your voice recordings stay in your browser.
 
 Read [audio/README.md](audio/README.md) to regenerate the audio after changing
-phrases. The target chart curves are visual teaching guides rather than pitch
-measurements of the generated speech.
+phrases. The target chart curves reflect normalized pitch measurements
+extracted from the bundled speech recordings.
+
