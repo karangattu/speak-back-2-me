@@ -29,6 +29,9 @@ jobs:
       - name: Validate inline JavaScript
         run: node scripts/check-inline-js.mjs
 
+      - name: Validate natural voice assets and playback
+        run: node scripts/check-native-audio.mjs
+
   deploy:
     name: Deploy to GitHub Pages
     needs: validate
@@ -56,6 +59,7 @@ jobs:
         run: |
           mkdir -p _site
           cp index.html _site/
+          cp -R audio _site/
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v5

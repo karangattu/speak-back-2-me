@@ -1320,6 +1320,340 @@ const PHRASES = [
       0.40, 0.30, 0.38, 0.50, 0.62, 0.68, 0.72, 0.75, 0.70, 0.66,
       0.62, 0.58, 0.64, 0.70, 0.74, 0.78, 0.74, 0.68, 0.64, 0.60
     ]
+  },
+  {
+    id: "daily_greeting_question",
+    label: "Greeting: ask about the day",
+    title: "Greeting: How's your day?",
+    hint: "Friendly question: Stress DAY and let the pitch fall gently. En español: '¿Cómo va tu día?'",
+    durationMs: 2000,
+    words: [
+      { text: "How's", es: "Cómo va", ipa: "/haʊz/", stress: 1, slice: [0.0, 0.4819] },
+      { text: "your", es: "tu", ipa: "/jɚ/", stress: 0, slice: [0.4819, 0.6386] },
+      { text: "day?", es: "día", ipa: "/deɪ/", stress: 2, slice: [0.6386, 1.0] }
+    ],
+    pitchCurve: [0.46, 0.46, 0.47, 0.49, 0.51, 0.54, 0.56, 0.58, 0.59, 0.6, 0.59, 0.58, 0.55, 0.52, 0.49, 0.45, 0.42, 0.4, 0.38, 0.37, 0.38, 0.4, 0.41, 0.39, 0.36, 0.34, 0.36, 0.42, 0.49, 0.58, 0.65, 0.7, 0.71, 0.61, 0.49, 0.38, 0.28, 0.22, 0.18, 0.16],
+    energyCurve: [0.16, 0.17, 0.21, 0.27, 0.34, 0.42, 0.49, 0.56, 0.6, 0.63, 0.63, 0.6, 0.55, 0.48, 0.4, 0.33, 0.26, 0.2, 0.17, 0.16, 0.21, 0.29, 0.32, 0.27, 0.19, 0.16, 0.21, 0.32, 0.48, 0.65, 0.8, 0.91, 0.94, 0.9, 0.79, 0.63, 0.46, 0.31, 0.2, 0.16]
+  },
+  {
+    id: "daily_greeting_reply",
+    label: "Greeting: reply politely",
+    title: "Greeting: Pretty good, thank you.",
+    hint: "Friendly reply: Stress GOOD, then soften THANK YOU. En español: 'Bastante bien, gracias.'",
+    durationMs: 2100,
+    words: [
+      { text: "Pretty", es: "Bastante", ipa: "/ˈprɪti/", stress: 1, slice: [0.0, 0.3759] },
+      { text: "good,", es: "bien", ipa: "/ɡʊd/", stress: 2, slice: [0.3759, 0.6015] },
+      { text: "thank", es: "gracias", ipa: "/θæŋk/", stress: 1, slice: [0.6015, 0.9023] },
+      { text: "you.", es: "a ti", ipa: "/ju/", stress: 0, slice: [0.9023, 1.0] }
+    ],
+    pitchCurve: [0.46, 0.46, 0.48, 0.51, 0.54, 0.58, 0.6, 0.61, 0.6, 0.58, 0.54, 0.5, 0.46, 0.42, 0.4, 0.4, 0.47, 0.6, 0.72, 0.77, 0.72, 0.6, 0.46, 0.36, 0.35, 0.37, 0.41, 0.45, 0.49, 0.5, 0.5, 0.46, 0.41, 0.33, 0.27, 0.24, 0.23, 0.21, 0.18, 0.16],
+    energyCurve: [0.16, 0.18, 0.24, 0.33, 0.43, 0.52, 0.59, 0.63, 0.62, 0.57, 0.49, 0.39, 0.3, 0.22, 0.17, 0.17, 0.33, 0.59, 0.83, 0.94, 0.86, 0.62, 0.35, 0.18, 0.17, 0.24, 0.35, 0.47, 0.57, 0.63, 0.61, 0.54, 0.43, 0.3, 0.21, 0.16, 0.22, 0.32, 0.25, 0.16]
+  },
+  {
+    id: "directions_bus_stop",
+    label: "Directions: find the bus stop",
+    title: "Directions: Where's the nearest bus stop?",
+    hint: "Location question: Stress NEAREST and BUS STOP. Let the pitch fall at the end. En español: '¿Dónde está la parada de camión más cercana?'",
+    durationMs: 2500,
+    words: [
+      { text: "Where's", es: "Dónde está", ipa: "/wɛrz/", stress: 1, slice: [0.0, 0.2186] },
+      { text: "the", es: "la", ipa: "/ðə/", stress: 0, slice: [0.2186, 0.2896] },
+      { text: "nearest", es: "más cercana", ipa: "/ˈnɪrɪst/", stress: 1, slice: [0.2896, 0.6175] },
+      { text: "bus", es: "de camión", ipa: "/bʌs/", stress: 2, slice: [0.6175, 0.7814] },
+      { text: "stop?", es: "parada", ipa: "/stɑp/", stress: 1, slice: [0.7814, 1.0] }
+    ],
+    pitchCurve: [0.46, 0.48, 0.53, 0.59, 0.62, 0.6, 0.55, 0.48, 0.43, 0.43, 0.46, 0.41, 0.41, 0.43, 0.46, 0.5, 0.54, 0.56, 0.56, 0.53, 0.5, 0.45, 0.4, 0.37, 0.35, 0.42, 0.6, 0.73, 0.68, 0.5, 0.34, 0.32, 0.36, 0.39, 0.38, 0.34, 0.28, 0.22, 0.18, 0.16],
+    energyCurve: [0.16, 0.22, 0.37, 0.54, 0.63, 0.6, 0.46, 0.29, 0.18, 0.2, 0.32, 0.18, 0.17, 0.24, 0.34, 0.45, 0.55, 0.62, 0.63, 0.58, 0.49, 0.38, 0.27, 0.19, 0.16, 0.31, 0.67, 0.93, 0.85, 0.5, 0.2, 0.18, 0.29, 0.46, 0.6, 0.63, 0.54, 0.37, 0.22, 0.16]
+  },
+  {
+    id: "directions_turn_left",
+    label: "Directions: explain the route",
+    title: "Directions: Turn left at the next street.",
+    hint: "Directions: Stress LEFT and STREET. Keep the small words quick. En español: 'Da vuelta a la izquierda en la siguiente calle.'",
+    durationMs: 2900,
+    words: [
+      { text: "Turn", es: "Da vuelta", ipa: "/tɝn/", stress: 1, slice: [0.0, 0.1531] },
+      { text: "left", es: "a la izquierda", ipa: "/lɛft/", stress: 2, slice: [0.1531, 0.3571] },
+      { text: "at", es: "en", ipa: "/ət/", stress: 0, slice: [0.3571, 0.4235] },
+      { text: "the", es: "la", ipa: "/ðə/", stress: 0, slice: [0.4235, 0.4898] },
+      { text: "next", es: "siguiente", ipa: "/nɛkst/", stress: 1, slice: [0.4898, 0.7449] },
+      { text: "street.", es: "calle", ipa: "/strit/", stress: 1, slice: [0.7449, 1.0] }
+    ],
+    pitchCurve: [0.46, 0.5, 0.59, 0.63, 0.57, 0.48, 0.43, 0.49, 0.63, 0.76, 0.81, 0.74, 0.59, 0.45, 0.4, 0.44, 0.4, 0.4, 0.42, 0.37, 0.38, 0.42, 0.47, 0.51, 0.53, 0.51, 0.46, 0.4, 0.35, 0.33, 0.34, 0.38, 0.43, 0.42, 0.39, 0.33, 0.27, 0.21, 0.18, 0.16],
+    energyCurve: [0.16, 0.28, 0.51, 0.63, 0.51, 0.27, 0.16, 0.28, 0.56, 0.84, 0.94, 0.81, 0.53, 0.26, 0.16, 0.31, 0.22, 0.21, 0.31, 0.16, 0.2, 0.31, 0.46, 0.58, 0.63, 0.59, 0.48, 0.33, 0.21, 0.16, 0.2, 0.32, 0.46, 0.58, 0.63, 0.59, 0.47, 0.32, 0.21, 0.16]
+  },
+  {
+    id: "transport_downtown",
+    label: "Bus: check the destination",
+    title: "Bus: Does this bus go downtown?",
+    hint: "Yes-or-no question: Keep DOES THIS light, stress DOWNTOWN, and finish with a gentle rise. En español: '¿Este camión va al centro?'",
+    durationMs: 2500,
+    words: [
+      { text: "Does", es: "¿Va", ipa: "/dəz/", stress: 0, slice: [0.0, 0.1089] },
+      { text: "this", es: "este", ipa: "/ðɪs/", stress: 0, slice: [0.1089, 0.2179] },
+      { text: "bus", es: "camión", ipa: "/bʌs/", stress: 1, slice: [0.2179, 0.3855] },
+      { text: "go", es: "hacia", ipa: "/ɡoʊ/", stress: 1, slice: [0.3855, 0.5531] },
+      { text: "downtown?", es: "el centro", ipa: "/ˌdaʊnˈtaʊn/", stress: 2, slice: [0.5531, 1.0] }
+    ],
+    pitchCurve: [0.46, 0.48, 0.5, 0.48, 0.44, 0.45, 0.48, 0.47, 0.43, 0.43, 0.49, 0.57, 0.58, 0.52, 0.44, 0.39, 0.42, 0.5, 0.55, 0.53, 0.45, 0.38, 0.36, 0.38, 0.42, 0.48, 0.55, 0.61, 0.67, 0.71, 0.72, 0.71, 0.68, 0.65, 0.64, 0.64, 0.66, 0.71, 0.78, 0.86],
+    energyCurve: [0.16, 0.23, 0.32, 0.26, 0.17, 0.2, 0.31, 0.29, 0.18, 0.19, 0.37, 0.57, 0.62, 0.48, 0.27, 0.16, 0.25, 0.47, 0.62, 0.58, 0.38, 0.19, 0.16, 0.21, 0.3, 0.42, 0.56, 0.7, 0.81, 0.9, 0.94, 0.93, 0.87, 0.77, 0.64, 0.5, 0.37, 0.26, 0.19, 0.16]
+  },
+  {
+    id: "transport_next_stop",
+    label: "Bus: answer a passenger",
+    title: "Bus: Yes, get off at the next stop.",
+    hint: "Helpful reply: Stress YES and NEXT STOP, then let the pitch fall. En español: 'Sí, bájate en la siguiente parada.'",
+    durationMs: 3300,
+    words: [
+      { text: "Yes,", es: "Sí", ipa: "/jɛs/", stress: 1, slice: [0.0, 0.1531] },
+      { text: "get", es: "baja", ipa: "/ɡɛt/", stress: 1, slice: [0.1531, 0.3061] },
+      { text: "off", es: "del camión", ipa: "/ɔf/", stress: 1, slice: [0.3061, 0.4082] },
+      { text: "at", es: "en", ipa: "/ət/", stress: 0, slice: [0.4082, 0.4745] },
+      { text: "the", es: "la", ipa: "/ðə/", stress: 0, slice: [0.4745, 0.5408] },
+      { text: "next", es: "siguiente", ipa: "/nɛkst/", stress: 2, slice: [0.5408, 0.7959] },
+      { text: "stop.", es: "parada", ipa: "/stɑp/", stress: 1, slice: [0.7959, 1.0] }
+    ],
+    pitchCurve: [0.46, 0.5, 0.59, 0.63, 0.57, 0.48, 0.43, 0.48, 0.56, 0.6, 0.54, 0.45, 0.41, 0.5, 0.57, 0.47, 0.39, 0.43, 0.39, 0.39, 0.41, 0.36, 0.39, 0.48, 0.6, 0.7, 0.74, 0.7, 0.6, 0.47, 0.36, 0.32, 0.34, 0.36, 0.37, 0.34, 0.28, 0.22, 0.18, 0.16],
+    energyCurve: [0.16, 0.28, 0.51, 0.63, 0.51, 0.27, 0.16, 0.28, 0.52, 0.63, 0.5, 0.27, 0.16, 0.42, 0.63, 0.37, 0.16, 0.31, 0.21, 0.21, 0.31, 0.16, 0.22, 0.41, 0.65, 0.85, 0.94, 0.87, 0.68, 0.44, 0.24, 0.16, 0.22, 0.39, 0.56, 0.63, 0.56, 0.4, 0.23, 0.16]
+  },
+  {
+    id: "work_meeting_time",
+    label: "Work: ask about a meeting",
+    title: "Work: What time is the meeting?",
+    hint: "Time question: Stress TIME and MEETING; finish with a falling pitch. En español: '¿A qué hora es la junta?'",
+    durationMs: 2500,
+    words: [
+      { text: "What", es: "Qué", ipa: "/wʌt/", stress: 1, slice: [0.0, 0.2055] },
+      { text: "time", es: "hora", ipa: "/taɪm/", stress: 2, slice: [0.2055, 0.4795] },
+      { text: "is", es: "es", ipa: "/ɪz/", stress: 0, slice: [0.4795, 0.5685] },
+      { text: "the", es: "la", ipa: "/ðə/", stress: 0, slice: [0.5685, 0.6575] },
+      { text: "meeting?", es: "junta", ipa: "/ˈmitɪŋ/", stress: 1, slice: [0.6575, 1.0] }
+    ],
+    pitchCurve: [0.46, 0.48, 0.54, 0.6, 0.62, 0.59, 0.52, 0.45, 0.42, 0.45, 0.54, 0.65, 0.74, 0.8, 0.78, 0.7, 0.59, 0.47, 0.39, 0.38, 0.41, 0.4, 0.36, 0.38, 0.4, 0.36, 0.34, 0.35, 0.38, 0.42, 0.45, 0.48, 0.49, 0.44, 0.37, 0.31, 0.25, 0.21, 0.18, 0.16],
+    energyCurve: [0.16, 0.23, 0.39, 0.56, 0.63, 0.56, 0.4, 0.23, 0.16, 0.22, 0.4, 0.62, 0.82, 0.93, 0.91, 0.77, 0.56, 0.34, 0.19, 0.17, 0.3, 0.28, 0.16, 0.23, 0.32, 0.21, 0.16, 0.21, 0.29, 0.4, 0.5, 0.59, 0.63, 0.62, 0.56, 0.47, 0.36, 0.26, 0.19, 0.16]
+  },
+  {
+    id: "work_meeting_reply",
+    label: "Work: give the meeting time",
+    title: "Work: It starts at nine tomorrow.",
+    hint: "Time reply: Stress NINE and TOMORROW. Link STARTS AT smoothly. En español: 'Empieza mañana a las nueve.'",
+    durationMs: 2500,
+    words: [
+      { text: "It", es: "La junta", ipa: "/ɪt/", stress: 0, slice: [0.0, 0.0663] },
+      { text: "starts", es: "empieza", ipa: "/stɑrts/", stress: 1, slice: [0.0663, 0.3724] },
+      { text: "at", es: "a las", ipa: "/ət/", stress: 0, slice: [0.3724, 0.4388] },
+      { text: "nine", es: "nueve", ipa: "/naɪn/", stress: 2, slice: [0.4388, 0.6429] },
+      { text: "tomorrow.", es: "mañana", ipa: "/təˈmɑroʊ/", stress: 1, slice: [0.6429, 1.0] }
+    ],
+    pitchCurve: [0.46, 0.5, 0.47, 0.45, 0.47, 0.5, 0.54, 0.58, 0.6, 0.6, 0.57, 0.52, 0.47, 0.43, 0.4, 0.41, 0.43, 0.38, 0.42, 0.56, 0.7, 0.76, 0.71, 0.57, 0.42, 0.34, 0.35, 0.37, 0.4, 0.43, 0.47, 0.49, 0.49, 0.43, 0.37, 0.3, 0.25, 0.21, 0.18, 0.16],
+    energyCurve: [0.16, 0.3, 0.23, 0.17, 0.22, 0.33, 0.45, 0.56, 0.62, 0.62, 0.57, 0.46, 0.34, 0.23, 0.17, 0.21, 0.31, 0.16, 0.25, 0.52, 0.8, 0.94, 0.84, 0.58, 0.29, 0.16, 0.18, 0.24, 0.34, 0.44, 0.54, 0.6, 0.63, 0.61, 0.54, 0.45, 0.34, 0.25, 0.18, 0.16]
+  },
+  {
+    id: "restaurant_check",
+    label: "Restaurant: ask for the check",
+    title: "Restaurant: Could we have the check, please?",
+    hint: "Polite request: Reduce COULD to /kəd/, stress CHECK, and finish with a gentle rise. En español: '¿Nos podría traer la cuenta, por favor?'",
+    durationMs: 2900,
+    words: [
+      { text: "Could", es: "Podría", ipa: "/kəd/", stress: 0, slice: [0.0, 0.1254] },
+      { text: "we", es: "nosotros", ipa: "/wi/", stress: 0, slice: [0.1254, 0.209] },
+      { text: "have", es: "recibir", ipa: "/hæv/", stress: 1, slice: [0.209, 0.4019] },
+      { text: "the", es: "la", ipa: "/ðə/", stress: 0, slice: [0.4019, 0.4855] },
+      { text: "check,", es: "cuenta", ipa: "/tʃɛk/", stress: 2, slice: [0.4855, 0.7428] },
+      { text: "please?", es: "por favor", ipa: "/pliz/", stress: 1, slice: [0.7428, 1.0] }
+    ],
+    pitchCurve: [0.46, 0.47, 0.5, 0.49, 0.46, 0.44, 0.47, 0.47, 0.42, 0.44, 0.5, 0.56, 0.58, 0.55, 0.47, 0.4, 0.39, 0.43, 0.41, 0.37, 0.41, 0.51, 0.63, 0.72, 0.75, 0.7, 0.6, 0.47, 0.37, 0.33, 0.34, 0.38, 0.43, 0.53, 0.59, 0.63, 0.67, 0.72, 0.78, 0.86],
+    energyCurve: [0.16, 0.22, 0.31, 0.3, 0.21, 0.16, 0.28, 0.29, 0.16, 0.22, 0.39, 0.56, 0.63, 0.54, 0.35, 0.2, 0.18, 0.31, 0.26, 0.16, 0.24, 0.44, 0.68, 0.87, 0.94, 0.86, 0.66, 0.42, 0.23, 0.16, 0.21, 0.33, 0.47, 0.59, 0.63, 0.58, 0.47, 0.32, 0.2, 0.16]
+  },
+  {
+    id: "restaurant_be_right_back",
+    label: "Restaurant: respond to a request",
+    title: "Restaurant: Of course, I'll be right back.",
+    hint: "Reassuring reply: Stress COURSE and RIGHT BACK. Link BE RIGHT smoothly. En español: 'Claro, regreso enseguida.'",
+    durationMs: 2900,
+    words: [
+      { text: "Of", es: "Por", ipa: "/əv/", stress: 0, slice: [0.0, 0.0836] },
+      { text: "course,", es: "supuesto", ipa: "/kɔrs/", stress: 1, slice: [0.0836, 0.3408] },
+      { text: "I'll", es: "Yo", ipa: "/aɪl/", stress: 0, slice: [0.3408, 0.4662] },
+      { text: "be", es: "estaré", ipa: "/bi/", stress: 0, slice: [0.4662, 0.5498] },
+      { text: "right", es: "enseguida", ipa: "/raɪt/", stress: 1, slice: [0.5498, 0.8071] },
+      { text: "back.", es: "de vuelta", ipa: "/bæk/", stress: 2, slice: [0.8071, 1.0] }
+    ],
+    pitchCurve: [0.46, 0.49, 0.49, 0.45, 0.45, 0.49, 0.54, 0.58, 0.6, 0.59, 0.55, 0.49, 0.43, 0.4, 0.41, 0.43, 0.43, 0.41, 0.38, 0.4, 0.42, 0.37, 0.36, 0.39, 0.44, 0.49, 0.52, 0.51, 0.47, 0.41, 0.36, 0.32, 0.33, 0.41, 0.48, 0.46, 0.37, 0.26, 0.19, 0.16],
+    energyCurve: [0.16, 0.27, 0.3, 0.17, 0.18, 0.29, 0.43, 0.56, 0.63, 0.61, 0.51, 0.36, 0.23, 0.16, 0.19, 0.29, 0.32, 0.24, 0.16, 0.24, 0.31, 0.19, 0.17, 0.26, 0.4, 0.54, 0.62, 0.62, 0.53, 0.39, 0.25, 0.17, 0.2, 0.44, 0.75, 0.93, 0.86, 0.59, 0.29, 0.16]
+  },
+  {
+    id: "pharmacy_prescription",
+    label: "Pharmacy: pick up medicine",
+    title: "Pharmacy: Where can I pick up my prescription?",
+    hint: "Location question: Stress PICK UP and PRESCRIPTION. Finish with a falling pitch. En español: '¿Dónde puedo recoger mi receta?'",
+    durationMs: 3300,
+    words: [
+      { text: "Where", es: "Dónde", ipa: "/wɛr/", stress: 1, slice: [0.0, 0.124] },
+      { text: "can", es: "puedo", ipa: "/kən/", stress: 0, slice: [0.124, 0.2045] },
+      { text: "I", es: "yo", ipa: "/aɪ/", stress: 0, slice: [0.2045, 0.2583] },
+      { text: "pick", es: "recoger", ipa: "/pɪk/", stress: 1, slice: [0.2583, 0.3822] },
+      { text: "up", es: "(recoger)", ipa: "/ʌp/", stress: 1, slice: [0.3822, 0.4649] },
+      { text: "my", es: "mi", ipa: "/maɪ/", stress: 0, slice: [0.4649, 0.5455] },
+      { text: "prescription?", es: "receta", ipa: "/prɪˈskrɪpʃən/", stress: 2, slice: [0.5455, 1.0] }
+    ],
+    pitchCurve: [0.46, 0.52, 0.62, 0.6, 0.49, 0.44, 0.47, 0.46, 0.42, 0.47, 0.41, 0.47, 0.57, 0.56, 0.45, 0.39, 0.52, 0.52, 0.38, 0.4, 0.41, 0.37, 0.37, 0.39, 0.44, 0.5, 0.56, 0.62, 0.68, 0.71, 0.72, 0.71, 0.67, 0.55, 0.43, 0.34, 0.26, 0.21, 0.18, 0.16],
+    energyCurve: [0.16, 0.33, 0.6, 0.57, 0.29, 0.16, 0.3, 0.27, 0.16, 0.32, 0.16, 0.31, 0.58, 0.58, 0.31, 0.16, 0.52, 0.53, 0.17, 0.25, 0.31, 0.17, 0.17, 0.23, 0.33, 0.45, 0.59, 0.72, 0.83, 0.91, 0.94, 0.92, 0.86, 0.76, 0.63, 0.49, 0.36, 0.25, 0.18, 0.16]
+  },
+  {
+    id: "pharmacy_identification",
+    label: "Pharmacy: ask for identification",
+    title: "Pharmacy: Please bring your ID.",
+    hint: "Polite instruction: Stress BRING and ID; say ID as the letters I and D. En español: 'Por favor, traiga su identificación.'",
+    durationMs: 2100,
+    words: [
+      { text: "Please", es: "Por favor", ipa: "/pliz/", stress: 1, slice: [0.0, 0.3008] },
+      { text: "bring", es: "traiga", ipa: "/brɪŋ/", stress: 1, slice: [0.3008, 0.6015] },
+      { text: "your", es: "su", ipa: "/jɚ/", stress: 0, slice: [0.6015, 0.6992] },
+      { text: "ID.", es: "identificación", ipa: "/ˌaɪˈdi/", stress: 2, slice: [0.6992, 1.0] }
+    ],
+    pitchCurve: [0.46, 0.47, 0.5, 0.54, 0.58, 0.61, 0.61, 0.59, 0.55, 0.5, 0.45, 0.42, 0.41, 0.42, 0.45, 0.5, 0.54, 0.56, 0.55, 0.53, 0.48, 0.43, 0.38, 0.36, 0.36, 0.39, 0.38, 0.34, 0.35, 0.41, 0.5, 0.6, 0.68, 0.63, 0.53, 0.41, 0.31, 0.23, 0.18, 0.16],
+    energyCurve: [0.16, 0.19, 0.28, 0.4, 0.52, 0.61, 0.63, 0.59, 0.49, 0.37, 0.25, 0.18, 0.16, 0.21, 0.31, 0.44, 0.55, 0.62, 0.62, 0.57, 0.46, 0.34, 0.23, 0.17, 0.19, 0.31, 0.28, 0.17, 0.19, 0.32, 0.51, 0.71, 0.87, 0.94, 0.9, 0.76, 0.56, 0.36, 0.21, 0.16]
+  },
+  {
+    id: "appointment_friday",
+    label: "Appointment: ask for Friday",
+    title: "Appointment: Can I make an appointment for Friday?",
+    hint: "Appointment request: Keep CAN I light, stress APPOINTMENT and FRIDAY, and finish with a gentle rise. En español: '¿Puedo hacer una cita para el viernes?'",
+    durationMs: 3300,
+    words: [
+      { text: "Can", es: "Puedo", ipa: "/kən/", stress: 0, slice: [0.0, 0.0726] },
+      { text: "I", es: "yo", ipa: "/aɪ/", stress: 0, slice: [0.0726, 0.121] },
+      { text: "make", es: "hacer", ipa: "/meɪk/", stress: 1, slice: [0.121, 0.27] },
+      { text: "an", es: "una", ipa: "/ən/", stress: 0, slice: [0.27, 0.3184] },
+      { text: "appointment", es: "cita", ipa: "/əˈpɔɪntmənt/", stress: 1, slice: [0.3184, 0.6909] },
+      { text: "for", es: "para", ipa: "/fɚ/", stress: 0, slice: [0.6909, 0.7393] },
+      { text: "Friday?", es: "el viernes", ipa: "/ˈfraɪdeɪ/", stress: 2, slice: [0.7393, 1.0] }
+    ],
+    pitchCurve: [0.46, 0.5, 0.48, 0.45, 0.48, 0.44, 0.51, 0.59, 0.6, 0.52, 0.43, 0.43, 0.43, 0.4, 0.42, 0.44, 0.47, 0.51, 0.53, 0.55, 0.55, 0.53, 0.5, 0.46, 0.41, 0.37, 0.35, 0.34, 0.38, 0.33, 0.37, 0.47, 0.59, 0.7, 0.75, 0.74, 0.73, 0.74, 0.78, 0.86],
+    energyCurve: [0.16, 0.29, 0.26, 0.17, 0.3, 0.17, 0.35, 0.58, 0.61, 0.41, 0.2, 0.24, 0.23, 0.17, 0.21, 0.29, 0.39, 0.49, 0.57, 0.62, 0.63, 0.59, 0.52, 0.43, 0.33, 0.24, 0.18, 0.16, 0.31, 0.16, 0.26, 0.46, 0.7, 0.88, 0.94, 0.86, 0.66, 0.42, 0.23, 0.16]
+  },
+  {
+    id: "appointment_time_choice",
+    label: "Appointment: choose a time",
+    title: "Appointment: In the morning or the afternoon?",
+    hint: "Choice question: Rise on MORNING, then fall on AFTERNOON to present two options. En español: '¿En la mañana o en la tarde?'",
+    durationMs: 2900,
+    words: [
+      { text: "In", es: "En", ipa: "/ɪn/", stress: 0, slice: [0.0, 0.0741] },
+      { text: "the", es: "la", ipa: "/ðə/", stress: 0, slice: [0.0741, 0.1481] },
+      { text: "morning", es: "mañana", ipa: "/ˈmɔrnɪŋ/", stress: 1, slice: [0.1481, 0.49] },
+      { text: "or", es: "o", ipa: "/ɚ/", stress: 0, slice: [0.49, 0.5271] },
+      { text: "the", es: "la", ipa: "/ðə/", stress: 0, slice: [0.5271, 0.6011] },
+      { text: "afternoon?", es: "tarde", ipa: "/ˌæftɚˈnun/", stress: 2, slice: [0.6011, 1.0] }
+    ],
+    pitchCurve: [0.46, 0.49, 0.48, 0.45, 0.49, 0.46, 0.43, 0.46, 0.51, 0.59, 0.67, 0.73, 0.76, 0.75, 0.71, 0.64, 0.55, 0.46, 0.4, 0.37, 0.41, 0.37, 0.41, 0.36, 0.35, 0.38, 0.44, 0.51, 0.58, 0.65, 0.7, 0.72, 0.7, 0.59, 0.47, 0.36, 0.27, 0.21, 0.18, 0.16],
+    energyCurve: [0.16, 0.29, 0.27, 0.16, 0.3, 0.25, 0.16, 0.2, 0.28, 0.38, 0.49, 0.58, 0.62, 0.62, 0.57, 0.48, 0.37, 0.27, 0.19, 0.16, 0.3, 0.19, 0.32, 0.19, 0.17, 0.23, 0.35, 0.5, 0.65, 0.79, 0.89, 0.94, 0.92, 0.84, 0.72, 0.57, 0.41, 0.28, 0.19, 0.16]
+  },
+  {
+    id: "shopping_smaller_size",
+    label: "Shopping: ask for another size",
+    title: "Shopping: Do you have this in a smaller size?",
+    hint: "Size question: Stress SMALLER and SIZE. Finish with a gentle rise. En español: '¿Tiene esto en una talla más chica?'",
+    durationMs: 3700,
+    words: [
+      { text: "Do", es: "¿Tiene", ipa: "/də/", stress: 0, slice: [0.0, 0.0703] },
+      { text: "you", es: "usted", ipa: "/ju/", stress: 0, slice: [0.0703, 0.1405] },
+      { text: "have", es: "disponible", ipa: "/hæv/", stress: 1, slice: [0.1405, 0.3027] },
+      { text: "this", es: "esto", ipa: "/ðɪs/", stress: 0, slice: [0.3027, 0.4081] },
+      { text: "in", es: "en", ipa: "/ɪn/", stress: 0, slice: [0.4081, 0.4784] },
+      { text: "a", es: "una", ipa: "/ə/", stress: 0, slice: [0.4784, 0.5135] },
+      { text: "smaller", es: "más chica", ipa: "/ˈsmɔlɚ/", stress: 1, slice: [0.5135, 0.7838] },
+      { text: "size?", es: "talla", ipa: "/saɪz/", stress: 2, slice: [0.7838, 1.0] }
+    ],
+    pitchCurve: [0.46, 0.5, 0.48, 0.45, 0.49, 0.45, 0.44, 0.51, 0.59, 0.59, 0.52, 0.44, 0.41, 0.43, 0.44, 0.41, 0.39, 0.43, 0.4, 0.4, 0.37, 0.38, 0.41, 0.46, 0.5, 0.52, 0.51, 0.47, 0.42, 0.36, 0.33, 0.33, 0.42, 0.6, 0.72, 0.77, 0.76, 0.75, 0.79, 0.86],
+    energyCurve: [0.16, 0.29, 0.25, 0.17, 0.32, 0.2, 0.19, 0.38, 0.58, 0.62, 0.45, 0.23, 0.16, 0.26, 0.32, 0.23, 0.16, 0.3, 0.23, 0.24, 0.16, 0.2, 0.3, 0.44, 0.56, 0.63, 0.61, 0.52, 0.39, 0.26, 0.17, 0.18, 0.36, 0.64, 0.88, 0.93, 0.79, 0.52, 0.26, 0.16]
+  },
+  {
+    id: "shopping_check_stock",
+    label: "Shopping: check availability",
+    title: "Shopping: Let me check the stock.",
+    hint: "Helpful reply: Stress CHECK and STOCK; keep LET ME smooth and light. En español: 'Déjeme revisar si está disponible.'",
+    durationMs: 2500,
+    words: [
+      { text: "Let", es: "Permítame", ipa: "/lɛt/", stress: 0, slice: [0.0, 0.1554] },
+      { text: "me", es: "a mí", ipa: "/mi/", stress: 0, slice: [0.1554, 0.259] },
+      { text: "check", es: "revisar", ipa: "/tʃɛk/", stress: 1, slice: [0.259, 0.5777] },
+      { text: "the", es: "las", ipa: "/ðə/", stress: 0, slice: [0.5777, 0.6813] },
+      { text: "stock.", es: "existencias", ipa: "/stɑk/", stress: 2, slice: [0.6813, 1.0] }
+    ],
+    pitchCurve: [0.46, 0.47, 0.49, 0.5, 0.48, 0.45, 0.43, 0.45, 0.47, 0.45, 0.41, 0.42, 0.44, 0.48, 0.52, 0.55, 0.57, 0.56, 0.53, 0.48, 0.43, 0.39, 0.36, 0.36, 0.39, 0.39, 0.35, 0.34, 0.38, 0.46, 0.55, 0.64, 0.7, 0.63, 0.52, 0.4, 0.3, 0.22, 0.18, 0.16],
+    energyCurve: [0.16, 0.2, 0.28, 0.32, 0.28, 0.2, 0.16, 0.23, 0.32, 0.25, 0.16, 0.18, 0.26, 0.37, 0.49, 0.58, 0.63, 0.62, 0.55, 0.44, 0.33, 0.23, 0.17, 0.18, 0.29, 0.3, 0.19, 0.17, 0.26, 0.42, 0.61, 0.79, 0.91, 0.94, 0.87, 0.72, 0.53, 0.34, 0.21, 0.16]
+  },
+  {
+    id: "home_help_dishes",
+    label: "Home: ask for help",
+    title: "Home: Can you help me with the dishes?",
+    hint: "Request for help: Stress HELP and DISHES, with a gentle rise at the end. En español: '¿Me puedes ayudar con los trastes?'",
+    durationMs: 3300,
+    words: [
+      { text: "Can", es: "Puedes", ipa: "/kən/", stress: 0, slice: [0.0, 0.1161] },
+      { text: "you", es: "tú", ipa: "/ju/", stress: 0, slice: [0.1161, 0.1935] },
+      { text: "help", es: "ayudar", ipa: "/hɛlp/", stress: 1, slice: [0.1935, 0.4315] },
+      { text: "me", es: "a mí", ipa: "/mi/", stress: 0, slice: [0.4315, 0.5089] },
+      { text: "with", es: "con", ipa: "/wɪð/", stress: 0, slice: [0.5089, 0.625] },
+      { text: "the", es: "los", ipa: "/ðə/", stress: 0, slice: [0.625, 0.7024] },
+      { text: "dishes?", es: "trastes", ipa: "/ˈdɪʃɪz/", stress: 2, slice: [0.7024, 1.0] }
+    ],
+    pitchCurve: [0.46, 0.48, 0.5, 0.48, 0.45, 0.45, 0.48, 0.44, 0.43, 0.46, 0.51, 0.56, 0.58, 0.57, 0.52, 0.45, 0.4, 0.38, 0.42, 0.4, 0.37, 0.39, 0.41, 0.39, 0.35, 0.36, 0.39, 0.34, 0.34, 0.4, 0.49, 0.59, 0.67, 0.73, 0.73, 0.72, 0.71, 0.73, 0.78, 0.86],
+    energyCurve: [0.16, 0.23, 0.31, 0.28, 0.18, 0.2, 0.32, 0.21, 0.17, 0.26, 0.42, 0.56, 0.63, 0.6, 0.47, 0.32, 0.2, 0.17, 0.3, 0.26, 0.16, 0.24, 0.32, 0.27, 0.17, 0.22, 0.32, 0.19, 0.18, 0.3, 0.49, 0.7, 0.86, 0.94, 0.9, 0.77, 0.57, 0.37, 0.22, 0.16]
+  },
+  {
+    id: "home_after_dinner",
+    label: "Home: agree to help",
+    title: "Home: Sure, I'll do them after dinner.",
+    hint: "Helpful reply: Stress SURE and DINNER. Link AFTER DINNER smoothly. En español: 'Claro, los lavo después de cenar.'",
+    durationMs: 2900,
+    words: [
+      { text: "Sure,", es: "Claro", ipa: "/ʃʊr/", stress: 1, slice: [0.0, 0.1935] },
+      { text: "I'll", es: "Yo", ipa: "/aɪl/", stress: 0, slice: [0.1935, 0.3194] },
+      { text: "do", es: "lavaré", ipa: "/du/", stress: 1, slice: [0.3194, 0.4484] },
+      { text: "them", es: "los trastes", ipa: "/ðəm/", stress: 0, slice: [0.4484, 0.5742] },
+      { text: "after", es: "después de", ipa: "/ˈæftɚ/", stress: 0, slice: [0.5742, 0.7419] },
+      { text: "dinner.", es: "cenar", ipa: "/ˈdɪnɚ/", stress: 2, slice: [0.7419, 1.0] }
+    ],
+    pitchCurve: [0.46, 0.48, 0.55, 0.61, 0.62, 0.57, 0.5, 0.44, 0.43, 0.45, 0.46, 0.44, 0.41, 0.42, 0.52, 0.57, 0.5, 0.4, 0.38, 0.41, 0.42, 0.39, 0.36, 0.36, 0.37, 0.39, 0.39, 0.37, 0.34, 0.33, 0.36, 0.46, 0.58, 0.6, 0.55, 0.44, 0.33, 0.24, 0.18, 0.16],
+    energyCurve: [0.16, 0.24, 0.42, 0.58, 0.63, 0.52, 0.33, 0.18, 0.17, 0.26, 0.32, 0.26, 0.17, 0.21, 0.48, 0.63, 0.46, 0.2, 0.18, 0.27, 0.32, 0.26, 0.17, 0.17, 0.24, 0.3, 0.32, 0.26, 0.19, 0.16, 0.24, 0.44, 0.68, 0.87, 0.94, 0.86, 0.67, 0.43, 0.23, 0.16]
+  },
+  {
+    id: "clarification_repeat",
+    label: "Conversation: ask someone to repeat",
+    title: "Conversation: Could you say that again slowly?",
+    hint: "Clarification request: Reduce COULD YOU, stress AGAIN and SLOWLY, and finish with a gentle rise. En español: '¿Podría repetir eso más despacio?'",
+    durationMs: 2900,
+    words: [
+      { text: "Could", es: "Podría", ipa: "/kəd/", stress: 0, slice: [0.0, 0.1071] },
+      { text: "you", es: "usted", ipa: "/ju/", stress: 0, slice: [0.1071, 0.1786] },
+      { text: "say", es: "decir", ipa: "/seɪ/", stress: 1, slice: [0.1786, 0.3434] },
+      { text: "that", es: "eso", ipa: "/ðæt/", stress: 0, slice: [0.3434, 0.4505] },
+      { text: "again", es: "otra vez", ipa: "/əˈɡɛn/", stress: 1, slice: [0.4505, 0.6703] },
+      { text: "slowly?", es: "despacio", ipa: "/ˈsloʊli/", stress: 2, slice: [0.6703, 1.0] }
+    ],
+    pitchCurve: [0.46, 0.48, 0.5, 0.48, 0.44, 0.47, 0.47, 0.43, 0.47, 0.55, 0.59, 0.56, 0.48, 0.41, 0.41, 0.43, 0.43, 0.39, 0.38, 0.42, 0.48, 0.53, 0.54, 0.5, 0.44, 0.37, 0.34, 0.35, 0.41, 0.49, 0.58, 0.66, 0.71, 0.73, 0.71, 0.7, 0.69, 0.72, 0.78, 0.86],
+    energyCurve: [0.16, 0.23, 0.32, 0.26, 0.16, 0.26, 0.29, 0.16, 0.27, 0.49, 0.63, 0.56, 0.35, 0.18, 0.19, 0.3, 0.3, 0.19, 0.17, 0.28, 0.44, 0.59, 0.63, 0.55, 0.39, 0.24, 0.16, 0.19, 0.31, 0.48, 0.67, 0.83, 0.92, 0.93, 0.85, 0.7, 0.51, 0.33, 0.21, 0.16]
+  },
+  {
+    id: "clarification_word_meaning",
+    label: "Conversation: ask what a word means",
+    title: "Conversation: Sorry, what does this word mean?",
+    hint: "Meaning question: Pause after SORRY, stress WORD and MEAN, and let the pitch fall. En español: 'Disculpe, ¿qué significa esta palabra?'",
+    durationMs: 2900,
+    words: [
+      { text: "Sorry,", es: "Disculpe", ipa: "/ˈsɑri/", stress: 1, slice: [0.0, 0.2367] },
+      { text: "what", es: "qué", ipa: "/wʌt/", stress: 1, slice: [0.2367, 0.4142] },
+      { text: "does", es: "(pregunta)", ipa: "/dəz/", stress: 0, slice: [0.4142, 0.5296] },
+      { text: "this", es: "esta", ipa: "/ðɪs/", stress: 0, slice: [0.5296, 0.645] },
+      { text: "word", es: "palabra", ipa: "/wɝd/", stress: 1, slice: [0.645, 0.8225] },
+      { text: "mean?", es: "significa", ipa: "/min/", stress: 2, slice: [0.8225, 1.0] }
+    ],
+    pitchCurve: [0.46, 0.48, 0.52, 0.58, 0.61, 0.61, 0.58, 0.51, 0.45, 0.42, 0.43, 0.5, 0.57, 0.58, 0.52, 0.44, 0.39, 0.4, 0.42, 0.41, 0.38, 0.37, 0.39, 0.4, 0.38, 0.35, 0.37, 0.43, 0.5, 0.5, 0.44, 0.36, 0.31, 0.34, 0.43, 0.45, 0.38, 0.27, 0.19, 0.16],
+    energyCurve: [0.16, 0.21, 0.35, 0.5, 0.61, 0.62, 0.53, 0.38, 0.24, 0.16, 0.21, 0.4, 0.59, 0.62, 0.48, 0.28, 0.16, 0.21, 0.31, 0.29, 0.19, 0.17, 0.26, 0.32, 0.24, 0.16, 0.23, 0.42, 0.59, 0.62, 0.47, 0.26, 0.16, 0.29, 0.62, 0.89, 0.91, 0.64, 0.31, 0.16]
   }
 ];
 
@@ -1367,87 +1701,20 @@ const btnPingPong = document.getElementById("btnPingPong");
 const btnSpeed = document.getElementById("btnSpeed");
 const voiceSelect = document.getElementById("voiceSelect");
 
-// VOICE SELECTION: prefer natural/neural voices, then well-known system voices
-const VOICE_STORAGE_KEY = "sb2m-native-voice";
-const NATURAL_VOICE_PATTERN = /(natural|neural|premium|enhanced|online)/i;
-const CLOUD_VOICE_PATTERN = /(google us english|google uk english)/i;
-const PREFERRED_VOICE_PATTERN = /(samantha|ava|allison|susan|serena|zoe|aria|jenny|michelle|karen|moira|tessa|daniel|alex|evan|nathan|joelle|nicky|aaron|tom|guy|ana|christopher|eric|roger|steffan)/i;
-const NOVELTY_VOICE_PATTERN = /(albert|bad news|bahh|bells|boing|bubbles|cellos|good news|jester|organ|superstar|trinoids|whisper|wobble|zarvox|fred|junior|ralph|kathy|grandma|grandpa)/i;
-const ROBOTIC_VOICE_PATTERN = /(espeak|festival|pico|robot)/i;
-
-function normalizeVoiceLang(lang) {
-  return String(lang || "").toLowerCase().replace(/_/g, "-");
-}
-
-function getEnglishVoices() {
-  if (!("speechSynthesis" in window) || typeof speechSynthesis.getVoices !== "function") {
-    return [];
-  }
-  return speechSynthesis.getVoices().filter(voice => normalizeVoiceLang(voice.lang).startsWith("en"));
-}
-
-function scoreVoice(voice) {
-  const haystack = `${voice.name || ""} ${voice.voiceURI || ""}`;
-  const lang = normalizeVoiceLang(voice.lang);
-
-  if (NOVELTY_VOICE_PATTERN.test(haystack)) return -1000;
-
-  let score = 0;
-  if (NATURAL_VOICE_PATTERN.test(haystack)) score += 80;
-  if (CLOUD_VOICE_PATTERN.test(haystack)) score += 60;
-  if (PREFERRED_VOICE_PATTERN.test(haystack)) score += 45;
-  if (ROBOTIC_VOICE_PATTERN.test(haystack)) score -= 80;
-
-  if (lang === "en-us") score += 30;
-  else if (lang === "en-gb") score += 18;
-  else if (lang === "en-ca" || lang === "en-au") score += 14;
-  else if (lang.startsWith("en")) score += 8;
-
-  if (voice.localService) score += 5;
-  if (voice.default) score += 2;
-  return score;
-}
-
-function sortVoices(voices) {
-  return [...voices].sort((a, b) => {
-    const scoreDiff = scoreVoice(b) - scoreVoice(a);
-    if (scoreDiff !== 0) return scoreDiff;
-    if (a.localService !== b.localService) return a.localService ? -1 : 1;
-    const nameDiff = (a.name || "").localeCompare(b.name || "");
-    if (nameDiff !== 0) return nameDiff;
-    return normalizeVoiceLang(a.lang).localeCompare(normalizeVoiceLang(b.lang));
-  });
-}
-
-function dedupeVoices(voices) {
-  const seen = new Set();
-  return voices.filter(voice => {
-    const key = `${voice.name || ""}|${normalizeVoiceLang(voice.lang)}`;
-    if (seen.has(key)) return false;
-    seen.add(key);
-    return true;
-  });
-}
-
-function getRankedEnglishVoices() {
-  const englishVoices = getEnglishVoices();
-  const usableVoices = englishVoices.filter(voice => !NOVELTY_VOICE_PATTERN.test(`${voice.name || ""} ${voice.voiceURI || ""}`));
-  return dedupeVoices(sortVoices(usableVoices.length ? usableVoices : englishVoices));
-}
-
-function getAutoVoice(voices) {
-  return voices.find(voice => normalizeVoiceLang(voice.lang) === "en-us") || voices[0] || null;
-}
-
-function voiceOptionValue(voice) {
-  return voice.voiceURI || `${voice.name || ""}|${voice.lang || ""}`;
-}
+// Pre-generated neural speech: the same voices on every browser and device.
+const VOICE_STORAGE_KEY = "sb2m-natural-voice";
+const NATIVE_VOICES = [
+  { id: "af_heart", name: "Heart · American English" },
+  { id: "am_michael", name: "Michael · American English" }
+];
+let nativeAudio = null;
+let nativePlaybackId = 0;
 
 function readSavedVoice() {
   try {
-    return localStorage.getItem(VOICE_STORAGE_KEY) || "auto";
+    return localStorage.getItem(VOICE_STORAGE_KEY);
   } catch {
-    return "auto";
+    return null;
   }
 }
 
@@ -1455,71 +1722,26 @@ function saveVoice(value) {
   try {
     localStorage.setItem(VOICE_STORAGE_KEY, value);
   } catch {
-    // Storage can be unavailable in private browsing; the picker still works for this session.
+    // Storage can be unavailable in private browsing; the picker still works.
   }
 }
 
 function refreshVoiceOptions() {
-  if (!voiceSelect) return;
-
-  const previousValue = voiceSelect.value;
-  const savedValue = readSavedVoice();
-  const voices = getRankedEnglishVoices();
-  const preferredValue = previousValue && previousValue !== "auto" ? previousValue : savedValue;
-  const autoVoice = getAutoVoice(voices);
-
+  const selected = voiceSelect.value || readSavedVoice();
   voiceSelect.replaceChildren();
-
-  const autoOption = document.createElement("option");
-  autoOption.value = "auto";
-  autoOption.textContent = autoVoice ? `Auto — ${autoVoice.name}` : "System default";
-  voiceSelect.appendChild(autoOption);
-
-  voices.forEach(voice => {
+  NATIVE_VOICES.forEach(voice => {
     const option = document.createElement("option");
-    option.value = voiceOptionValue(voice);
-    option.textContent = voice.name || voice.voiceURI || voice.lang;
+    option.value = voice.id;
+    option.textContent = voice.name;
     voiceSelect.appendChild(option);
   });
-
-  if (!voices.length) {
-    voiceSelect.value = "auto";
-    voiceSelect.disabled = true;
-    voiceSelect.title = "No English voices are available yet. Your browser will use its default voice.";
-    return;
-  }
-
-  const savedMatch = voices.find(voice => voiceOptionValue(voice) === preferredValue);
-  voiceSelect.value = savedMatch ? preferredValue : "auto";
-  if (!savedMatch && savedValue !== "auto") saveVoice("auto");
-  voiceSelect.disabled = false;
-  voiceSelect.title = "Choose the English voice used for native playback. Install enhanced or premium voices in your OS for more options.";
+  voiceSelect.value = NATIVE_VOICES.some(voice => voice.id === selected)
+    ? selected : NATIVE_VOICES[0].id;
+  voiceSelect.title = "Natural AI voices, generated in advance. No system voices are used.";
 }
 
-function getSelectedVoice() {
-  const voices = getRankedEnglishVoices();
-  if (!voices.length) return null;
-
-  const selectedValue = voiceSelect ? voiceSelect.value : "auto";
-  if (selectedValue && selectedValue !== "auto") {
-    const match = voices.find(voice => voiceOptionValue(voice) === selectedValue);
-    if (match) return match;
-  }
-  return getAutoVoice(voices);
-}
-
-function applySelectedVoice(utterance) {
-  const voice = getSelectedVoice();
-  if (voice) {
-    try {
-      utterance.voice = voice;
-      utterance.lang = normalizeVoiceLang(voice.lang) || "en-US";
-      return;
-    } catch {
-      // Fall back to the browser's default voice if a voice object is unusable.
-    }
-  }
-  utterance.lang = "en-US";
+function wordAudioKey(text) {
+  return text.replace(/-/g, " ").replace(/[^a-zA-Z' ]/g, "").trim().toLowerCase().replace(/ +/g, "_");
 }
 
 // 1. INITIALIZE UI
@@ -1577,20 +1799,11 @@ function init() {
     saveVoice(voiceSelect.value);
     stopPingPong();
     if (isRecording) return;
-    const voice = getSelectedVoice();
-    setStatus(voice ? `Native voice: ${voice.name}.` : "Native voice: system default.", "success");
+    const voice = NATIVE_VOICES.find(voice => voice.id === voiceSelect.value);
+    setStatus(`Native voice: ${voice.name}.`, "success");
   });
 
-  if ("speechSynthesis" in window) {
-    if (typeof speechSynthesis.addEventListener === "function") {
-      speechSynthesis.addEventListener("voiceschanged", refreshVoiceOptions);
-    } else {
-      speechSynthesis.onvoiceschanged = refreshVoiceOptions;
-    }
-  }
-
   refreshVoiceOptions();
-  document.addEventListener("pointerdown", refreshVoiceOptions, { once: true, passive: true, capture: true });
 
   renderPhraseStrip();
   resizeCanvas();
@@ -1713,83 +1926,71 @@ function syncWordSelection() {
   });
 }
 
-// 3. NATIVE SPEECH SYNTHESIS + PROSODY PLAYHEAD
-function speakNativePhrase(onComplete) {
-  if (!("speechSynthesis" in window)) {
-    setStatus("Speech Synthesis not supported in this browser.", "error");
-    if (onComplete) onComplete();
-    return;
+// 3. NATURAL REFERENCE AUDIO + PROSODY PLAYHEAD
+function playNativeAudio(path, rate, animate, onComplete) {
+  stopNativePlayback();
+  const playbackId = nativePlaybackId;
+  if (!nativeAudio) {
+    nativeAudio = new Audio();
+    nativeAudio.preload = "auto";
+  }
+  const audio = nativeAudio;
+  audio.src = `audio/${voiceSelect.value}/${path}.mp3`;
+  audio.playbackRate = rate;
+  audio.preservesPitch = true;
+  setStatus("Loading natural voice…", "playing");
+
+  function animatePlayhead() {
+    if (playbackId !== nativePlaybackId) return;
+    if (!isRecording && Number.isFinite(audio.duration) && audio.duration > 0) {
+      drawCanvas(Math.min(1, audio.currentTime / audio.duration));
+    }
+    nativePlayheadFrameId = requestAnimationFrame(animatePlayhead);
   }
 
-  window.speechSynthesis.cancel();
-  cancelAnimationFrame(nativePlayheadFrameId);
-  nativePlayheadFrameId = null;
+  function failPlayback() {
+    if (playbackId !== nativePlaybackId) return;
+    stopPingPong();
+    setStatus("Could not play the natural voice. Tap Listen Native to try again.", "error");
+  }
 
-  const rawText = currentPhrase.words.map(w => w.text).join(" ");
-  const utter = new SpeechSynthesisUtterance(rawText);
-  applySelectedVoice(utter);
-  utter.rate = playbackRate;
-
-  const duration = currentPhrase.durationMs / playbackRate;
-  let startTime = performance.now();
-  let finished = false;
-
-  setStatus("Playing Native Reference...", "playing");
-
-  function finishNative() {
-    if (finished) return;
-    finished = true;
+  audio.onplaying = () => {
+    if (playbackId !== nativePlaybackId) return;
+    setStatus("Playing natural voice…", "playing");
     cancelAnimationFrame(nativePlayheadFrameId);
-    nativePlayheadFrameId = null;
+    if (animate) nativePlayheadFrameId = requestAnimationFrame(animatePlayhead);
+  };
+  audio.onended = () => {
+    if (playbackId !== nativePlaybackId) return;
+    stopNativePlayback();
     if (!isRecording) {
       drawCanvas(0);
-      setStatus("Native Reference finished.", "success");
+      setStatus("Natural reference finished.", "success");
     }
     if (onComplete) onComplete();
-  }
-
-  function animatePlayhead(now) {
-    if (finished) return;
-    const progress = Math.min(1, (now - startTime) / duration);
-    if (!isRecording) {
-      drawCanvas(progress);
-    }
-    if (progress < 1) {
-      nativePlayheadFrameId = requestAnimationFrame(animatePlayhead);
-    } else {
-      finishNative();
-    }
-  }
-
-  utter.onstart = () => {
-    startTime = performance.now();
-    cancelAnimationFrame(nativePlayheadFrameId);
-    nativePlayheadFrameId = requestAnimationFrame(animatePlayhead);
   };
+  audio.onerror = failPlayback;
+  audio.play().catch(failPlayback);
+}
 
-  utter.onend = finishNative;
-  utter.onerror = finishNative;
-
-  window.speechSynthesis.speak(utter);
+function speakNativePhrase(onComplete) {
+  playNativeAudio(`phrases/${currentPhrase.id}`, playbackRate, true, onComplete);
 }
 
 function stopNativePlayback() {
-  if ("speechSynthesis" in window) window.speechSynthesis.cancel();
+  nativePlaybackId += 1;
+  if (nativeAudio) {
+    nativeAudio.onplaying = null;
+    nativeAudio.onended = null;
+    nativeAudio.onerror = null;
+    nativeAudio.pause();
+  }
   cancelAnimationFrame(nativePlayheadFrameId);
   nativePlayheadFrameId = null;
 }
 
 function speakSingleWord(wordText) {
-  if (!("speechSynthesis" in window)) return;
-  window.speechSynthesis.cancel();
-  const spokenWord = wordText
-    .replace(/-/g, " ")
-    .replace(/[^a-zA-Z' ]/g, "")
-    .trim();
-  const utter = new SpeechSynthesisUtterance(spokenWord);
-  applySelectedVoice(utter);
-  utter.rate = 0.85;
-  window.speechSynthesis.speak(utter);
+  playNativeAudio(`words/${wordAudioKey(wordText)}`, 0.85, false);
 }
 
 // 4. FAST BOUNDED AUTOCORRELATION PITCH DETECTOR (75 Hz - 380 Hz)

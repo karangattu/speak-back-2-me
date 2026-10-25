@@ -17,6 +17,22 @@ it, and compare your pitch and rhythm against the target in real time.
 - Restaurant: ordering chicken with rice politely.
 - Small talk: friendly greetings and introductions.
 
+There are 32 practice examples in total, including 20 additional everyday
+conversation lines:
+
+- Greetings: ask about someone's day and reply politely.
+- Directions: find a bus stop and explain a route.
+- Bus travel: check the destination and explain where to get off.
+- Work: ask when a meeting starts and give the time.
+- Restaurants: ask for the check and respond to a request.
+- Pharmacies: pick up a prescription and ask for identification.
+- Appointments: request Friday and choose morning or afternoon.
+- Shopping: ask for a smaller size and check availability.
+- Home: ask for help with the dishes and agree to help.
+- Clarification: ask someone to repeat slowly or explain a word.
+
+Every example and tappable word is available in both Heart and Michael.
+
 Each English word has its Mexican Spanish translation underneath, plus IPA.
 
 ## What it does
@@ -30,11 +46,16 @@ Each English word has its Mexican Spanish translation underneath, plus IPA.
 - Supports 0.75x slow practice.
 - Processes all audio locally. Nothing is uploaded or stored.
 
-Microphone access is required for recording. Speech playback uses the browser's
-built-in `speechSynthesis` API, so voice availability varies by browser and OS.
-The app defaults to the most natural installed English voice and lets you switch
-voices from the chart legend. For the widest selection, install or enable
-enhanced/premium English voices in your operating system's speech settings.
+Microphone access is required for recording. Native playback uses bundled,
+AI-generated American English recordings: Heart and Michael. Choose either
+voice from the chart legend. Both voices cover every practice phrase and
+individual word, including slow playback and the comparison loop. Speech does
+not depend on installed system voices, an API key, or a live speech service.
+Recordings of your voice stay in your browser.
+
+See [audio/README.md](audio/README.md) to regenerate the audio after changing
+phrases. The target chart curves are illustrative teaching guides; they are not
+pitch measurements of the generated speech.
 
 ## Mobile
 
@@ -59,6 +80,7 @@ serving it over HTTP is closer to the deployed environment.
 ```sh
 npx --yes html-validate@11.17.0 index.html
 node scripts/check-inline-js.mjs
+node scripts/check-native-audio.mjs
 ```
 
 ## Deployment
