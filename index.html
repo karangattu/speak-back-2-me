@@ -713,6 +713,93 @@ const PHRASES = [
     ]
   },
   {
+    id: "supermarket_tortillas",
+    label: "Supermarket: tortillas",
+    title: "Supermarket: 'Where are the tortillas?'",
+    hint: "Location Question: Stress 'WHERE' and 'TORTILLAS', let the pitch rise at the end. En español: '¿Dónde están las tortillas?'",
+    durationMs: 2200,
+    words: [
+      { text: "Where", es: "¿Dónde", ipa: "/wɛr/", stress: 1, slice: [0.0, 0.18] },
+      { text: "are", es: "están", ipa: "/ɑr/", stress: 0, slice: [0.18, 0.28] },
+      { text: "the", es: "las", ipa: "/ðə/", stress: 0, slice: [0.28, 0.36] },
+      { text: "tortillas?", es: "tortillas?", ipa: "/tɔrˈtiːəz/", stress: 2, slice: [0.36, 1.0] }
+    ],
+    pitchCurve: [
+      0.55, 0.48, 0.42, 0.40, 0.42, 0.45, 0.50, 0.58, 0.62, 0.68,
+      0.70, 0.72, 0.75, 0.80, 0.85, 0.90, 0.92, 0.94, 0.96, 1.0
+    ],
+    energyCurve: [
+      0.70, 0.40, 0.30, 0.25, 0.30, 0.35, 0.45, 0.60, 0.70, 0.85,
+      0.92, 0.95, 0.92, 0.88, 0.85, 0.90, 0.95, 0.98, 1.0, 0.95
+    ]
+  },
+  {
+    id: "supermarket_cilantro",
+    label: "Supermarket: cilantro",
+    title: "Supermarket: 'Do you have any cilantro?'",
+    hint: "Availability Question: Shrink 'Do you', stress 'HAVE' and 'CILANTRO', rise at the end. En español: '¿Tiene cilantro?'",
+    durationMs: 2400,
+    words: [
+      { text: "Do", es: "¿Tiene", ipa: "/du/", stress: 0, slice: [0.0, 0.12] },
+      { text: "you", es: "usted", ipa: "/ju/", stress: 0, slice: [0.12, 0.22] },
+      { text: "have", es: "cilantro", ipa: "/hæv/", stress: 1, slice: [0.22, 0.36] },
+      { text: "any", es: "un poco", ipa: "/ˈɛni/", stress: 0, slice: [0.36, 0.46] },
+      { text: "cilantro?", es: "cilantro?", ipa: "/ˌsɪlˈænˌtroʊ/", stress: 2, slice: [0.46, 1.0] }
+    ],
+    pitchCurve: [
+      0.40, 0.44, 0.48, 0.52, 0.62, 0.68, 0.58, 0.50, 0.55, 0.62,
+      0.68, 0.72, 0.75, 0.78, 0.82, 0.86, 0.88, 0.90, 0.92, 0.94
+    ],
+    energyCurve: [
+      0.30, 0.35, 0.40, 0.50, 0.65, 0.80, 0.70, 0.60, 0.55, 0.60,
+      0.68, 0.75, 0.82, 0.88, 0.92, 0.95, 0.96, 0.97, 0.98, 0.95
+    ]
+  },
+  {
+    id: "supermarket_beef",
+    label: "Supermarket: ground beef",
+    title: "Supermarket: 'I need some ground beef.'",
+    hint: "Statement of Need: Stress 'NEED', 'GROUND', and 'BEEF', fall at the end. En español: 'Necesito un poco de carne molida.'",
+    durationMs: 2600,
+    words: [
+      { text: "I", es: "Yo", ipa: "/aɪ/", stress: 0, slice: [0.0, 0.08] },
+      { text: "need", es: "necesito", ipa: "/nid/", stress: 1, slice: [0.08, 0.22] },
+      { text: "some", es: "un poco de", ipa: "/səm/", stress: 0, slice: [0.22, 0.32] },
+      { text: "ground", es: "molida", ipa: "/ɡraʊnd/", stress: 1, slice: [0.32, 0.50] },
+      { text: "beef.", es: "carne de res.", ipa: "/bif/", stress: 2, slice: [0.50, 1.0] }
+    ],
+    pitchCurve: [
+      0.45, 0.50, 0.62, 0.68, 0.60, 0.55, 0.60, 0.68, 0.72, 0.75,
+      0.70, 0.62, 0.55, 0.50, 0.48, 0.45, 0.42, 0.40, 0.38, 0.32
+    ],
+    energyCurve: [
+      0.35, 0.45, 0.60, 0.70, 0.62, 0.55, 0.65, 0.78, 0.85, 0.90,
+      0.85, 0.75, 0.68, 0.62, 0.60, 0.55, 0.52, 0.50, 0.48, 0.40
+    ]
+  },
+  {
+    id: "supermarket_avocados",
+    label: "Supermarket: avocados",
+    title: "Supermarket: 'How much are these avocados?'",
+    hint: "Price Question: Stress 'HOW MUCH' and 'AVOCADOS', rising at the end. En español: '¿Cuánto cuestan estos aguacates?'",
+    durationMs: 2400,
+    words: [
+      { text: "How", es: "¿Cuánto", ipa: "/haʊ/", stress: 1, slice: [0.0, 0.12] },
+      { text: "much", es: "cuestan", ipa: "/mʌtʃ/", stress: 1, slice: [0.12, 0.24] },
+      { text: "are", es: "estos", ipa: "/ɑr/", stress: 0, slice: [0.24, 0.34] },
+      { text: "these", es: "aguacates", ipa: "/ðiːz/", stress: 0, slice: [0.34, 0.46] },
+      { text: "avocados?", es: "aguacates?", ipa: "/ˌævəˈkɑdoʊz/", stress: 2, slice: [0.46, 1.0] }
+    ],
+    pitchCurve: [
+      0.60, 0.70, 0.78, 0.70, 0.62, 0.55, 0.60, 0.68, 0.72, 0.78,
+      0.82, 0.85, 0.88, 0.90, 0.92, 0.94, 0.96, 0.98, 1.0, 0.98
+    ],
+    energyCurve: [
+      0.65, 0.78, 0.85, 0.72, 0.60, 0.55, 0.62, 0.70, 0.78, 0.85,
+      0.90, 0.92, 0.94, 0.96, 0.98, 1.0, 1.0, 0.98, 0.96, 0.90
+    ]
+  },
+  {
     id: "checkout_card",
     label: "Checkout: card",
     title: "Checkout: 'Can I pay with my card?'",

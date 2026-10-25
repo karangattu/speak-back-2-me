@@ -8,7 +8,7 @@ it, and compare your pitch and rhythm against the target in real time.
 
 ## Practice phrases
 
-- Supermarket: asking where to find the milk.
+- Supermarket: asking where to find the milk and taco/burrito ingredients (tortillas, cilantro, ground beef, avocados).
 - Checkout: paying with a card.
 - Coffee shop: ordering a coffee with milk.
 - Baby gift: buying a gift for a newborn.
