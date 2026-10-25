@@ -62,32 +62,3 @@ The layout fits phone screens with full-width tap targets, compact metrics,
 and a shorter chart. Recording and ping-pong playback follow iOS Safari audio
 rules. The browser creates the audio context on tap and reuses one unlocked audio
 element for replay.
-
-## Run locally
-
-The project requires no build step or dependencies.
-
-```sh
-python3 -m http.server 8000
-```
-
-Open http://localhost:8000 in your browser. You can also open `index.html` directly,
-but an HTTP server matches the deployed environment more closely.
-
-## Validation
-
-```sh
-npx --yes html-validate@11.17.0 index.html
-node scripts/check-inline-js.mjs
-node scripts/check-native-audio.mjs
-```
-
-## Deployment
-
-Every push to `main` runs the validation jobs and deploys the site to
-GitHub Pages. Pull requests run validation without deploying. You can
-also start the workflow manually from the Actions tab.
-
-- Workflow: `.github/workflows/deploy.yml`
-- Pages source: GitHub Actions
-- Dependabot checks for newer GitHub Actions versions every Monday.
