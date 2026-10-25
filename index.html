@@ -399,6 +399,40 @@
       font-weight: 500;
     }
 
+    .voice-picker {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      margin-left: auto;
+      min-width: 0;
+    }
+
+    .voice-picker > span {
+      font-size: 0.64rem;
+      font-weight: 700;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .voice-picker select {
+      width: auto;
+      max-width: 220px;
+      min-height: 0;
+      padding: 0.38rem 1.9rem 0.38rem 0.6rem;
+      font-size: 0.75rem;
+      border-radius: 8px;
+      background-position: right 0.6rem center;
+      background-size: 10px;
+      background-color: rgba(7, 11, 18, 0.62);
+    }
+
+    .voice-picker select:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
     .swatch {
       width: 16px;
       height: 4px;
@@ -814,6 +848,22 @@
         gap: 0.35rem 0.75rem;
       }
 
+      .voice-picker {
+        flex: 1 0 100%;
+        margin-left: 0;
+        padding-top: 0.15rem;
+      }
+
+      .voice-picker > span {
+        font-size: 0.6rem;
+      }
+
+      .voice-picker select {
+        flex: 1;
+        max-width: 220px;
+        margin-left: auto;
+      }
+
       .swatch {
         width: 12px;
       }
@@ -926,6 +976,10 @@
           <div class="legend-badge"><span class="swatch native"></span> Native target · pitch + stress</div>
           <div class="legend-badge"><span class="swatch user"></span> Your voice · calibrated to your range</div>
         </div>
+        <label class="voice-picker">
+          <span>Native voice</span>
+          <select id="voiceSelect"></select>
+        </label>
       </div>
 
       <canvas id="prosodyCanvas" width="900" height="290" role="img"
@@ -1311,6 +1365,162 @@ const btnListen = document.getElementById("btnListen");
 const btnRecord = document.getElementById("btnRecord");
 const btnPingPong = document.getElementById("btnPingPong");
 const btnSpeed = document.getElementById("btnSpeed");
+const voiceSelect = document.getElementById("voiceSelect");
+
+// VOICE SELECTION: prefer natural/neural voices, then well-known system voices
+const VOICE_STORAGE_KEY = "sb2m-native-voice";
+const NATURAL_VOICE_PATTERN = /(natural|neural|premium|enhanced|online)/i;
+const CLOUD_VOICE_PATTERN = /(google us english|google uk english)/i;
+const PREFERRED_VOICE_PATTERN = /(samantha|ava|allison|susan|serena|zoe|aria|jenny|michelle|karen|moira|tessa|daniel|alex|evan|nathan|joelle|nicky|aaron|tom|guy|ana|christopher|eric|roger|steffan)/i;
+const NOVELTY_VOICE_PATTERN = /(albert|bad news|bahh|bells|boing|bubbles|cellos|good news|jester|organ|superstar|trinoids|whisper|wobble|zarvox|fred|junior|ralph|kathy|grandma|grandpa)/i;
+const ROBOTIC_VOICE_PATTERN = /(espeak|festival|pico|robot)/i;
+
+function normalizeVoiceLang(lang) {
+  return String(lang || "").toLowerCase().replace(/_/g, "-");
+}
+
+function getEnglishVoices() {
+  if (!("speechSynthesis" in window) || typeof speechSynthesis.getVoices !== "function") {
+    return [];
+  }
+  return speechSynthesis.getVoices().filter(voice => normalizeVoiceLang(voice.lang).startsWith("en"));
+}
+
+function scoreVoice(voice) {
+  const haystack = `${voice.name || ""} ${voice.voiceURI || ""}`;
+  const lang = normalizeVoiceLang(voice.lang);
+
+  if (NOVELTY_VOICE_PATTERN.test(haystack)) return -1000;
+
+  let score = 0;
+  if (NATURAL_VOICE_PATTERN.test(haystack)) score += 80;
+  if (CLOUD_VOICE_PATTERN.test(haystack)) score += 60;
+  if (PREFERRED_VOICE_PATTERN.test(haystack)) score += 45;
+  if (ROBOTIC_VOICE_PATTERN.test(haystack)) score -= 80;
+
+  if (lang === "en-us") score += 30;
+  else if (lang === "en-gb") score += 18;
+  else if (lang === "en-ca" || lang === "en-au") score += 14;
+  else if (lang.startsWith("en")) score += 8;
+
+  if (voice.localService) score += 5;
+  if (voice.default) score += 2;
+  return score;
+}
+
+function sortVoices(voices) {
+  return [...voices].sort((a, b) => {
+    const scoreDiff = scoreVoice(b) - scoreVoice(a);
+    if (scoreDiff !== 0) return scoreDiff;
+    if (a.localService !== b.localService) return a.localService ? -1 : 1;
+    const nameDiff = (a.name || "").localeCompare(b.name || "");
+    if (nameDiff !== 0) return nameDiff;
+    return normalizeVoiceLang(a.lang).localeCompare(normalizeVoiceLang(b.lang));
+  });
+}
+
+function dedupeVoices(voices) {
+  const seen = new Set();
+  return voices.filter(voice => {
+    const key = `${voice.name || ""}|${normalizeVoiceLang(voice.lang)}`;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
+function getRankedEnglishVoices() {
+  const englishVoices = getEnglishVoices();
+  const usableVoices = englishVoices.filter(voice => !NOVELTY_VOICE_PATTERN.test(`${voice.name || ""} ${voice.voiceURI || ""}`));
+  return dedupeVoices(sortVoices(usableVoices.length ? usableVoices : englishVoices));
+}
+
+function getAutoVoice(voices) {
+  return voices.find(voice => normalizeVoiceLang(voice.lang) === "en-us") || voices[0] || null;
+}
+
+function voiceOptionValue(voice) {
+  return voice.voiceURI || `${voice.name || ""}|${voice.lang || ""}`;
+}
+
+function readSavedVoice() {
+  try {
+    return localStorage.getItem(VOICE_STORAGE_KEY) || "auto";
+  } catch {
+    return "auto";
+  }
+}
+
+function saveVoice(value) {
+  try {
+    localStorage.setItem(VOICE_STORAGE_KEY, value);
+  } catch {
+    // Storage can be unavailable in private browsing; the picker still works for this session.
+  }
+}
+
+function refreshVoiceOptions() {
+  if (!voiceSelect) return;
+
+  const previousValue = voiceSelect.value;
+  const savedValue = readSavedVoice();
+  const voices = getRankedEnglishVoices();
+  const preferredValue = previousValue && previousValue !== "auto" ? previousValue : savedValue;
+  const autoVoice = getAutoVoice(voices);
+
+  voiceSelect.replaceChildren();
+
+  const autoOption = document.createElement("option");
+  autoOption.value = "auto";
+  autoOption.textContent = autoVoice ? `Auto — ${autoVoice.name}` : "System default";
+  voiceSelect.appendChild(autoOption);
+
+  voices.forEach(voice => {
+    const option = document.createElement("option");
+    option.value = voiceOptionValue(voice);
+    option.textContent = voice.name || voice.voiceURI || voice.lang;
+    voiceSelect.appendChild(option);
+  });
+
+  if (!voices.length) {
+    voiceSelect.value = "auto";
+    voiceSelect.disabled = true;
+    voiceSelect.title = "No English voices are available yet. Your browser will use its default voice.";
+    return;
+  }
+
+  const savedMatch = voices.find(voice => voiceOptionValue(voice) === preferredValue);
+  voiceSelect.value = savedMatch ? preferredValue : "auto";
+  if (!savedMatch && savedValue !== "auto") saveVoice("auto");
+  voiceSelect.disabled = false;
+  voiceSelect.title = "Choose the English voice used for native playback. Install enhanced or premium voices in your OS for more options.";
+}
+
+function getSelectedVoice() {
+  const voices = getRankedEnglishVoices();
+  if (!voices.length) return null;
+
+  const selectedValue = voiceSelect ? voiceSelect.value : "auto";
+  if (selectedValue && selectedValue !== "auto") {
+    const match = voices.find(voice => voiceOptionValue(voice) === selectedValue);
+    if (match) return match;
+  }
+  return getAutoVoice(voices);
+}
+
+function applySelectedVoice(utterance) {
+  const voice = getSelectedVoice();
+  if (voice) {
+    try {
+      utterance.voice = voice;
+      utterance.lang = normalizeVoiceLang(voice.lang) || "en-US";
+      return;
+    } catch {
+      // Fall back to the browser's default voice if a voice object is unusable.
+    }
+  }
+  utterance.lang = "en-US";
+}
 
 // 1. INITIALIZE UI
 function init() {
@@ -1333,6 +1543,7 @@ function init() {
 
   btnListen.addEventListener("click", () => {
     stopPingPong();
+    refreshVoiceOptions();
     speakNativePhrase();
   });
 
@@ -1361,6 +1572,25 @@ function init() {
     btnSpeed.classList.toggle("active-opt", playbackRate === 0.75);
     btnSpeed.setAttribute("aria-pressed", String(playbackRate === 0.75));
   });
+
+  voiceSelect.addEventListener("change", () => {
+    saveVoice(voiceSelect.value);
+    stopPingPong();
+    if (isRecording) return;
+    const voice = getSelectedVoice();
+    setStatus(voice ? `Native voice: ${voice.name}.` : "Native voice: system default.", "success");
+  });
+
+  if ("speechSynthesis" in window) {
+    if (typeof speechSynthesis.addEventListener === "function") {
+      speechSynthesis.addEventListener("voiceschanged", refreshVoiceOptions);
+    } else {
+      speechSynthesis.onvoiceschanged = refreshVoiceOptions;
+    }
+  }
+
+  refreshVoiceOptions();
+  document.addEventListener("pointerdown", refreshVoiceOptions, { once: true, passive: true, capture: true });
 
   renderPhraseStrip();
   resizeCanvas();
@@ -1497,7 +1727,7 @@ function speakNativePhrase(onComplete) {
 
   const rawText = currentPhrase.words.map(w => w.text).join(" ");
   const utter = new SpeechSynthesisUtterance(rawText);
-  utter.lang = "en-US";
+  applySelectedVoice(utter);
   utter.rate = playbackRate;
 
   const duration = currentPhrase.durationMs / playbackRate;
@@ -1557,7 +1787,7 @@ function speakSingleWord(wordText) {
     .replace(/[^a-zA-Z' ]/g, "")
     .trim();
   const utter = new SpeechSynthesisUtterance(spokenWord);
-  utter.lang = "en-US";
+  applySelectedVoice(utter);
   utter.rate = 0.85;
   window.speechSynthesis.speak(utter);
 }

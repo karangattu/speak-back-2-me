@@ -32,6 +32,9 @@ Each English word has its Mexican Spanish translation underneath, plus IPA.
 
 Microphone access is required for recording. Speech playback uses the browser's
 built-in `speechSynthesis` API, so voice availability varies by browser and OS.
+The app defaults to the most natural installed English voice and lets you switch
+voices from the chart legend. For the widest selection, install or enable
+enhanced/premium English voices in your operating system's speech settings.
 
 ## Mobile
 
