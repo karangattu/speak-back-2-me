@@ -1,4 +1,4 @@
-# EchoTrace — English Prosody for Spanish Speakers
+# Speak Back 2 Me — English Prosody for Spanish Speakers
 
 A browser-only English pronunciation practice tool for Mexican Spanish speakers.
 Pick an everyday phrase, listen to the native target, record yourself shadowing
