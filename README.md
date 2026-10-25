@@ -13,6 +13,9 @@ it, and compare your pitch and rhythm against the target in real time.
 - Coffee shop: ordering a coffee with milk.
 - Baby gift: buying a gift for a newborn.
 - Kid's gift: buying a gift for a five-year-old.
+- Doctor: describing a cough and falling-rhythm statements.
+- Restaurant: ordering chicken with rice politely.
+- Small talk: friendly greetings and introductions.
 
 Each English word has its Mexican Spanish translation underneath, plus IPA.
 

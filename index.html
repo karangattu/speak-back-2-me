@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="description" content="Practice everyday English for the supermarket, coffee shop, and gift shopping. Mexican Spanish translations plus live pitch and rhythm feedback.">
+  <meta name="description" content="Practice everyday English for shopping, dining, doctor visits, and small talk. Mexican Spanish translations plus live pitch and rhythm feedback.">
   <meta name="color-scheme" content="dark">
   <meta name="theme-color" content="#0b0f17">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b0f17'/%3E%3Ccircle cx='32' cy='32' r='18' fill='%2338bdf8'/%3E%3Ccircle cx='40' cy='24' r='8' fill='%23fb7185'/%3E%3C/svg%3E">
@@ -805,6 +805,79 @@ const PHRASES = [
     energyCurve: [
       0.32, 0.52, 0.68, 0.78, 0.62, 0.32, 0.22, 0.24, 0.50, 0.82,
       0.92, 0.72, 0.42, 0.24, 0.18, 0.38, 0.65, 0.85, 0.98, 0.62
+    ]
+  },
+  {
+    id: "doctor_visit",
+    label: "Doctor: cough",
+    title: "Doctor: 'Doctor, I have had this cough for three days.'",
+    hint: "Statement Fall: Stress 'COUGH' and let the voice fall at the end. En español: 'Doctor, llevo tres días con esta tos.'",
+    durationMs: 3400,
+    words: [
+      { text: "Doctor,", es: "Doctor,", ipa: "/ˈdɑktər/", stress: 1, slice: [0.0, 0.10] },
+      { text: "I", es: "Yo", ipa: "/aɪ/", stress: 0, slice: [0.10, 0.19] },
+      { text: "have", es: "tengo", ipa: "/həv/", stress: 0, slice: [0.19, 0.29] },
+      { text: "had", es: "tenía", ipa: "/hæd/", stress: 0, slice: [0.29, 0.38] },
+      { text: "this", es: "esta", ipa: "/ðɪs/", stress: 0, slice: [0.38, 0.47] },
+      { text: "cough", es: "tos", ipa: "/kaʊ/", stress: 1, slice: [0.47, 0.60] },
+      { text: "for", es: "por", ipa: "/fɔr/", stress: 0, slice: [0.60, 0.68] },
+      { text: "three", es: "tres", ipa: "/θriː/", stress: 0, slice: [0.68, 0.76] },
+      { text: "days.", es: "días.", ipa: "/deɪz/", stress: 0, slice: [0.76, 1.0] }
+    ],
+    pitchCurve: [
+      0.55, 0.50, 0.45, 0.42, 0.40, 0.40, 0.38, 0.45, 0.60, 0.68,
+      0.62, 0.52, 0.45, 0.40, 0.38, 0.40, 0.45, 0.50, 0.42, 0.30
+    ],
+    energyCurve: [
+      0.60, 0.45, 0.35, 0.28, 0.25, 0.30, 0.50, 0.80, 0.72, 0.50,
+      0.36, 0.30, 0.30, 0.26, 0.24, 0.28, 0.30, 0.34, 0.30, 0.20
+    ]
+  },
+  {
+    id: "restaurant_order",
+    label: "Restaurant: order",
+    title: "Restaurant: 'I would like the chicken with rice, please.'",
+    hint: "Polite Order: Stress 'LIKE' and 'CHICKEN', keep the rest soft. En español: 'Quisiera el pollo con arroz, por favor.'",
+    durationMs: 3000,
+    words: [
+      { text: "I", es: "Yo", ipa: "/aɪ/", stress: 0, slice: [0.0, 0.06] },
+      { text: "would", es: "quisiera", ipa: "/wɪd/", stress: 0, slice: [0.06, 0.14] },
+      { text: "like", es: "gustaría", ipa: "/laɪk/", stress: 1, slice: [0.14, 0.30] },
+      { text: "the", es: "el", ipa: "/ðə/", stress: 0, slice: [0.30, 0.38] },
+      { text: "chicken", es: "pollo", ipa: "/ˈtʃɪkɪn/", stress: 2, slice: [0.38, 0.60] },
+      { text: "with", es: "con", ipa: "/wɪð/", stress: 0, slice: [0.60, 0.70] },
+      { text: "rice", es: "arroz", ipa: "/raɪs/", stress: 1, slice: [0.70, 0.82] },
+      { text: "please.", es: "por favor.", ipa: "/pliz/", stress: 1, slice: [0.82, 1.0] }
+    ],
+    pitchCurve: [
+      0.40, 0.36, 0.50, 0.66, 0.62, 0.45, 0.55, 0.80, 0.85, 0.75,
+      0.62, 0.52, 0.58, 0.70, 0.80, 0.76, 0.68, 0.58, 0.62, 0.60
+    ],
+    energyCurve: [
+      0.35, 0.25, 0.35, 0.30, 0.40, 0.55, 0.85, 0.90, 0.80, 0.60,
+      0.40, 0.35, 0.45, 0.75, 0.95, 0.85, 0.70, 0.55, 0.50, 0.45
+    ]
+  },
+  {
+    id: "small_talk_greeting",
+    label: "Small talk: greeting",
+    title: "Small Talk: 'Hello, my name is Sam.'",
+    hint: "Friendly Greeting: Open warmly and land softly on the name. En español: 'Hola, me llamo Sam.'",
+    durationMs: 2600,
+    words: [
+      { text: "Hello,", es: "Hola,", ipa: "/həˈloʊ/", stress: 1, slice: [0.0, 0.10] },
+      { text: "my", es: "mi", ipa: "/maɪ/", stress: 0, slice: [0.10, 0.20] },
+      { text: "name", es: "nombre", ipa: "/neɪm/", stress: 1, slice: [0.20, 0.40] },
+      { text: "is", es: "es", ipa: "/ɪz/", stress: 0, slice: [0.40, 0.48] },
+      { text: "Sam.", es: "Sam.", ipa: "/sæm/", stress: 2, slice: [0.48, 1.0] }
+    ],
+    pitchCurve: [
+      0.50, 0.45, 0.55, 0.68, 0.72, 0.66, 0.62, 0.70, 0.80, 0.85,
+      0.80, 0.72, 0.68, 0.76, 0.84, 0.88, 0.82, 0.74, 0.70, 0.66
+    ],
+    energyCurve: [
+      0.40, 0.30, 0.38, 0.50, 0.62, 0.68, 0.72, 0.75, 0.70, 0.66,
+      0.62, 0.58, 0.64, 0.70, 0.74, 0.78, 0.74, 0.68, 0.64, 0.60
     ]
   }
 ];
