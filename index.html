@@ -6,7 +6,7 @@
   <meta name="description" content="Practice everyday English for shopping, dining, doctor visits, and small talk. Mexican Spanish translations plus live pitch and rhythm feedback.">
   <meta name="color-scheme" content="dark">
   <meta name="theme-color" content="#070b12">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23070b12'/%3E%3Ccircle cx='32' cy='32' r='18' fill='%2338bdf8'/%3E%3Ccircle cx='40' cy='24' r='8' fill='%23fb7185'/%3E%3C/svg%3E">
+  <link rel="icon" type="image/png" href="assets/speak-back-icon.png">
   <title>Speak Back 2 Me — English Prosody for Spanish Speakers</title>
   <style>
     :root {
@@ -101,30 +101,12 @@
     }
 
     .brand-mark {
-      width: 42px;
-      height: 42px;
+      width: 48px;
+      height: 48px;
       flex: none;
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      gap: 3px;
-      padding: 10px;
-      border-radius: 13px;
-      background: linear-gradient(145deg, rgba(56, 189, 248, 0.20), rgba(168, 85, 247, 0.20));
-      border: 1px solid rgba(56, 189, 248, 0.30);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.10), 0 8px 22px -14px var(--native);
+      display: block;
+      object-fit: contain;
     }
-
-    .brand-mark span {
-      width: 3px;
-      border-radius: 99px;
-      background: linear-gradient(180deg, var(--native), var(--user));
-    }
-
-    .brand-mark span:nth-child(1) { height: 34%; }
-    .brand-mark span:nth-child(2) { height: 66%; }
-    .brand-mark span:nth-child(3) { height: 96%; }
-    .brand-mark span:nth-child(4) { height: 52%; }
 
     .brand-text {
       display: flex;
@@ -138,14 +120,6 @@
       font-weight: 750;
       letter-spacing: -0.02em;
       line-height: 1.15;
-    }
-
-    .brand-subtitle {
-      display: block;
-      font-weight: 400;
-      color: var(--muted);
-      font-size: 0.78rem;
-      letter-spacing: 0.01em;
     }
 
     .phrase-select-wrap {
@@ -742,16 +716,10 @@
       .brand-mark {
         width: 38px;
         height: 38px;
-        border-radius: 11px;
-        padding: 9px;
       }
 
       .brand h1 {
         font-size: 1.06rem;
-      }
-
-      .brand-subtitle {
-        font-size: 0.74rem;
       }
 
       .phrase-select-wrap {
@@ -945,12 +913,9 @@
   <!-- ZONE 1: Top Phrase Picker -->
   <header>
     <div class="brand">
-      <div class="brand-mark" aria-hidden="true">
-        <span></span><span></span><span></span><span></span>
-      </div>
+      <img class="brand-mark" src="assets/speak-back-icon.png" alt="" width="48" height="48" aria-hidden="true">
       <div class="brand-text">
         <h1>Speak Back 2 Me</h1>
-        <span class="brand-subtitle">English prosody for Spanish speakers</span>
       </div>
     </div>
     <div class="phrase-select-wrap">

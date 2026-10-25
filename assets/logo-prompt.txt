@@ -1,0 +1,12 @@
+Speak Back 2 Me icon
+Generated with the built-in image generation tool, then refined with an image edit.
+
+Original prompt:
+Use case: logo-brand.
+Asset type: a single finished square brand icon for Speak Back 2 Me, an everyday English pronunciation practice app where learners listen to a natural voice and speak back.
+Primary request: create an original, memorable compact icon combining two interlocking conversational speech bubbles with one simple sound-wave motif integrated into their shared negative space. One bubble cyan (#38bdf8), the responding bubble coral pink (#fb7185). Bold elegant geometry, rounded corners, clean flat vector-like silhouette, polished contemporary app identity, friendly and confident.
+Composition: one centered symbol filling approximately 84% of the square canvas; balanced weight; large simple shapes that remain readable at 32 pixels. Transparent background with real alpha, designed to display on dark navy #111a28 as well as white.
+Constraints: icon only, no text or letters or numbers, no wordmark, no microphone, no gradients, no shadows or glow, no mockup, no border or enclosing app tile, no extra decorative dots. Crisp anti-aliased edges. Output a single production-ready transparent PNG.
+
+Final refinement prompt:
+Edit target: the provided Speak Back 2 Me icon. Preserve the concept, layout, rounded silhouettes, cyan left speech bubble and coral right speech bubble, and integrated five-bar sound wave. Clean up the icon into a polished flat brand mark: remove ALL speckles, stray colored pixels, mottling, grain, white fragments, and rough edge noise from the background and the negative-space sound-wave slots. Every cutout must be perfectly empty and transparent, with smooth crisp anti-aliased boundaries. Solid uniform cyan #38bdf8 and coral #fb7185 fills, no texture or gradients. Keep true alpha transparency around and within the symbol. No text, no border, no background tile. Center the mark with even clear space in a square canvas.
