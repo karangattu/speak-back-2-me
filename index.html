@@ -5,22 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="description" content="Practice everyday English for shopping, dining, doctor visits, and small talk. Mexican Spanish translations plus live pitch and rhythm feedback.">
   <meta name="color-scheme" content="dark">
-  <meta name="theme-color" content="#0b0f17">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b0f17'/%3E%3Ccircle cx='32' cy='32' r='18' fill='%2338bdf8'/%3E%3Ccircle cx='40' cy='24' r='8' fill='%23fb7185'/%3E%3C/svg%3E">
+  <meta name="theme-color" content="#070b12">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23070b12'/%3E%3Ccircle cx='32' cy='32' r='18' fill='%2338bdf8'/%3E%3Ccircle cx='40' cy='24' r='8' fill='%23fb7185'/%3E%3C/svg%3E">
   <title>Speak Back 2 Me — English Prosody for Spanish Speakers</title>
   <style>
     :root {
-      --bg: #0b0f17;
-      --panel: #151c28;
-      --border: #263147;
-      --text: #e2e8f0;
-      --muted: #94a3b8;
+      --bg: #070b12;
+      --panel: #111a28;
+      --border: #243147;
+      --border-strong: #31415c;
+      --text: #e6edf7;
+      --muted: #93a3b8;
       --native: #38bdf8;
       --native-glow: rgba(56, 189, 248, 0.22);
       --user: #fb7185;
       --user-glow: rgba(251, 113, 133, 0.25);
       --accent: #a855f7;
       --success: #34d399;
+      --warning: #fbbf24;
+      --danger: #f87171;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --edge-light: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+      --card-shadow: 0 24px 48px -36px rgba(0, 0, 0, 0.95);
     }
 
     * {
@@ -36,13 +43,19 @@
     }
 
     body {
-      background-color: var(--bg);
+      background:
+        radial-gradient(760px 420px at 8% -8%, rgba(56, 189, 248, 0.10), transparent 65%),
+        radial-gradient(700px 420px at 96% -6%, rgba(168, 85, 247, 0.10), transparent 62%),
+        radial-gradient(900px 620px at 50% 112%, rgba(251, 113, 133, 0.05), transparent 70%),
+        var(--bg);
       color: var(--text);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 1.5rem;
+      padding: 2rem 1.5rem;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     .app-shell {
@@ -50,13 +63,18 @@
       max-width: 960px;
       display: flex;
       flex-direction: column;
-      gap: 1.25rem;
+      gap: 1.15rem;
     }
 
     .app-main {
       display: flex;
       flex-direction: column;
-      gap: 1.25rem;
+      gap: 1.15rem;
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--native);
+      outline-offset: 2px;
     }
 
     /* ZONE 1: Header & Phrase Picker */
@@ -65,69 +83,121 @@
       flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
-      gap: 1rem;
-      background: var(--panel);
+      gap: 1rem 1.5rem;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0) 38%),
+        var(--panel);
       border: 1px solid var(--border);
-      padding: 1rem 1.25rem;
-      border-radius: 14px;
+      padding: 1.1rem 1.35rem;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--card-shadow), var(--edge-light);
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
+      gap: 0.85rem;
+      min-width: 0;
     }
 
-    .brand-dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--native), var(--user));
-      box-shadow: 0 0 12px var(--native);
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      flex: none;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 3px;
+      padding: 10px;
+      border-radius: 13px;
+      background: linear-gradient(145deg, rgba(56, 189, 248, 0.20), rgba(168, 85, 247, 0.20));
+      border: 1px solid rgba(56, 189, 248, 0.30);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.10), 0 8px 22px -14px var(--native);
+    }
+
+    .brand-mark span {
+      width: 3px;
+      border-radius: 99px;
+      background: linear-gradient(180deg, var(--native), var(--user));
+    }
+
+    .brand-mark span:nth-child(1) { height: 34%; }
+    .brand-mark span:nth-child(2) { height: 66%; }
+    .brand-mark span:nth-child(3) { height: 96%; }
+    .brand-mark span:nth-child(4) { height: 52%; }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+      min-width: 0;
     }
 
     .brand h1 {
-      font-size: 1.15rem;
-      font-weight: 700;
+      font-size: 1.16rem;
+      font-weight: 750;
       letter-spacing: -0.02em;
+      line-height: 1.15;
     }
 
     .brand-subtitle {
+      display: block;
       font-weight: 400;
       color: var(--muted);
-      font-size: 0.9rem;
-    }
-
-    .brand-subtitle::before {
-      content: "| ";
+      font-size: 0.78rem;
+      letter-spacing: 0.01em;
     }
 
     .phrase-select-wrap {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
-      flex: 1;
+      gap: 0.8rem;
+      flex: 0 1 440px;
       justify-content: flex-end;
+      min-width: 0;
+    }
+
+    .select-label {
+      font-size: 0.66rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      white-space: nowrap;
     }
 
     select {
       appearance: none;
       -webkit-appearance: none;
-      background-color: var(--bg);
+      background-color: rgba(7, 11, 18, 0.62);
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
       background-position: right 0.9rem center;
       background-size: 12px;
       color: var(--text);
       border: 1px solid var(--border);
-      padding: 0.6rem 2.5rem 0.6rem 1rem;
-      border-radius: 8px;
-      font-size: 0.95rem;
+      padding: 0.65rem 2.5rem 0.65rem 0.95rem;
+      border-radius: 10px;
+      font-size: 0.94rem;
       cursor: pointer;
       max-width: 420px;
       width: 100%;
+      min-height: 2.75rem;
       color-scheme: dark;
       touch-action: manipulation;
+      text-overflow: ellipsis;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+    }
+
+    select:hover {
+      border-color: var(--border-strong);
+      background-color: rgba(7, 11, 18, 0.82);
+    }
+
+    select:focus-visible {
+      outline: none;
+      border-color: var(--native);
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.18);
     }
 
     select option {
@@ -137,114 +207,170 @@
 
     /* ZONE 2: Stress-Mapped Subtitle Strip */
     .subtitle-card {
-      background: var(--panel);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0) 42%),
+        var(--panel);
       border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 1.5rem;
+      border-radius: var(--radius-lg);
+      padding: 1.4rem 1.5rem 1.2rem;
       text-align: center;
       position: relative;
+      box-shadow: var(--card-shadow), var(--edge-light);
     }
 
     .phonetic-hint {
-      font-size: 0.85rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem 0.7rem;
+      max-width: 74ch;
+      margin: 0 auto 1.05rem;
+      font-size: 0.88rem;
+      font-weight: 400;
+      line-height: 1.5;
+      letter-spacing: 0;
+      text-transform: none;
+      color: var(--muted);
+    }
+
+    .hint-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.3rem 0.6rem;
+      border: 1px solid rgba(56, 189, 248, 0.26);
+      border-radius: 999px;
+      background: rgba(56, 189, 248, 0.09);
       color: var(--native);
+      font-size: 0.66rem;
+      font-weight: 700;
+      letter-spacing: 0.11em;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 0.75rem;
-      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .hint-label::before {
+      content: "";
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--native);
+      box-shadow: 0 0 6px var(--native);
+    }
+
+    .hint-text {
+      color: #c8d4e4;
+    }
+
+    .hint-es {
+      flex-basis: 100%;
+      color: var(--success);
+      font-size: 0.8rem;
+      opacity: 0.88;
     }
 
     .stress-strip {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      align-items: flex-start;
-      gap: 0.4rem;
-      min-height: 88px;
-      padding: 0.5rem 0;
+      align-items: flex-end;
+      gap: 0.35rem;
+      min-height: 96px;
+      padding: 0.35rem 0 0.25rem;
     }
 
     .word-token {
       display: inline-grid;
-      grid-template-rows: 2.2rem auto auto;
+      grid-template-rows: 2.35rem auto auto;
       align-items: end;
       justify-items: center;
       cursor: pointer;
-      padding: 0.25rem 0.45rem;
-      border: 0;
-      border-radius: 8px;
+      padding: 0.4rem 0.5rem 0.45rem;
+      border: 1px solid transparent;
+      border-radius: 10px;
       background: transparent;
       color: inherit;
       font-family: inherit;
+      font-weight: 400;
       gap: 0;
-      transition: transform 0.15s ease, background 0.15s ease;
+      transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
       user-select: none;
+      -webkit-user-select: none;
     }
 
     .word-token:hover {
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255, 255, 255, 0.045);
+      border-color: rgba(255, 255, 255, 0.07);
+      transform: translateY(-1px);
     }
 
     .word-token:focus-visible {
-      outline: 2px solid var(--native);
-      outline-offset: 2px;
+      outline: none;
+      border-color: var(--native);
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.18);
     }
 
     .word-token.active-slice {
-      background: rgba(56, 189, 248, 0.15);
-      outline: 1px solid var(--native);
+      background: rgba(56, 189, 248, 0.12);
+      border-color: rgba(56, 189, 248, 0.55);
     }
 
     /* Visual Prosody Typography */
     .word-token[data-stress="0"] .word-text {
-      font-size: 1.05rem;
-      opacity: 0.6;
+      font-size: 1.02rem;
+      opacity: 0.55;
       font-weight: 400;
     }
 
     .word-token[data-stress="1"] .word-text {
-      font-size: 1.35rem;
-      opacity: 0.85;
+      font-size: 1.3rem;
+      opacity: 0.88;
       font-weight: 600;
     }
 
     .word-token[data-stress="2"] .word-text {
-      font-size: 1.75rem;
+      font-size: 1.68rem;
       opacity: 1;
       font-weight: 800;
       color: var(--native);
-      transform: translateY(-4px);
-      text-shadow: 0 4px 16px var(--native-glow);
+      text-shadow: 0 4px 20px var(--native-glow);
     }
 
     .word-es {
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       color: var(--success);
-      margin-top: 0.15rem;
+      margin-top: 0.28rem;
       font-weight: 500;
       line-height: 1.2;
     }
 
     .word-ipa {
-      font-size: 0.62rem;
+      font-size: 0.63rem;
       color: var(--muted);
-      margin-top: 0.05rem;
-      font-family: monospace;
+      margin-top: 0.1rem;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: 0.01em;
     }
 
     .strip-tip {
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       color: var(--muted);
-      margin-top: 0.4rem;
+      margin-top: 0.9rem;
+      padding-top: 0.8rem;
+      border-top: 1px solid rgba(148, 163, 184, 0.10);
     }
 
     /* ZONE 3: Center Stage Prosody Canvas */
     .canvas-card {
-      background: var(--panel);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0) 42%),
+        var(--panel);
       border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 1rem;
+      border-radius: var(--radius-lg);
+      padding: 1.1rem 1.15rem 1.15rem;
       position: relative;
+      box-shadow: var(--card-shadow), var(--edge-light);
     }
 
     .canvas-legend {
@@ -253,30 +379,30 @@
       justify-content: space-between;
       align-items: center;
       gap: 0.5rem 1rem;
-      margin-bottom: 0.75rem;
-      font-size: 0.82rem;
+      margin-bottom: 0.85rem;
+      font-size: 0.78rem;
       color: var(--muted);
-      padding: 0 0.25rem;
+      padding: 0 0.15rem;
     }
 
     .legend-items {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.5rem 1.25rem;
+      gap: 0.45rem 1rem;
     }
 
     .legend-badge {
       display: flex;
       align-items: center;
-      gap: 0.4rem;
-      color: var(--text);
+      gap: 0.45rem;
+      color: var(--muted);
       font-weight: 500;
     }
 
     .swatch {
-      width: 12px;
+      width: 16px;
       height: 4px;
-      border-radius: 2px;
+      border-radius: 99px;
     }
 
     .swatch.native { background: var(--native); box-shadow: 0 0 8px var(--native); }
@@ -284,204 +410,363 @@
 
     canvas {
       width: 100%;
-      height: 290px;
-      background: #080b11;
-      border-radius: 10px;
-      border: 1px solid #1e293b;
+      height: 300px;
+      background: radial-gradient(120% 120% at 50% 0%, #0d1726 0%, #070b11 70%);
+      border-radius: var(--radius-md);
+      border: 1px solid #1c283b;
       display: block;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    }
+
+    #statusBadge {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      margin-top: 0.75rem;
+      padding: 0.55rem 0.8rem;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: rgba(7, 11, 18, 0.55);
+      color: var(--muted);
+      font-size: 0.8rem;
+      line-height: 1.4;
+    }
+
+    #statusBadge::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      flex: none;
+      border-radius: 50%;
+      background: var(--muted);
+    }
+
+    #statusBadge[data-tone="playing"] {
+      color: #cfe9fb;
+      border-color: rgba(56, 189, 248, 0.28);
+      background: rgba(56, 189, 248, 0.07);
+    }
+
+    #statusBadge[data-tone="playing"]::before {
+      background: var(--native);
+      box-shadow: 0 0 8px var(--native);
+      animation: blink 1.6s ease-in-out infinite;
+    }
+
+    #statusBadge[data-tone="recording"] {
+      color: #ffd2d8;
+      border-color: rgba(251, 113, 133, 0.32);
+      background: rgba(251, 113, 133, 0.08);
+    }
+
+    #statusBadge[data-tone="recording"]::before {
+      background: var(--user);
+      box-shadow: 0 0 8px var(--user);
+      animation: blink 1.1s ease-in-out infinite;
+    }
+
+    #statusBadge[data-tone="success"] {
+      color: #c6f7e4;
+      border-color: rgba(52, 211, 153, 0.28);
+      background: rgba(52, 211, 153, 0.07);
+    }
+
+    #statusBadge[data-tone="success"]::before {
+      background: var(--success);
+      box-shadow: 0 0 8px var(--success);
+    }
+
+    #statusBadge[data-tone="error"] {
+      color: #ffd0d0;
+      border-color: rgba(248, 113, 113, 0.30);
+      background: rgba(248, 113, 113, 0.08);
+    }
+
+    #statusBadge[data-tone="error"]::before {
+      background: var(--danger);
+      box-shadow: 0 0 8px var(--danger);
     }
 
     .metrics-row {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 0.75rem;
-      margin-top: 0.85rem;
+      gap: 0.7rem;
+      margin-top: 0.7rem;
     }
 
     .metric-box {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      padding: 0.75rem 1rem;
-      border-radius: 10px;
+      position: relative;
+      overflow: hidden;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      flex-direction: column;
+      gap: 0.1rem;
+      background: rgba(7, 11, 18, 0.55);
+      border: 1px solid var(--border);
+      padding: 0.75rem 0.95rem 0.75rem 1.05rem;
+      border-radius: var(--radius-md);
     }
 
+    .metric-box::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: var(--native);
+      opacity: 0.9;
+    }
+
+    .metric-box:nth-child(2)::before { background: var(--accent); }
+    .metric-box:nth-child(3)::before { background: var(--user); }
+
     .metric-label {
-      font-size: 0.8rem;
+      font-size: 0.71rem;
       color: var(--muted);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      line-height: 1.25;
     }
 
     .metric-val {
-      font-size: 1.1rem;
-      font-weight: 700;
+      font-size: 1.35rem;
+      font-weight: 750;
       color: var(--text);
+      letter-spacing: -0.02em;
+      line-height: 1.25;
+      font-variant-numeric: tabular-nums;
     }
+
+    .metric-val[data-score="high"] { color: var(--success); }
+    .metric-val[data-score="mid"] { color: var(--warning); }
+    .metric-val[data-score="low"] { color: var(--user); }
 
     /* ZONE 4: Bottom Shadowing Deck */
     .controls-dock {
-      background: var(--panel);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0) 42%),
+        var(--panel);
       border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 1rem 1.25rem;
+      border-radius: var(--radius-lg);
+      padding: 1rem 1.15rem;
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
       gap: 1rem;
+      box-shadow: var(--card-shadow), var(--edge-light);
     }
 
     .btn-group {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.75rem;
+      gap: 0.6rem;
     }
 
-    button {
-      background: var(--bg);
+    .controls-dock button {
+      background: rgba(7, 11, 18, 0.55);
       color: var(--text);
       border: 1px solid var(--border);
-      padding: 0.75rem 1.2rem;
-      border-radius: 10px;
-      font-size: 0.92rem;
-      font-weight: 600;
+      padding: 0.78rem 1.2rem;
+      border-radius: 11px;
+      font-size: 0.9rem;
+      font-weight: 650;
+      letter-spacing: -0.01em;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 0.55rem;
       touch-action: manipulation;
-      transition: all 0.15s ease;
+      transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, color 0.15s ease;
     }
 
-    button:hover:not(:disabled) {
-      border-color: var(--native);
+    .controls-dock button:hover:not(:disabled) {
       transform: translateY(-1px);
     }
 
-    button:disabled {
-      opacity: 0.4;
+    .controls-dock button:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    .controls-dock button:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.20);
+    }
+
+    .controls-dock button:disabled {
+      opacity: 0.38;
       cursor: not-allowed;
     }
 
-    .btn-listen {
-      border-color: rgba(56, 189, 248, 0.4);
-      color: var(--native);
+    .controls-dock .btn-listen {
+      background: linear-gradient(180deg, #4cc6fb, #23a8e7);
+      border-color: transparent;
+      color: #04121d;
+      box-shadow: 0 10px 22px -14px rgba(56, 189, 248, 0.95);
     }
 
-    .btn-record {
-      background: rgba(251, 113, 133, 0.12);
+    .controls-dock .btn-listen:hover:not(:disabled) {
+      background: linear-gradient(180deg, #63cffc, #34b3ef);
+      border-color: transparent;
+    }
+
+    .controls-dock .btn-record {
+      background: rgba(251, 113, 133, 0.10);
+      border-color: rgba(251, 113, 133, 0.60);
+      color: #ffb6c1;
+    }
+
+    .controls-dock .btn-record:hover:not(:disabled) {
+      background: rgba(251, 113, 133, 0.17);
       border-color: var(--user);
-      color: var(--user);
     }
 
-    .btn-record.recording {
-      background: var(--user);
-      color: #0b0f17;
-      animation: pulse 1.2s infinite;
+    .controls-dock .btn-record.recording {
+      background: linear-gradient(180deg, #ff8798, #f45d75);
+      border-color: transparent;
+      color: #25050a;
+      animation: pulse 1.4s ease-out infinite;
     }
 
-    .btn-pingpong {
-      border-color: rgba(168, 85, 247, 0.5);
-      color: #c084fc;
+    .controls-dock .btn-pingpong {
+      background: rgba(168, 85, 247, 0.08);
+      border-color: rgba(168, 85, 247, 0.40);
+      color: #d2a6ff;
     }
 
-    .btn-pingpong.looping {
-      background: var(--accent);
+    .controls-dock .btn-pingpong:hover:not(:disabled) {
+      background: rgba(168, 85, 247, 0.15);
+      border-color: rgba(168, 85, 247, 0.70);
+    }
+
+    .controls-dock .btn-pingpong.looping {
+      background: linear-gradient(180deg, #b56cff, #9333ea);
+      border-color: transparent;
       color: #fff;
+      box-shadow: 0 10px 22px -14px rgba(168, 85, 247, 0.95);
     }
 
-    .speed-toggle {
-      font-size: 0.85rem;
-      padding: 0.6rem 0.95rem;
+    .controls-dock .speed-toggle {
+      font-size: 0.82rem;
+      padding: 0.66rem 0.9rem;
+      background: rgba(7, 11, 18, 0.45);
+      color: var(--text);
+      font-variant-numeric: tabular-nums;
     }
 
-    .speed-toggle.active-opt {
-      border-color: var(--success);
+    .controls-dock .speed-toggle::before {
+      content: "Speed";
+      color: var(--muted);
+      font-weight: 500;
+      margin-right: 0.5rem;
+    }
+
+    .controls-dock .speed-toggle.active-opt {
+      border-color: rgba(52, 211, 153, 0.55);
       color: var(--success);
+      background: rgba(52, 211, 153, 0.08);
     }
 
     @keyframes pulse {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(251, 113, 133, 0.6); }
-      50% { box-shadow: 0 0 0 10px rgba(251, 113, 133, 0); }
+      0% { box-shadow: 0 0 0 0 rgba(251, 113, 133, 0.55); }
+      70% { box-shadow: 0 0 0 12px rgba(251, 113, 133, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(251, 113, 133, 0); }
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.35; }
     }
 
     .app-footer {
       text-align: center;
       color: var(--muted);
-      font-size: 0.78rem;
-      line-height: 1.5;
-      padding: 0 0.5rem 0.5rem;
+      font-size: 0.75rem;
+      line-height: 1.6;
+      padding: 0 0.5rem 0.25rem;
+      opacity: 0.9;
     }
 
-    @media (max-width: 680px) {
+    @media (max-width: 700px) {
       body {
-        padding: 0.75rem;
-        padding-bottom: calc(0.75rem + env(safe-area-inset-bottom));
+        padding: 0.8rem;
+        padding-bottom: calc(0.8rem + env(safe-area-inset-bottom));
         min-height: 100dvh;
       }
 
       .app-shell,
       .app-main {
-        gap: 0.85rem;
+        gap: 0.8rem;
       }
 
       header {
-        padding: 0.85rem 1rem;
-        gap: 0.75rem;
+        padding: 0.9rem;
+        gap: 0.9rem;
       }
 
-      .brand {
-        width: 100%;
+      .brand-mark {
+        width: 38px;
+        height: 38px;
+        border-radius: 11px;
+        padding: 9px;
       }
 
       .brand h1 {
-        font-size: 1.05rem;
-        line-height: 1.35;
+        font-size: 1.06rem;
       }
 
       .brand-subtitle {
-        display: block;
-        margin-top: 0.1rem;
-        font-size: 0.78rem;
-      }
-
-      .brand-subtitle::before {
-        content: "";
+        font-size: 0.74rem;
       }
 
       .phrase-select-wrap {
         flex: 1 0 100%;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.35rem;
+      }
+
+      .select-label {
+        font-size: 0.62rem;
       }
 
       select {
         max-width: none;
-        min-height: 2.75rem;
+        min-height: 2.9rem;
         font-size: 1rem;
       }
 
       .subtitle-card {
-        padding: 1rem 0.8rem;
+        padding: 1rem 0.85rem;
       }
 
       .phonetic-hint {
-        font-size: 0.78rem;
-        line-height: 1.45;
-        letter-spacing: 0;
-        text-transform: none;
-        margin-bottom: 0.6rem;
+        font-size: 0.82rem;
+        gap: 0.4rem 0.55rem;
+        margin-bottom: 0.9rem;
+      }
+
+      .hint-label {
+        font-size: 0.6rem;
+        padding: 0.26rem 0.5rem;
+        letter-spacing: 0.1em;
+      }
+
+      .hint-es {
+        font-size: 0.76rem;
       }
 
       .stress-strip {
-        gap: 0.25rem;
+        gap: 0.2rem;
         min-height: 0;
-        padding: 0.25rem 0;
+        padding: 0.2rem 0;
       }
 
       .word-token {
         grid-template-rows: 2rem auto auto;
-        min-width: 2.75rem;
-        padding: 0.25rem 0.35rem;
+        min-width: 2.65rem;
+        padding: 0.3rem 0.3rem 0.35rem;
       }
 
       .word-token[data-stress="0"] .word-text {
@@ -489,15 +774,15 @@
       }
 
       .word-token[data-stress="1"] .word-text {
-        font-size: 1.15rem;
+        font-size: 1.14rem;
       }
 
       .word-token[data-stress="2"] .word-text {
-        font-size: 1.5rem;
+        font-size: 1.48rem;
       }
 
       .word-es {
-        font-size: 0.72rem;
+        font-size: 0.71rem;
       }
 
       .word-ipa {
@@ -505,12 +790,14 @@
       }
 
       .strip-tip {
-        font-size: 0.72rem;
-        line-height: 1.4;
+        font-size: 0.71rem;
+        line-height: 1.45;
+        margin-top: 0.7rem;
+        padding-top: 0.65rem;
       }
 
       canvas {
-        height: 220px;
+        height: 230px;
       }
 
       .canvas-card {
@@ -518,38 +805,42 @@
       }
 
       .canvas-legend {
-        font-size: 0.75rem;
+        font-size: 0.72rem;
         gap: 0.35rem 0.75rem;
+        margin-bottom: 0.65rem;
       }
 
       .legend-items {
         gap: 0.35rem 0.75rem;
       }
 
+      .swatch {
+        width: 12px;
+      }
+
       #statusBadge {
-        flex: 1 0 100%;
+        font-size: 0.74rem;
+        padding: 0.5rem 0.65rem;
+        margin-top: 0.6rem;
       }
 
       .metrics-row {
         grid-template-columns: repeat(3, 1fr);
         gap: 0.4rem;
-        margin-top: 0.65rem;
+        margin-top: 0.5rem;
       }
 
       .metric-box {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.15rem;
-        padding: 0.5rem 0.55rem;
+        padding: 0.55rem 0.5rem 0.55rem 0.65rem;
       }
 
       .metric-label {
-        font-size: 0.68rem;
-        line-height: 1.2;
+        font-size: 0.6rem;
+        letter-spacing: 0.04em;
       }
 
       .metric-val {
-        font-size: 0.95rem;
+        font-size: 1.02rem;
       }
 
       .controls-dock {
@@ -568,7 +859,7 @@
         width: 100%;
         min-height: 3rem;
         justify-content: center;
-        font-size: 0.95rem;
+        font-size: 0.94rem;
       }
 
       .speed-group {
@@ -579,11 +870,12 @@
       .speed-group .speed-toggle {
         width: auto;
         flex: 1;
+        min-height: 2.75rem;
       }
 
       .app-footer {
-        font-size: 0.72rem;
-        padding-bottom: 0.25rem;
+        font-size: 0.7rem;
+        padding-bottom: 0.1rem;
       }
     }
 
@@ -594,6 +886,7 @@
         transition-duration: 0.01ms !important;
       }
     }
+
   </style>
 </head>
 <body>
@@ -602,11 +895,17 @@
   <!-- ZONE 1: Top Phrase Picker -->
   <header>
     <div class="brand">
-      <div class="brand-dot"></div>
-      <h1>Speak Back 2 Me <span class="brand-subtitle">English Prosody for Spanish Speakers</span></h1>
+      <div class="brand-mark" aria-hidden="true">
+        <span></span><span></span><span></span><span></span>
+      </div>
+      <div class="brand-text">
+        <h1>Speak Back 2 Me</h1>
+        <span class="brand-subtitle">English prosody for Spanish speakers</span>
+      </div>
     </div>
     <div class="phrase-select-wrap">
-      <select id="phraseSelect" aria-label="Select an everyday English practice phrase"></select>
+      <label class="select-label" for="phraseSelect">Practice phrase</label>
+      <select id="phraseSelect"></select>
     </div>
   </header>
 
@@ -624,16 +923,17 @@
     <section class="canvas-card">
       <div class="canvas-legend">
         <div class="legend-items">
-          <div class="legend-badge"><span class="swatch native"></span> Native Target (Pitch + Stress Envelope)</div>
-          <div class="legend-badge"><span class="swatch user"></span> Your Live Voice (Auto-Calibrated to Your Pitch Range)</div>
+          <div class="legend-badge"><span class="swatch native"></span> Native target · pitch + stress</div>
+          <div class="legend-badge"><span class="swatch user"></span> Your voice · calibrated to your range</div>
         </div>
-        <div id="statusBadge" role="status" aria-live="polite">Ready — Click "Listen Native" first, then "Shadow Record"</div>
       </div>
 
       <canvas id="prosodyCanvas" width="900" height="290" role="img"
         aria-label="Chart comparing the native pitch and stress target with your recorded voice">
         Your browser does not support the canvas element.
       </canvas>
+
+      <div id="statusBadge" role="status" aria-live="polite">Ready — start with Listen Native, then Shadow Record.</div>
 
       <div class="metrics-row">
         <div class="metric-box">
@@ -665,7 +965,7 @@
         </button>
       </div>
       <div class="btn-group speed-group">
-        <button type="button" class="speed-toggle" id="btnSpeed">Speed: 1.00x</button>
+        <button type="button" class="speed-toggle" id="btnSpeed" aria-pressed="false">1.00x</button>
       </div>
     </section>
   </main>
@@ -1057,8 +1357,9 @@ function init() {
 
   btnSpeed.addEventListener("click", () => {
     playbackRate = playbackRate === 1.0 ? 0.75 : 1.0;
-    btnSpeed.textContent = `Speed: ${playbackRate.toFixed(2)}x`;
+    btnSpeed.textContent = `${playbackRate.toFixed(2)}x`;
     btnSpeed.classList.toggle("active-opt", playbackRate === 0.75);
+    btnSpeed.setAttribute("aria-pressed", String(playbackRate === 0.75));
   });
 
   renderPhraseStrip();
@@ -1075,6 +1376,17 @@ function resetScores() {
   pitchScoreEl.textContent = "—";
   rhythmScoreEl.textContent = "—";
   liveHzEl.textContent = "0 Hz";
+  delete pitchScoreEl.dataset.score;
+  delete rhythmScoreEl.dataset.score;
+}
+
+function setStatus(message, tone = "") {
+  statusBadge.textContent = message;
+  if (tone) {
+    statusBadge.dataset.tone = tone;
+  } else {
+    delete statusBadge.dataset.tone;
+  }
 }
 
 function resetUserRecording() {
@@ -1089,11 +1401,47 @@ function resetUserRecording() {
   resetScores();
   btnPingPong.disabled = true;
   btnPingPong.setAttribute("aria-pressed", "false");
+  setStatus("Ready — start with Listen Native, then Shadow Record.");
 }
 
 // 2. RENDER STRESS-MAPPED SUBTITLE STRIP
+function renderHint() {
+  focusHint.replaceChildren();
+
+  const hint = currentPhrase.hint;
+  const separatorIndex = hint.indexOf(": ");
+  const label = separatorIndex > -1 ? hint.slice(0, separatorIndex) : "Focus";
+  let body = separatorIndex > -1 ? hint.slice(separatorIndex + 2) : hint;
+
+  let spanish = "";
+  const spanishMarker = "En español: ";
+  const spanishIndex = body.indexOf(spanishMarker);
+  if (spanishIndex > -1) {
+    spanish = body.slice(spanishIndex + spanishMarker.length).trim();
+    body = body.slice(0, spanishIndex).trim();
+  }
+
+  const labelEl = document.createElement("span");
+  labelEl.className = "hint-label";
+  labelEl.textContent = label;
+
+  const textEl = document.createElement("span");
+  textEl.className = "hint-text";
+  textEl.textContent = body;
+
+  focusHint.append(labelEl, textEl);
+
+  if (spanish) {
+    const spanishEl = document.createElement("span");
+    spanishEl.className = "hint-es";
+    spanishEl.lang = "es";
+    spanishEl.textContent = `En español: ${spanish}`;
+    focusHint.append(spanishEl);
+  }
+}
+
 function renderPhraseStrip() {
-  focusHint.textContent = currentPhrase.hint;
+  renderHint();
   stressStrip.replaceChildren();
 
   currentPhrase.words.forEach((w, idx) => {
@@ -1138,7 +1486,7 @@ function syncWordSelection() {
 // 3. NATIVE SPEECH SYNTHESIS + PROSODY PLAYHEAD
 function speakNativePhrase(onComplete) {
   if (!("speechSynthesis" in window)) {
-    statusBadge.textContent = "Speech Synthesis not supported in this browser.";
+    setStatus("Speech Synthesis not supported in this browser.", "error");
     if (onComplete) onComplete();
     return;
   }
@@ -1156,7 +1504,7 @@ function speakNativePhrase(onComplete) {
   let startTime = performance.now();
   let finished = false;
 
-  statusBadge.textContent = "Playing Native Reference...";
+  setStatus("Playing Native Reference...", "playing");
 
   function finishNative() {
     if (finished) return;
@@ -1165,7 +1513,7 @@ function speakNativePhrase(onComplete) {
     nativePlayheadFrameId = null;
     if (!isRecording) {
       drawCanvas(0);
-      statusBadge.textContent = "Native Reference finished.";
+      setStatus("Native Reference finished.", "success");
     }
     if (onComplete) onComplete();
   }
@@ -1382,7 +1730,7 @@ async function startShadowRecording() {
     btnRecord.classList.add("recording");
     btnRecord.setAttribute("aria-pressed", "true");
     btnRecord.innerHTML = `<span>■</span> Stop Recording`;
-    statusBadge.textContent = "Recording — Speak now!";
+    setStatus("Recording — Speak now!", "recording");
 
     mediaRecorder.start();
 
@@ -1438,7 +1786,7 @@ async function startShadowRecording() {
     btnRecord.classList.remove("recording");
     btnRecord.setAttribute("aria-pressed", "false");
     btnRecord.innerHTML = `<span>●</span> 2. Shadow Record`;
-    statusBadge.textContent = "Microphone access denied or unavailable.";
+    setStatus("Microphone access denied or unavailable.", "error");
   }
 }
 
@@ -1458,7 +1806,7 @@ function stopShadowRecording() {
   btnRecord.classList.remove("recording");
   btnRecord.setAttribute("aria-pressed", "false");
   btnRecord.innerHTML = `<span>●</span> 2. Shadow Record`;
-  statusBadge.textContent = "Recording captured! Click '3. Auto Ping-Pong Loop' to hear how you fared.";
+  setStatus("Recording captured! Run the Auto Ping-Pong Loop to hear how you fared.", "success");
 }
 
 // 6. AUTO PING-PONG LOOP (Native -> User -> Native -> User)
@@ -1501,7 +1849,7 @@ function startPingPongLoop() {
 
   function cycleNative() {
     if (!isPingPonging) return;
-    statusBadge.textContent = "Ping-Pong: [1/2] Listening to Native Target...";
+    setStatus("Ping-Pong: [1/2] Listening to Native Target...", "playing");
     speakNativePhrase(() => {
       if (!isPingPonging) return;
       pingPongTimeout = setTimeout(cycleUser, 220);
@@ -1510,7 +1858,7 @@ function startPingPongLoop() {
 
   function cycleUser() {
     if (!isPingPonging) return;
-    statusBadge.textContent = "Ping-Pong: [2/2] Replaying Your Recording...";
+    setStatus("Ping-Pong: [2/2] Replaying Your Recording...", "playing");
     const audio = ensurePingPongAudio();
     if (audio.src !== userAudioUrl) {
       audio.src = userAudioUrl;
@@ -1544,8 +1892,8 @@ function startPingPongLoop() {
     };
     audio.play().catch(() => {
       if (!isPingPonging) return;
-      statusBadge.textContent = "Could not replay the recording. Please record again.";
       stopPingPong();
+      setStatus("Could not replay the recording. Please record again.", "error");
     });
   }
 
@@ -1565,6 +1913,9 @@ function stopPingPong() {
   btnPingPong.classList.remove("looping");
   btnPingPong.setAttribute("aria-pressed", "false");
   btnPingPong.innerHTML = `<span>⇄</span> 3. Auto Ping-Pong Loop`;
+  if (!isRecording) {
+    setStatus("Ready — start with Listen Native, then Shadow Record.");
+  }
   drawCanvas(0);
 }
 
@@ -1575,6 +1926,15 @@ function sampleCurveAt(curveArray, t) {
   const high = Math.min(curveArray.length - 1, Math.ceil(idx));
   const frac = idx - low;
   return curveArray[low] * (1 - frac) + curveArray[high] * frac;
+}
+
+function setScoreValue(el, text, accuracy) {
+  el.textContent = text;
+  if (accuracy === null) {
+    delete el.dataset.score;
+    return;
+  }
+  el.dataset.score = accuracy >= 80 ? "high" : accuracy >= 60 ? "mid" : "low";
 }
 
 function computeProsodyScores() {
@@ -1601,8 +1961,12 @@ function computeProsodyScores() {
 
   const rhythmAccuracy = Math.max(20, Math.min(99, Math.round((1 - (energyDiffSum / userPitchTrace.length) * 1.2) * 100)));
 
-  pitchScoreEl.textContent = validPitchPoints > 4 ? `${pitchAccuracy}%` : "Speak Louder";
-  rhythmScoreEl.textContent = `${rhythmAccuracy}%`;
+  if (validPitchPoints > 4) {
+    setScoreValue(pitchScoreEl, `${pitchAccuracy}%`, pitchAccuracy);
+  } else {
+    setScoreValue(pitchScoreEl, "Speak Louder", null);
+  }
+  setScoreValue(rhythmScoreEl, `${rhythmAccuracy}%`, rhythmAccuracy);
 }
 
 // 8. RENDER DUAL PROSODY CANVAS
@@ -1635,6 +1999,7 @@ function drawCanvas(playheadProgress = 0) {
   }
 
   // Draw word slice dividers & highlight selected word slice
+  let lastLabelRight = -Infinity;
   currentPhrase.words.forEach((w, idx) => {
     const xStart = w.slice[0] * W;
     const xEnd = w.slice[1] * W;
@@ -1650,15 +2015,45 @@ function drawCanvas(playheadProgress = 0) {
     ctx.lineTo(xStart, H);
     ctx.stroke();
 
-    // Label word at bottom of canvas
-    ctx.fillStyle = w.stress === 2 ? "#38bdf8" : "rgba(226, 232, 240, 0.45)";
+    // Label word at bottom of canvas, centered on small screens and skipping collisions
     ctx.font = w.stress === 2
       ? `bold ${compactCanvas ? 10 : 12}px sans-serif`
       : `${compactCanvas ? 9 : 11}px sans-serif`;
-    ctx.fillText(w.text, xStart + (compactCanvas ? 5 : 8), H - 10);
+    const labelWidth = ctx.measureText(w.text).width;
+    const labelX = compactCanvas
+      ? Math.max(3, Math.min(W - labelWidth - 3, xStart + ((xEnd - xStart) - labelWidth) / 2))
+      : xStart + 8;
+    if (labelX >= lastLabelRight + 3 && labelX + labelWidth <= W - 3) {
+      ctx.fillStyle = w.stress === 2 ? "#38bdf8" : "rgba(226, 232, 240, 0.45)";
+      ctx.fillText(w.text, labelX, H - 10);
+      lastLabelRight = labelX + labelWidth;
+    }
   });
 
-  // A. Draw Native Energy Rhythm Envelope (Ghost Blue Bars at Bottom)
+  const steps = 100;
+  const targetPoints = [];
+  for (let i = 0; i <= steps; i++) {
+    const t = i / steps;
+    const p = sampleCurveAt(currentPhrase.pitchCurve, t);
+    targetPoints.push([t * W, H - 45 - p * (H - 85)]);
+  }
+
+  // A. Soft glow fill beneath the native target contour
+  const areaGradient = ctx.createLinearGradient(0, 0, 0, H);
+  areaGradient.addColorStop(0, "rgba(56, 189, 248, 0.15)");
+  areaGradient.addColorStop(1, "rgba(56, 189, 248, 0)");
+  ctx.beginPath();
+  targetPoints.forEach(([x, y], i) => {
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  });
+  ctx.lineTo(W, H - 45);
+  ctx.lineTo(0, H - 45);
+  ctx.closePath();
+  ctx.fillStyle = areaGradient;
+  ctx.fill();
+
+  // B. Draw Native Energy Rhythm Envelope (Ghost Blue Bars at Bottom)
   const numBars = compactCanvas ? 40 : 60;
   const barWidth = (W / numBars) * 0.65;
   for (let i = 0; i < numBars; i++) {
@@ -1671,18 +2066,13 @@ function drawCanvas(playheadProgress = 0) {
     ctx.fillRect(x, y, barWidth, barH);
   }
 
-  // B. Draw Native Target Pitch Curve (Glowing Blue)
+  // C. Draw Native Target Pitch Curve (Glowing Blue)
   ctx.save();
   ctx.beginPath();
-  const steps = 100;
-  for (let i = 0; i <= steps; i++) {
-    const t = i / steps;
-    const p = sampleCurveAt(currentPhrase.pitchCurve, t);
-    const x = t * W;
-    const y = H - 45 - p * (H - 85);
+  targetPoints.forEach(([x, y], i) => {
     if (i === 0) ctx.moveTo(x, y);
     else ctx.lineTo(x, y);
-  }
+  });
   ctx.strokeStyle = "#38bdf8";
   ctx.lineWidth = 4.5;
   ctx.lineCap = "round";
@@ -1691,7 +2081,7 @@ function drawCanvas(playheadProgress = 0) {
   ctx.stroke();
   ctx.restore();
 
-  // C. Draw User Recorded Energy & Pitch Curve (Neon Coral)
+  // D. Draw User Recorded Energy & Pitch Curve (Neon Coral)
   if (userPitchTrace.length > 1) {
     // User volume envelope shadow
     ctx.fillStyle = "rgba(251, 113, 133, 0.18)";
@@ -1728,15 +2118,23 @@ function drawCanvas(playheadProgress = 0) {
     ctx.restore();
   }
 
-  // D. Playhead Scrubber Line
+  // E. Playhead Scrubber Line
   if (playheadProgress > 0 && playheadProgress < 1) {
     const px = playheadProgress * W;
+    ctx.save();
     ctx.strokeStyle = "#e2e8f0";
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 1.5;
+    ctx.shadowColor = "rgba(226, 232, 240, 0.8)";
+    ctx.shadowBlur = 10;
     ctx.beginPath();
     ctx.moveTo(px, 0);
     ctx.lineTo(px, H);
     ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(px, 8, 2.5, 0, Math.PI * 2);
+    ctx.fillStyle = "#e2e8f0";
+    ctx.fill();
+    ctx.restore();
   }
 }
 
