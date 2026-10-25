@@ -6,35 +6,6 @@ it, and compare your pitch and rhythm against the target in real time.
 
 Live site: https://karangattu.github.io/speak-back-2-me/
 
-## Practice phrases
-
-- Supermarket: asking where to find the milk and taco or burrito ingredients (tortillas, cilantro, ground beef, avocados).
-- Checkout: paying with a card.
-- Coffee shop: ordering a coffee with milk.
-- Baby gift: buying a gift for a newborn.
-- Kid's gift: buying a gift for a five-year-old.
-- Doctor: describing a cough and falling-rhythm statements.
-- Restaurant: ordering chicken with rice politely.
-- Small talk: friendly greetings and introductions.
-
-There are 32 practice examples in total, including 20 additional everyday
-conversation lines:
-
-- Greetings: ask about someone's day and reply politely.
-- Directions: find a bus stop and explain a route.
-- Bus travel: make sure that you know the destination and explain where to get off.
-- Work: ask when a meeting starts and give the time.
-- Restaurants: ask for the check and respond to a request.
-- Pharmacies: pick up a prescription and ask for identification.
-- Appointments: request Friday and choose morning or afternoon.
-- Shopping: ask for a smaller size and check availability.
-- Home: ask for help with the dishes and agree to help.
-- Clarification: ask someone to repeat slowly or explain a word.
-
-Every example and tappable word is available in both Heart and Michael.
-
-Each English word has its Mexican Spanish translation underneath, plus IPA.
-
 ## Features
 
 - Visualizes stressed and reduced syllables in each practice phrase.
@@ -55,10 +26,3 @@ voices, an API key, or an online service. Your voice recordings stay in your bro
 Read [audio/README.md](audio/README.md) to regenerate the audio after changing
 phrases. The target chart curves are visual teaching guides rather than pitch
 measurements of the generated speech.
-
-## Mobile
-
-The layout fits phone screens with full-width tap targets, compact metrics,
-and a shorter chart. Recording and ping-pong playback follow iOS Safari audio
-rules. The browser creates the audio context on tap and reuses one unlocked audio
-element for replay.
